@@ -378,6 +378,9 @@
     <uses-permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY" />
     <uses-permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS" />
 
+    <!-- Custom permissions -->
+    <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"

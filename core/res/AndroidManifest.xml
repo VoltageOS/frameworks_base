@@ -5908,6 +5908,12 @@
     <attribution android:tag="MusicRecognitionManagerService"
         android:label="@string/music_recognition_manager_service"/>
 
+    <!-- Allows an application to override the power key action
+         @hide <p>Not for use by third-party applications.
+    -->
+    <permission android:name="android.permission.PREVENT_POWER_KEY"
+                android:protectionLevel="signature|privileged" />
+
     <!-- Live display -->
     <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LINEAGE_HARDWARE" />
     <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LIVEDISPLAY" />

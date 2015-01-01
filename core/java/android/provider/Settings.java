@@ -6767,6 +6767,13 @@ public final class Settings {
         public static final String VOLUME_SLIDER_HAPTIC_FEEDBACK = "volume_slider_haptic_feedback";
 
         /**
+         * Give haptic feedback when quick settings tiles are pressed.
+         * @hide
+         */
+        @Readable
+        public static final String QS_TILES_HAPTIC_FEEDBACK = "qs_tiles_haptic_feedback";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

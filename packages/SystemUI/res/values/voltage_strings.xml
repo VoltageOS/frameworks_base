@@ -137,4 +137,7 @@
     <string name="quick_settings_sound_vibrate">Vibrate</string>
     <string name="quick_settings_sound_mute">Mute</string>
 
+    <!-- USB tethering QS tile -->
+    <string name="quick_settings_usb_tether_label">USB tethering</string>
+
 </resources>

@@ -81,7 +81,7 @@
 
     <!-- Tiles native to System UI. Order should match "quick_settings_tiles_default" -->
     <string name="quick_settings_tiles_stock" translatable="false">
-        internet,wifi,cell,bt,flashlight,dnd,alarm,airplane,controls,wallet,rotation,battery,cast,screenrecord,livedisplay,reading_mode,anti_flicker,mictoggle,cameratoggle,location,nfc,hotspot,inversion,saver,dark,work,night,reverse,reduce_brightness,qr_code_scanner,onehanded,color_correction,dream,font_scaling,smartpixels,caffeine,sleep_mode,ambient_display,usb_tether,sound,reboot,volume_panel,soundsearch,vpn,dataswitch,aod,screenshot,compass,refresh_rate,cpuinfo,fpsinfo
+        internet,wifi,cell,bt,flashlight,dnd,alarm,airplane,controls,wallet,rotation,battery,cast,screenrecord,livedisplay,reading_mode,anti_flicker,mictoggle,cameratoggle,location,nfc,hotspot,inversion,saver,dark,work,night,reverse,reduce_brightness,qr_code_scanner,onehanded,color_correction,dream,font_scaling,smartpixels,caffeine,sleep_mode,ambient_display,usb_tether,sound,reboot,volume_panel,soundsearch,vpn,dataswitch,aod,screenshot,compass,refresh_rate,cpuinfo,fpsinfo,heads_up
     </string>
 
     <!-- The tiles to display in QuickSettings -->

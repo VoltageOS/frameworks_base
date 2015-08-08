@@ -542,6 +542,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mPendingMetaAction;
     boolean mPendingCapsLockToggle;
 
+    private OPGesturesListener mOPGestures;
+    private boolean haveEnableGesture = false;
+
     // support for activating the lock screen while the screen is on
     private HashSet<Integer> mAllowLockscreenWhenOnDisplays = new HashSet<>();
     int mLockScreenTimeout;
@@ -777,6 +780,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.POWER_BUTTON_SUPPRESSION_DELAY_AFTER_GESTURE_WAKE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2526,6 +2532,21 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 mWakeGestureEnabledSetting = wakeGestureEnabledSetting;
                 updateWakeGestureListenerLp();
             }
+
+            boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
+                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+            if (mOPGestures != null) {
+                if (haveEnableGesture != threeFingerGesture) {
+                    haveEnableGesture = threeFingerGesture;
+                    if (haveEnableGesture) {
+                        mWindowManagerFuncs.registerPointerEventListener(mOPGestures, DEFAULT_DISPLAY);
+                    } else {
+                        mWindowManagerFuncs.unregisterPointerEventListener(mOPGestures, DEFAULT_DISPLAY);
+                    }
+                }
+            }
+
+            updateKeyAssignments();
 
             // use screen off timeout setting as the timeout for the lockscreen
             mLockScreenTimeout = Settings.System.getIntForUser(resolver,
@@ -5117,6 +5138,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mVrManagerInternal != null) {
             mVrManagerInternal.addPersistentVrModeStateListener(mPersistentVrModeListener);
         }
+
+        mOPGestures = new OPGesturesListener(mContext, new OPGesturesListener.Callbacks() {
+            @Override
+            public void onSwipeThreeFinger() {
+                interceptScreenshotChord(TAKE_SCREENSHOT_FULLSCREEN, SCREENSHOT_KEY_OTHER, 0 /*pressDelay*/);
+            }
+        });
+
+        // Ensure observe happens in systemReady() since we need
+        // LineageHardwareService to be up and running
+        mSettingsObserver.observe();
 
         readCameraLensCoverState();
         updateUiMode();

@@ -64,6 +64,7 @@ import com.android.systemui.qs.tiles.UiModeNightTile;
 import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.UserTile;
 import com.android.systemui.qs.tiles.WeatherTile;
+import com.android.systemui.qs.tiles.VolumeTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.qs.tiles.WorkModeTile;
 import com.android.systemui.util.leak.GarbageMonitor;
@@ -122,6 +123,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SoundSearchTile> mSoundSearchTileProvider;
     private final Provider<SoundTile> mSoundTileProvider;
     private final Provider<CPUInfoTile> mCPUInfoTileProvider;
+    private final Provider<VolumeTile> mVolumeTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -172,7 +174,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<MusicTile> musicTileProvider,
             Provider<SoundSearchTile> soundSearchTileProvider,
             Provider<SoundTile> soundTileProvider,
-            Provider<CPUInfoTile> cpuInfoTileProvider) {
+            Provider<CPUInfoTile> cpuInfoTileProvider,
+            Provider<VolumeTile> volumeTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -219,6 +222,7 @@ public class QSFactoryImpl implements QSFactory {
         mSoundSearchTileProvider = soundSearchTileProvider;
         mSoundTileProvider = soundTileProvider;
         mCPUInfoTileProvider = cpuInfoTileProvider;
+        mVolumeTileProvider = volumeTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -317,6 +321,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mSoundTileProvider.get();
             case "cpuinfo":
                 return mCPUInfoTileProvider.get();
+            case "volume_panel":
+                return mVolumeTileProvider.get();
         }
 
         // Custom tiles

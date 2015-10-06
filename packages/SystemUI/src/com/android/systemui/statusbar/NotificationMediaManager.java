@@ -680,7 +680,7 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
                                 + mBackdropBack.getDrawable());
                     }
                     mBackdropFront.animate()
-                            .setDuration(250)
+                            .setDuration(150)
                             .alpha(0f).withEndAction(mHideBackdropFront);
                 }
             }

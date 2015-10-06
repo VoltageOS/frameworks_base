@@ -69,7 +69,7 @@ public interface CentralSurfaces extends Dumpable, LifecycleOwner {
     String TAG = "CentralSurfaces";
     boolean DEBUG = false;
     boolean SPEW = false;
-    boolean DUMPTRUCK = true; // extra dumpsys info
+    boolean DUMPTRUCK = false; // extra dumpsys info
     boolean DEBUG_GESTURES = false;
     boolean DEBUG_MEDIA_FAKE_ARTWORK = false;
     boolean DEBUG_CAMERA_LIFT = false;
@@ -79,8 +79,8 @@ public interface CentralSurfaces extends Dumpable, LifecycleOwner {
     boolean CHATTY = DEBUG;
     boolean SHOW_LOCKSCREEN_MEDIA_ARTWORK = true;
     String ACTION_FAKE_ARTWORK = "fake_artwork";
-    int FADE_KEYGUARD_START_DELAY = 100;
-    int FADE_KEYGUARD_DURATION = 300;
+    int FADE_KEYGUARD_START_DELAY = 50;
+    int FADE_KEYGUARD_DURATION = 150;
     int FADE_KEYGUARD_DURATION_PULSING = 96;
     long[] CAMERA_LAUNCH_GESTURE_VIBRATION_TIMINGS =
             new long[]{20, 20, 20, 20, 100, 20};

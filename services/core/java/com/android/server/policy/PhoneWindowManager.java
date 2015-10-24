@@ -657,6 +657,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mVolumeMusicControlActive;
     private boolean mVolumeMusicControl;
     private boolean mVolumeWakeActive;
+    private boolean mGlobalActionsOnLockEnable = true;
 
     // Fallback actions by key code.
     private final SparseArray<KeyCharacterMap.FallbackAction> mFallbackActions =
@@ -882,6 +883,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CLICK_PARTIAL_SCREENSHOT), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_ENABLE_POWER_MENU), true, this,
+                    UserHandle.USER_ALL);
+
             updateSettings();
         }
 
@@ -1729,10 +1734,14 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     void showGlobalActionsInternal() {
+        final boolean keyguardShowing = isKeyguardShowingAndNotOccluded();
+        if (keyguardShowing && isKeyguardSecure(mCurrentUserId) &&
+                !mGlobalActionsOnLockEnable) {
+            return;
+        }
         if (mGlobalActions == null) {
             mGlobalActions = mGlobalActionsFactory.get();
         }
-        final boolean keyguardShowing = isKeyguardShowingAndNotOccluded();
         mGlobalActions.showDialog(keyguardShowing, isDeviceProvisioned());
         // since it took two seconds of long press to bring this up,
         // poke the wake lock so they have some time to see the dialog.
@@ -2823,6 +2832,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mVolumeMusicControl = Settings.System.getIntForUser(resolver,
                     Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
                             0, UserHandle.USER_CURRENT) != 0;
+            mGlobalActionsOnLockEnable = Settings.System.getIntForUser(resolver,
+                    Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1,
+                    UserHandle.USER_CURRENT) != 0;
         }
         if (updateRotation) {
             updateRotation(true);

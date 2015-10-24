@@ -20,6 +20,10 @@ import static com.android.systemui.statusbar.phone.CentralSurfaces.DEBUG_MEDIA_F
 import static com.android.systemui.statusbar.phone.CentralSurfaces.ENABLE_LOCKSCREEN_WALLPAPER;
 import static com.android.systemui.statusbar.phone.CentralSurfaces.SHOW_LOCKSCREEN_MEDIA_ARTWORK;
 
+// Album art feature start
+import android.provider.Settings;
+// Album art feature end
+
 import android.annotation.MainThread;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
@@ -97,7 +101,7 @@ import dagger.Lazy;
  * Handles tasks and state related to media notifications. For example, there is a 'current' media
  * notification, which this class keeps track of.
  */
-public class NotificationMediaManager implements Dumpable {
+public class NotificationMediaManager implements Dumpable, TunerService.Tunable {
     private static final String TAG = "NotificationMediaManager";
     public static final boolean DEBUG_MEDIA = false;
 
@@ -105,9 +109,12 @@ public class NotificationMediaManager implements Dumpable {
             "system:" + Settings.System.ISLAND_NOTIFICATION;
     private static final String ISLAND_NOTIFICATION_NOW_PLAYING =
             "system:" + Settings.System.ISLAND_NOTIFICATION_NOW_PLAYING;
+    private static final String LOCKSCREEN_MEDIA_METADATA =
+            "system:" + Settings.System.LOCKSCREEN_MEDIA_METADATA;
 
     private final StatusBarStateController mStatusBarStateController;
     private final SysuiColorExtractor mColorExtractor;
+    private final TunerService mTunerService;
     private final KeyguardStateController mKeyguardStateController;
     private final KeyguardBypassController mKeyguardBypassController;
     private static final HashSet<Integer> PAUSED_MEDIA_STATES = new HashSet<>();
@@ -166,6 +173,7 @@ public class NotificationMediaManager implements Dumpable {
     private boolean mIslandEnabled;
     private boolean mIslandNowPlayingEnabled;
     private NotificationUtils notifUtils;
+    private boolean mShowMediaMetadata;
 
     private final MediaController.Callback mMediaListener = new MediaController.Callback() {
         @Override
@@ -224,7 +232,8 @@ public class NotificationMediaManager implements Dumpable {
             KeyguardStateController keyguardStateController,
             DumpManager dumpManager,
             WallpaperManager wallpaperManager,
-            DisplayManager displayManager) {
+            DisplayManager displayManager,
+            TunerService tunerService) {
         mContext = context;
         mMediaArtworkProcessor = mediaArtworkProcessor;
         mKeyguardBypassController = keyguardBypassController;
@@ -250,6 +259,7 @@ public class NotificationMediaManager implements Dumpable {
         notifUtils = new NotificationUtils(mContext);
         TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(mTunable, 
+	    LOCKSCREEN_MEDIA_METADATA,
             ISLAND_NOTIFICATION,
             ISLAND_NOTIFICATION_NOW_PLAYING);
     }
@@ -264,6 +274,9 @@ public class NotificationMediaManager implements Dumpable {
                 case ISLAND_NOTIFICATION_NOW_PLAYING:
                     mIslandNowPlayingEnabled = TunerService.parseIntegerSwitch(newValue, false);
                     break;
+		case LOCKSCREEN_MEDIA_METADATA:
+                     mShowMediaMetadata = TunerService.parseIntegerSwitch(newValue, false);
+		    break;
                 default:
                     break;
             }
@@ -637,7 +650,7 @@ public class NotificationMediaManager implements Dumpable {
             }
             mProcessArtworkTasks.clear();
         }
-        if (artworkBitmap != null && !Utils.useQsMediaPlayer(mContext)) {
+        if (artworkBitmap != null) {
             mProcessArtworkTasks.add(new ProcessArtworkTask(this, metaDataChanged,
                     allowEnterAnimation).execute(artworkBitmap));
         } else {
@@ -650,11 +663,14 @@ public class NotificationMediaManager implements Dumpable {
     private void finishUpdateMediaMetaData(boolean metaDataChanged, boolean allowEnterAnimation,
             @Nullable Bitmap bmp) {
         Drawable artworkDrawable = null;
-        if (bmp != null) {
+        // set media artwork as lockscreen wallpaper if player is playing
+        if (bmp != null && (mShowMediaMetadata || !ENABLE_LOCKSCREEN_WALLPAPER) &&
+                PlaybackState.STATE_PLAYING == getMediaControllerPlaybackState(mMediaController)) {
             artworkDrawable = new BitmapDrawable(mBackdropBack.getResources(), bmp);
         }
         boolean hasMediaArtwork = artworkDrawable != null;
         boolean allowWhenShade = false;
+        // if no media artwork, show normal lockscreen wallpaper
         if (ENABLE_LOCKSCREEN_WALLPAPER && artworkDrawable == null) {
             Bitmap lockWallpaper =
                     mLockscreenWallpaper != null ? mLockscreenWallpaper.getBitmap() : null;

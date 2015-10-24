@@ -11239,6 +11239,13 @@ public final class Settings {
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
+         * Whether to show media art on lockscreen
+         * Boolean setting. 0 = off, 1 = on.
+         * @hide
+         */
+        public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+
+        /**
          * Whether to turn on black theme
          * @hide
          */

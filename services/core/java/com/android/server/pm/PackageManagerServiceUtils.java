@@ -1485,6 +1485,7 @@ public class PackageManagerServiceUtils {
             File frameworkDir =
                     new File(Environment.getRootDirectory(), "framework");
             if (cacheDir.lastModified() < frameworkDir.lastModified()) {
+                Slog.w(TAG, "Wiping cache directory because the system partition changed.");
                 FileUtils.deleteContents(cacheBaseDir);
                 cacheDir = FileUtils.createDir(cacheBaseDir, cacheName);
             }

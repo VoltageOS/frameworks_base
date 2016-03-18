@@ -88,5 +88,6 @@ public class SystemSettings {
         Settings.System.ALARM_ALERT,
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.NAVIGATION_BAR_INVERSE,
+        Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
     };
 }

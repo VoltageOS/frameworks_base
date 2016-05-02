@@ -6611,6 +6611,13 @@ public final class Settings {
         public static final String ROAMING_INDICATOR_ICON = "roaming_indicator_icon";
 
         /**
+         * Whether keyguard will rotate
+         * 0 = false, 1 = true
+         */
+        @SuppressLint("NoSettingsProvider")
+        public static final String LOCKSCREEN_ROTATION = "lockscreen_rotation";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

@@ -63,4 +63,7 @@
     <!-- Switch USB controller on Asus ROG devices-->
     <bool name="config_switchUsbController">false</bool>	
 
+    <!-- Whether device has dash charging support -->
+    <bool name="config_hasDashCharger">false</bool>
+
 </resources>

@@ -6121,6 +6121,12 @@ public final class Settings {
         /** @hide */
         public static final String STATUS_BAR_CLOCK_AUTO_HIDE_SDURATION = "status_bar_clock_auto_hide_sduration";
 
+	/**
+         * Adjust media artwork wallpaper blur level on lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_MEDIA_BLUR = "lockscreen_media_blur";
+
         /**
          * Whether to show the battery info on the lockscreen while charging
          * @hide

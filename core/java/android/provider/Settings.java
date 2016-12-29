@@ -6178,6 +6178,12 @@ public final class Settings {
         public static final String SHOW_QS_DATE = "show_qs_date";
 
 	/**
+         * Adjust media artwork wallpaper blur level on lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_MEDIA_BLUR = "lockscreen_media_blur";
+
+        /**
          * Battery style
          * @hide
          */

@@ -45,4 +45,8 @@
     <dimen name="screenshot_border_corner_radius">24dp</dimen>
     <dimen name="screenshot_preview_corner_radius">20dp</dimen>
     <dimen name="screenshot_button_corner_radius">20dp</dimen>
+
+    <!-- Network traffic monitor -->
+    <dimen name="net_traffic_multi_text_size">8dp</dimen>
+    <dimen name="net_traffic_txt_img_padding">2dp</dimen>
 </resources>

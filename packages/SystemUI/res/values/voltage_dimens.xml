@@ -80,4 +80,8 @@
 
     <!-- OmniWeather image size -->
     <dimen name="current_weather_image_size">30dp</dimen>
+
+    <dimen name="burnin_protection_horizontal_shift">1dp</dimen>
+    <dimen name="burnin_protection_vertical_shift">1dp</dimen>
+
 </resources>

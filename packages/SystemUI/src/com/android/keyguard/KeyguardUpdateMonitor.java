@@ -131,6 +131,7 @@ import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.jank.InteractionJankMonitor;
 import com.android.internal.logging.InstanceId;
 import com.android.internal.logging.UiEventLogger;
+import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.util.LatencyTracker;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.logging.KeyguardUpdateMonitorLogger;
@@ -306,6 +307,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
 
     HashMap<Integer, SimData> mSimDatas = new HashMap<>();
     HashMap<Integer, ServiceState> mServiceStates = new HashMap<Integer, ServiceState>();
+    HashMap<Integer, ServiceState> mServiceStatesWithKeySlot = new HashMap<Integer, ServiceState>();
 
     private int mPhoneState;
     private boolean mKeyguardIsVisible;
@@ -643,6 +645,38 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
         }
 
         return subscriptions;
+    }
+
+    boolean isEmergencyOnly() {
+        boolean isEmerg = false;
+        for (int slotId = 0; slotId < TelephonyManager.getDefault().getPhoneCount(); slotId++) {
+            ServiceState state = null;
+            int[] subId = mSubscriptionManager.getSubId(slotId);
+            if (subId != null && subId.length > 0) {
+                state = mServiceStates.get(subId[0]);
+            } else {
+                state = mServiceStatesWithKeySlot.get(slotId);
+            }
+            if (state != null) {
+                if (state.getVoiceRegState() == ServiceState.STATE_IN_SERVICE) {
+                    return false;
+                } else if (state.isEmergencyOnly()) {
+                    isEmerg = true;
+                }
+            }
+        }
+        return isEmerg;
+    }
+
+    int getPresentSubId() {
+        for (int slotId = 0; slotId < TelephonyManager.getDefault().getPhoneCount(); slotId++) {
+            int[] subId = mSubscriptionManager.getSubId(slotId);
+            if (subId != null && subId.length > 0
+                    && getSimState(subId[0]) != TelephonyManager.SIM_STATE_ABSENT) {
+                return subId[0];
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -1483,6 +1517,11 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                 ServiceState serviceState = ServiceState.newFromBundle(intent.getExtras());
                 int subId = intent.getIntExtra(SubscriptionManager.EXTRA_SUBSCRIPTION_INDEX,
                         SubscriptionManager.INVALID_SUBSCRIPTION_ID);
+                int phoneId = intent.getIntExtra(PhoneConstants.SLOT_KEY, -1);
+                if (!SubscriptionManager.isUsableSubIdValue(subId)
+                        && SubscriptionManager.isValidPhoneId(phoneId)) {
+                    mServiceStatesWithKeySlot.put(phoneId, serviceState);
+                }
                 mLogger.logServiceStateIntent(action, serviceState, subId);
                 mHandler.sendMessage(
                         mHandler.obtainMessage(MSG_SERVICE_STATE_CHANGE, subId, 0, serviceState));

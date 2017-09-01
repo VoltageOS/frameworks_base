@@ -16,6 +16,8 @@
 
 package com.android.systemui.shade;
 
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.app.StatusBarManager;
 import android.media.AudioManager;
 import android.media.session.MediaSessionLegacyHelper;
@@ -33,6 +35,7 @@ import com.android.internal.annotations.VisibleForTesting;
 import com.android.keyguard.AuthKeyguardMessageArea;
 import com.android.keyguard.LockIconViewController;
 import com.android.keyguard.dagger.KeyguardBouncerComponent;
+import com.android.systemui.util.settings.SecureSettings;
 import com.android.systemui.R;
 import com.android.systemui.classifier.FalsingCollector;
 import com.android.systemui.dock.DockManager;

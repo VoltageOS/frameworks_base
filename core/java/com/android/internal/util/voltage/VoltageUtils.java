@@ -38,6 +38,7 @@ import android.os.RemoteException;
 import android.graphics.Color;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.InputDevice;

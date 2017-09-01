@@ -61,6 +61,7 @@ import android.app.WallpaperManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -68,6 +69,7 @@ import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
 import android.graphics.Point;
 import android.hardware.devicestate.DeviceStateManager;
 import android.metrics.LogMaker;
@@ -600,6 +602,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         }
     }
 
+    private Handler mMainHandler;
     private final DelayableExecutor mMainExecutor;
 
     private int mInteractingWindows;
@@ -761,6 +764,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
             LockscreenShadeTransitionController lockscreenShadeTransitionController,
             FeatureFlags featureFlags,
             KeyguardUnlockAnimationController keyguardUnlockAnimationController,
+            @Main Handler mainHandler,
             @Main DelayableExecutor delayableExecutor,
             @Main MessageRouter messageRouter,
             WallpaperManager wallpaperManager,
@@ -844,6 +848,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         mStatusBarSignalPolicy = statusBarSignalPolicy;
         mStatusBarHideIconsForBouncerManager = statusBarHideIconsForBouncerManager;
         mFeatureFlags = featureFlags;
+        mMainHandler = mainHandler;
         mKeyguardUnlockAnimationController = keyguardUnlockAnimationController;
         mMainExecutor = delayableExecutor;
         mMessageRouter = messageRouter;
@@ -951,6 +956,9 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         } else if (DEBUG) {
             Log.v(TAG, "start(): no wallpaper service ");
         }
+
+        mSbSettingsObserver.observe();
+        mSbSettingsObserver.update();
 
         // Set up the initial notification state. This needs to happen before CommandQueue.disable()
         setUpPresenter();
@@ -3866,6 +3874,41 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
     @Override
     public boolean isDeviceInteractive() {
         return mDeviceInteractive;
+    }
+
+    private SbSettingsObserver mSbSettingsObserver = new SbSettingsObserver(mMainHandler);
+    private class SbSettingsObserver extends ContentObserver {
+        SbSettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN),
+                    false, this, UserHandle.USER_ALL);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN))) {
+                setLockscreenDoubleTapToSleep();
+            }
+        }
+
+        public void update() {
+            setLockscreenDoubleTapToSleep();
+        }
+    }
+
+    private void setLockscreenDoubleTapToSleep() {
+        boolean isDoubleTapLockscreenEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN, 0, UserHandle.USER_CURRENT) == 1;
+        if (mNotificationPanelViewController != null) {
+            mNotificationPanelViewController.setLockscreenDoubleTapToSleep(isDoubleTapLockscreenEnabled);
+        }
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {

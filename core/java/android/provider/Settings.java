@@ -5773,6 +5773,16 @@ public final class Settings {
         public static final String DOZE_ON_CHARGE = "doze_on_charge";
 
         /**
+          * Volume keys control cursor in text fields (default is 0)
+          * 0 - Disabled
+          * 1 - Volume up/down moves cursor left/right
+          * 2 - Volume up/down moves cursor right/left
+          * @hide
+          */
+        @Readable
+        public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
+
+        /**
          * Disable power menu on secure lock screens
          *
          * @hide
@@ -6414,6 +6424,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL);
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_IGNORE_DND);
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_RATE);
+            PRIVATE_SETTINGS.add(VOLUME_KEY_CURSOR_CONTROL);
         }
 
 

@@ -80,4 +80,8 @@
     <string name="gaming_mode_not_enabled">Gaming mode is disabled in settings</string>
     <string name="quick_settings_gaming_mode_label">Gaming mode</string>
 
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_label">Screenshot</string>
+    <string name="quick_settings_region_screenshot_label">Partial screenshot</string>
+
 </resources>

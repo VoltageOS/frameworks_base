@@ -178,6 +178,7 @@ public final class BatteryService extends SystemService {
     private Led mLed;
 
     //Battery light color customization
+    private boolean mHasLed;
     private boolean mLightEnabled = false;
     private boolean mFullBatteryLight = true;
     private boolean mAllowBatteryLightOnDnd;
@@ -208,6 +209,9 @@ public final class BatteryService extends SystemService {
         mLed = new Led(context, getLocalService(LightsManager.class));
         mBatteryStats = BatteryStatsService.getService();
         mActivityManagerInternal = LocalServices.getService(ActivityManagerInternal.class);
+
+        mHasLed = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_hasNotificationLed);
 
         mCriticalBatteryLevel = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_criticalBatteryWarningLevel);
@@ -271,9 +275,9 @@ public final class BatteryService extends SystemService {
                         false, obs, UserHandle.USER_ALL);
                 updateBatteryWarningLevelLocked();
             }
-        } else if (phase == PHASE_BOOT_COMPLETED) {
-            SettingsObserver mObserver = new SettingsObserver(new Handler());
-            mObserver.observe();
+        } else if (mHasLed && phase == PHASE_BOOT_COMPLETED) {
+            SettingsObserver observer = new SettingsObserver(new Handler());
+            observer.observe();
         }
     }
 
@@ -1278,6 +1282,10 @@ public final class BatteryService extends SystemService {
          * Synchronize on BatteryService.
          */
         public void updateLightsLocked() {
+            // don't do anything if we don't have a led
+            if (!mHasLed) {
+                return;
+            }
             if (mBatteryLight == null) {
                 return;
             }

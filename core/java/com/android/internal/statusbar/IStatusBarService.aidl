@@ -164,7 +164,7 @@ interface IStatusBarService
     void startAssist(in Bundle args);
 
     /**
-     * Aex
+     * Voltage
      */
     void toggleCameraFlash();
 
@@ -172,4 +172,9 @@ interface IStatusBarService
      * Used to block or unblock usage of gestural navigation
      */
     void setBlockedGesturalNavigation(boolean blocked);
+
+    void toggleRecentApps();
+    void toggleSplitScreen();
+    void preloadRecentApps();
+    void cancelPreloadRecentApps();
 }

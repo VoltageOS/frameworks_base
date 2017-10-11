@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-
     <!-- Whether to handle audio direction changes between major call states -->
     <java-symbol type="bool" name="config_handleAudioDirectionChangesBetweenCallStateChanges" />
 
@@ -34,4 +33,7 @@
     <!-- Cycle through ringer modes -->
     <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
 
+    <!-- Device keyhandlers -->
+    <java-symbol type="array" name="config_deviceKeyHandlerLibs" />
+    <java-symbol type="array" name="config_deviceKeyHandlerClasses" />
 </resources>

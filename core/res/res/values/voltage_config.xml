@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-
     <!-- Whether to handle audio direction changes between major call states -->
     <bool name="config_handleAudioDirectionChangesBetweenCallStateChanges">true</bool>
 
@@ -26,4 +25,11 @@
     <!-- Whether device supports an alt. ambient display -->
     <bool name="config_alt_ambient_display">false</bool>
 
+    <!-- Paths to the libraries that contain device specific key handlers -->
+    <string-array name="config_deviceKeyHandlerLibs" translatable="false">
+    </string-array>
+
+    <!-- Names of the key handler classes -->
+    <string-array name="config_deviceKeyHandlerClasses" translatable="false">
+    </string-array>
 </resources>

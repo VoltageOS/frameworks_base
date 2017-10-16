@@ -94,5 +94,6 @@ public class SystemSettings {
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
         Settings.System.USE_OLD_MOBILETYPE,
+        Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
     };
 }

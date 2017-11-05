@@ -42,6 +42,7 @@ import com.android.systemui.qs.tiles.FPSInfoTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.InternetTile;
+import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.MicrophoneToggleTile;
 import com.android.systemui.qs.tiles.NfcTile;
@@ -107,6 +108,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<ScreenshotTile> mScreenshotTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
     private final Provider<FPSInfoTile> mFPSInfoTileProvider;
+    private final Provider<LiveDisplayTile> mLiveDisplayTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -149,7 +151,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SoundTile> soundTileProvider,
             Provider<ScreenshotTile> screenshotTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider,
-            Provider<FPSInfoTile> fpsInfoTileProvider)  {
+            Provider<FPSInfoTile> fpsInfoTileProvider,
+            Provider<LiveDisplayTile> liveDisplayTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -188,6 +191,7 @@ public class QSFactoryImpl implements QSFactory {
         mScreenshotTileProvider = screenshotTileProvider;
         mHeadsUpTileProvider = headsUpTileProvider;
         mFPSInfoTileProvider = fpsInfoTileProvider;
+        mLiveDisplayTileProvider = liveDisplayTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -270,6 +274,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mHeadsUpTileProvider.get();
             case "fpsinfo":
                 return mFPSInfoTileProvider.get();
+            case "livedisplay":
+                return mLiveDisplayTileProvider.get();
         }
 
         // Custom tiles

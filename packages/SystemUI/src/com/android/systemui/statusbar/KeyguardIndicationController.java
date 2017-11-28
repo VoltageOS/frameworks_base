@@ -1006,7 +1006,7 @@ public class KeyguardIndicationController {
             mPowerPluggedIn = status.isPluggedIn() && isChargingOrFull;
             mPowerCharged = status.isCharged();
             mChargingCurrent = status.maxChargingCurrent;
-            mChargingVoltage = status.maxChargingVoltage
+            mChargingVoltage = status.maxChargingVoltage;
             mChargingWattage = status.maxChargingWattage;
             mChargingSpeed = status.getChargingSpeed(mContext);
             mTemperature = status.temperature;

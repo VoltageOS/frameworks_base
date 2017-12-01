@@ -148,4 +148,13 @@
     <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
     <java-symbol type="bool" name="config_showRefreshRateTile" />
 
+    <!-- Proximity check on screen on -->
+    <java-symbol type="bool" name="config_proximityCheckOnWake" />
+
+    <!-- Proximity check timeout -->
+    <java-symbol type="integer" name="config_proximityCheckTimeout" />
+
+    <!-- Proximity check on screen on default -->
+    <java-symbol type="bool" name="config_proximityCheckOnWakeEnabledByDefault" />
+
 </resources>

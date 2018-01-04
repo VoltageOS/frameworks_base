@@ -140,11 +140,11 @@
     <!-- Whether device has warp charging support -->
     <java-symbol type="bool" name="config_hasWarpCharger" />
 
-    <!-- Whether device has VOOC charging support -->
-    <java-symbol type="bool" name="config_hasVoocCharger" />
+  <!-- Whether device has VOOC charging support -->
+  <java-symbol type="bool" name="config_hasVoocCharger" />
 
-    <!-- Whether device has turbo power charging support -->
-    <java-symbol type="bool" name="config_hasTurboPowerCharger" />
+  <!-- Whether device has turbo power charging support -->
+  <java-symbol type="bool" name="config_hasTurboPowerCharger" />
 
     <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
     <java-symbol type="string" name="config_oemFastChargerStatusPath" />
@@ -155,19 +155,22 @@
     <!-- Expected value from fast charging status file -->
     <java-symbol type="string" name="config_oemFastChargerStatusValue" />
 
-    <!-- Cycle through ringer modes -->
-    <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
+  <!-- Cycle through ringer modes -->
+  <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
 
-    <!-- Whether device has physical tri state switch -->
-    <java-symbol type="bool" name="config_hasAlertSlider" />
+  <!-- Whether device has physical tri state switch -->
+  <java-symbol type="bool" name="config_hasAlertSlider" />
 
-    <!-- The location of the devices physical tri state switch -->
-    <java-symbol type="integer" name="config_alertSliderLocation" />
+  <!-- The location of the devices physical tri state switch -->
+  <java-symbol type="integer" name="config_alertSliderLocation" />
 
-    <!-- Whether key handler sends intent when changing slider position -->
-    <java-symbol type="string" name="config_alertSliderIntent" />
+  <!-- Whether key handler sends intent when changing slider position -->
+  <java-symbol type="string" name="config_alertSliderIntent" />
 
     <!-- Switch USB controller on Asus ROG devices-->
     <java-symbol type="bool" name="config_switchUsbController" />	
+
+  <!-- Whether the device supports Smart Pixels -->
+  <java-symbol type="bool" name="config_supportSmartPixels" />
 
 </resources>

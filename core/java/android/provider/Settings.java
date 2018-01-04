@@ -5534,6 +5534,14 @@ public final class Settings {
         @Readable
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
+	/**
+         * Whether to play notification sound and vibration if screen is ON
+         * 0 - never
+         * 1 - always
+         * @hide
+         */
+        public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+
         /**
          * Whether the phone vibrates on call connect
          * @hide

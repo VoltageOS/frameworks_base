@@ -229,6 +229,7 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             mThemedDrawable.setBatteryLevel(mLevel);
             mCircleDrawable.setBatteryLevel(mLevel);
             mFullCircleDrawable.setBatteryLevel(mLevel);
+            updatePercentText();
         }
         if (mCharging != pluggedIn) {
             mCharging = pluggedIn;
@@ -236,7 +237,6 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
             mCircleDrawable.setCharging(mCharging);
             mFullCircleDrawable.setCharging(mCharging);
             updateShowPercent();
-        } else {
             updatePercentText();
         }
     }
@@ -304,15 +304,13 @@ public class BatteryMeterView extends LinearLayout implements DarkReceiver {
     }
 
     private void setPercentTextAtCurrentLevel() {
-
-        String percentText = NumberFormat.getPercentInstance().format(mLevel / 100f);
-        // Setting text actually triggers a layout pass (because the text view is set to
-        // wrap_content width and TextView always relayouts for this). Avoid needless
-        // relayout if the text didn't actually change.
-        if (!TextUtils.equals(mBatteryPercentView.getText(), percentText)) {
-            mBatteryPercentView.setText(percentText);
-        }
-
+        // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
+        // to load its emoji colored variant with the uFE0E flag
+        String bolt = "\u26A1\uFE0E";
+        CharSequence mChargeIndicator = mCharging && (mBatteryStyle == BATTERY_STYLE_HIDDEN ||
+            mBatteryStyle == BATTERY_STYLE_TEXT) ? (bolt + " ") : "";
+        mBatteryPercentView.setText(mChargeIndicator +
+            NumberFormat.getPercentInstance().format(mLevel / 100f));
         setContentDescription(
                 getContext().getString(mCharging ? R.string.accessibility_battery_level_charging
                         : R.string.accessibility_battery_level, mLevel));

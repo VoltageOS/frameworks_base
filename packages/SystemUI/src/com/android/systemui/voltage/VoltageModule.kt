@@ -18,6 +18,7 @@ package com.android.systemui.voltage
 
 import com.android.systemui.qs.tileimpl.QSTileImpl
 import com.android.systemui.qs.tiles.WifiTile
+import com.android.systemui.qs.tiles.SmartPixelsTile
 
 import dagger.Binds
 import dagger.Module
@@ -31,4 +32,11 @@ interface VoltageModule {
     @IntoMap
     @StringKey(WifiTile.TILE_SPEC)
     fun bindWifiTile(wifiTile: WifiTile): QSTileImpl<*>
+
+    /** Inject SmartPixelsTile into tileMap in QSModule */
+    @Binds  
+    @IntoMap
+    @StringKey(SmartPixelsTile.TILE_SPEC)
+    fun bindSmartPixelsTile(smartPixelsTile: SmartPixelsTile): QSTileImpl<*>
+
 }

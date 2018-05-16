@@ -27,6 +27,7 @@ import com.android.systemui.qs.tiles.CaffeineTile
 import com.android.systemui.qs.tiles.CompassTile
 import com.android.systemui.qs.tiles.DataSwitchTile
 import com.android.systemui.qs.tiles.LiveDisplayTile
+import com.android.systemui.qs.tiles.ReadingModeTile
 import com.android.systemui.qs.tiles.RebootTile
 import com.android.systemui.qs.tiles.RefreshRateTile
 import com.android.systemui.qs.tiles.ScreenshotTile
@@ -110,6 +111,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(LiveDisplayTile.TILE_SPEC)
     fun bindLiveDisplayTile(liveDisplayTile: LiveDisplayTile): QSTileImpl<*>
+
+    /** Inject ReadingModeTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(ReadingModeTile.TILE_SPEC)
+    fun bindReadingModeTile(readingModeTile: ReadingModeTile): QSTileImpl<*>
 
     /** Inject RebootTile into tileMap in QSModule */
     @Binds

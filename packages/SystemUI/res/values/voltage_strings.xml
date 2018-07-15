@@ -55,4 +55,7 @@
     <string name="dlg_cancel" translatable="false">@android:string/cancel</string>
     <string name="guts_force_close_app">Close App</string>
 
+    <!-- Name of the clock in status bar [CHAR LIMIT=30] -->
+    <string name="clock">Clock</string>
+
 </resources>

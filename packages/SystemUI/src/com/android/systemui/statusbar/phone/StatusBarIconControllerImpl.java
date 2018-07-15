@@ -87,8 +87,7 @@ public class StatusBarIconControllerImpl extends StatusBarIconList implements Tu
             TunerService tunerService,
             DumpManager dumpManager,
             @Main Handler handler,
-            SystemSettings systemSettings,
-            DumpManager dumpManager) {
+            SystemSettings systemSettings) {
         super(context.getResources().getStringArray(
                 com.android.internal.R.array.config_statusBarIcons));
         Dependency.get(ConfigurationController.class).addCallback(this);

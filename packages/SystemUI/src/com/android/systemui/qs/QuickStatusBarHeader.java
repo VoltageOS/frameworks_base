@@ -89,6 +89,12 @@ public class QuickStatusBarHeader extends FrameLayout implements TunerService.Tu
     private static final String NETWORK_TRAFFIC_LOCATION =
             "system:" + Settings.System.NETWORK_TRAFFIC_LOCATION;
 
+    private static final int CLOCK_POSITION_LEFT = 2;
+    private static final int CLOCK_POSITION_HIDE = 3;
+
+    private static final String STATUS_BAR_CLOCK =
+            "system:" + Settings.System.STATUS_BAR_CLOCK;
+
     private boolean mExpanded;
     private boolean mQsDisabled;
 

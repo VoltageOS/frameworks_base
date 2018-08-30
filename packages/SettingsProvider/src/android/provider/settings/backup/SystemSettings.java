@@ -96,5 +96,6 @@ public class SystemSettings {
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
         Settings.System.OMNIJAWS_WEATHER_ICON_PACK,
+        Settings.System.OMNI_LOCKSCREEN_WEATHER_ENABLED,
     };
 }

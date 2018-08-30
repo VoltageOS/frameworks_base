@@ -5449,6 +5449,11 @@ public final class Settings {
         @Readable
         public static final String VOLUME_DIALOG_TIMEOUT = "volume_dialog_timeout";
 
+         /**
+          * @hide
+          */
+         public static final String OMNIJAWS_WEATHER_ICON_PACK = "omnijaws_weather_icon_pack";
+
         /**
          * Applications list where heasdup should't show
          *
@@ -6437,6 +6442,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_IGNORE_DND);
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_RATE);
             PRIVATE_SETTINGS.add(VOLUME_KEY_CURSOR_CONTROL);
+            PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
         }
 
 

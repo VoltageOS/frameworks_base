@@ -5949,6 +5949,11 @@ public final class Settings {
          */
         public static final String BLUETOOTH_SHOW_BATTERY = "bluetooth_show_battery";
 
+         /**
+          * @hide
+          */
+         public static final String OMNIJAWS_WEATHER_ICON_PACK = "omnijaws_weather_icon_pack";
+
         /**
          * Network traffic indicator location
          * 0 = Disabled
@@ -6656,6 +6661,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
             PRIVATE_SETTINGS.add(LOCK_HIDE_STATUS_BAR);
             PRIVATE_SETTINGS.add(NAVIGATION_BAR_IME_SPACE);
+            PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
         }
 
         /**

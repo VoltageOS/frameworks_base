@@ -104,5 +104,6 @@ public class SystemSettings {
         Settings.System.FLASHLIGHT_ON_CALL_RATE,
         Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL,
         Settings.System.OMNIJAWS_WEATHER_ICON_PACK,
+        Settings.System.OMNI_LOCKSCREEN_WEATHER_ENABLED,
     };
 }

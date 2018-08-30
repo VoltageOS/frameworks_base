@@ -265,5 +265,6 @@ public class SystemSettingsValidators {
             }
         });
         VALIDATORS.put(System.LIVE_DISPLAY_HINTED, new InclusiveIntegerRangeValidator(-3, 1));
+        VALIDATORS.put(System.OMNIJAWS_WEATHER_ICON_PACK, ANY_STRING_VALIDATOR);
     }
 }

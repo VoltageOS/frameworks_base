@@ -266,6 +266,7 @@ public class KeyguardStatusViewController extends ViewController<KeyguardStatusV
         @Override
         public void onUserSwitchComplete(int userId) {
             mKeyguardClockSwitchController.refreshFormat();
+            mView.updateSettings();
         }
     };
 

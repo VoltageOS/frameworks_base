@@ -297,6 +297,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
     private static final Rect EMPTY_RECT = new Rect();
     private static final String DOUBLE_TAP_SLEEP_GESTURE =
             "system:" + Settings.System.DOUBLE_TAP_SLEEP_GESTURE;
+     private static final String DOUBLE_TAP_SLEEP_LOCKSCREEN =
+             "system:" + Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN;
     private static final String RETICKER_STATUS =
             "system:" + Settings.System.RETICKER_STATUS;
     private static final String RETICKER_COLORED =
@@ -528,6 +530,8 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
     private final int mDisplayId;
     private boolean mDoubleTapToSleepEnabled;
     private GestureDetector mDoubleTapGesture;
+
+    private boolean mIsLockscreenDoubleTapEnabled;
 
     private final KeyguardIndicationController mKeyguardIndicationController;
     private int mHeadsUpInset;
@@ -4507,6 +4511,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
             mStatusBarStateListener.onStateChanged(mStatusBarStateController.getState());
             mConfigurationController.addCallback(mConfigurationListener);
             mTunerService.addTunable(this, DOUBLE_TAP_SLEEP_GESTURE);
+            mTunerService.addTunable(this, DOUBLE_TAP_SLEEP_LOCKSCREEN);
             mTunerService.addTunable(this, RETICKER_STATUS);
             mTunerService.addTunable(this, RETICKER_COLORED);
             // Theme might have changed between inflating this view and attaching it to the
@@ -4536,10 +4541,10 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                     mDoubleTapToSleepEnabled =
                             TunerService.parseIntegerSwitch(newValue, true);
                     break;
-                default:
+                case DOUBLE_TAP_SLEEP_LOCKSCREEN:
+                    mIsLockscreenDoubleTapEnabled =
+                            TunerService.parseIntegerSwitch(newValue, true);
                     break;
-            }
-            switch (key) {
                 case RETICKER_STATUS:
                     mReTickerStatus =
                             TunerService.parseIntegerSwitch(newValue, false);
@@ -4548,7 +4553,7 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                     mReTickerColored =
                             TunerService.parseIntegerSwitch(newValue, false);
                     break;
-	            default:
+                default:
                     break;
             }
         }
@@ -4880,7 +4885,10 @@ public final class NotificationPanelViewController implements ShadeSurface, Dump
                 return false;
             }
 
-            if (mDoubleTapToSleepEnabled && !mPulsing && !mDozing) {
+            if ((mIsLockscreenDoubleTapEnabled && !mPulsing && !mDozing
+                    && mBarState == StatusBarState.KEYGUARD) ||
+                    (!mQsController.getExpanded() && mDoubleTapToSleepEnabled
+                    && event.getY() < mStatusBarHeaderHeightKeyguard)) {
                 mDoubleTapGesture.onTouchEvent(event);
             }
 

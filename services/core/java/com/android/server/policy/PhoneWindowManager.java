@@ -152,6 +152,7 @@ import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.DeviceConfig;
+import android.provider.Settings;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.service.dreams.DreamManagerInternal;
@@ -551,6 +552,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mPendingMetaAction;
     boolean mPendingCapsLockToggle;
 
+    private int mForceNavbar = -1;
+
     // support for activating the lock screen while the screen is on
     private HashSet<Integer> mAllowLockscreenWhenOnDisplays = new HashSet<>();
     int mLockScreenTimeout;
@@ -824,6 +827,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCK_POWER_MENU_DISABLED), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FORCE_SHOW_NAVBAR), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2034,7 +2040,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mKeyHandler = new HardkeyActionHandler(mContext, mHandler);
         }
         mSettingsObserver = new SettingsObserver(mHandler);
-        mSettingsObserver.observe();
+
         mModifierShortcutManager = new ModifierShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2585,6 +2591,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             if (mWakeGestureEnabledSetting != wakeGestureEnabledSetting) {
                 mWakeGestureEnabledSetting = wakeGestureEnabledSetting;
                 updateWakeGestureListenerLp();
+            }
+
+            int forceNavbar = Settings.System.getIntForUser(resolver,
+                    Settings.System.FORCE_SHOW_NAVBAR, 0,
+                    UserHandle.USER_CURRENT);
+            if (forceNavbar != mForceNavbar) {
+                mForceNavbar = forceNavbar;
             }
 
             // use screen off timeout setting as the timeout for the lockscreen

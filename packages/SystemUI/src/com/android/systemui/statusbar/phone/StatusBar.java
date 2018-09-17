@@ -125,6 +125,7 @@ import com.android.internal.logging.UiEventLoggerImpl;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.statusbar.RegisterStatusBarResult;
+import com.android.internal.util.voltage.VoltageUtils;
 import com.android.internal.util.hwkeys.ActionConstants;
 import com.android.internal.util.hwkeys.ActionUtils;
 import com.android.internal.util.hwkeys.PackageMonitor;
@@ -287,6 +288,8 @@ public class StatusBar extends SystemUI implements
             "system:" + Settings.System.GAMING_MODE_ACTIVE;
     private static final String GAMING_MODE_DISABLE_NOTIFICATION_ALERT =
             "system:" + Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT;
+    private static final String FORCE_SHOW_NAVBAR =
+            "system:" + Settings.System.FORCE_SHOW_NAVBAR;
 
     private static final String BANNER_ACTION_CANCEL =
             "com.android.systemui.statusbar.banner_action_cancel";
@@ -967,6 +970,7 @@ public class StatusBar extends SystemUI implements
         mStatusBarStateController.addCallback(mStateListener,
                 SysuiStatusBarStateController.RANK_STATUS_BAR);
 
+        mTunerService.addTunable(this, FORCE_SHOW_NAVBAR);
         mTunerService.addTunable(this, GAMING_MODE_ACTIVE);
         mTunerService.addTunable(this, GAMING_MODE_DISABLE_NOTIFICATION_ALERT);
 
@@ -4307,6 +4311,23 @@ public class StatusBar extends SystemUI implements
     @Override
     public void onTuningChanged(String key, String newValue) {
         switch (key) {
+            case FORCE_SHOW_NAVBAR:
+                if (mDisplayId != Display.DEFAULT_DISPLAY ||
+                        mWindowManagerService == null)
+                    return;
+                boolean mNavbarVisible =
+                        TunerService.parseIntegerSwitch(newValue, VoltageUtils.hasNavbarByDefault(mContext));
+                boolean hasNavbar = getNavigationBarView() != null;
+                if (mNavbarVisible) {
+                    if (!hasNavbar) {
+                        mNavigationBarController.onDisplayReady(mDisplayId);
+                    }
+                } else {
+                    if (hasNavbar) {
+                        mNavigationBarController.onDisplayRemoved(mDisplayId);
+                    }
+                }
+                break;
             case GAMING_MODE_ACTIVE:
                 boolean gamingModeActive =
                         TunerService.parseIntegerSwitch(newValue, false);

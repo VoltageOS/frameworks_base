@@ -152,6 +152,7 @@ import android.os.VibrationAttributes;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.provider.DeviceConfig;
+import android.provider.Settings;
 import android.pocket.IPocketCallback;
 import android.pocket.PocketManager;
 import android.provider.MediaStore;
@@ -573,6 +574,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private SwipeToScreenshotListener mSwipeToScreenshot;
     private boolean haveEnableGesture = false;
+    private int mForceNavbar = -1;
 
     // support for activating the lock screen while the screen is on
     private HashSet<Integer> mAllowLockscreenWhenOnDisplays = new HashSet<>();
@@ -878,6 +880,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.System.LOCK_POWER_MENU_DISABLED), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.FORCE_SHOW_NAVBAR), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_ROCKER_WAKE), false, this,
@@ -2150,6 +2155,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
         mSettingsObserver = new SettingsObserver(mHandler);
         mSettingsObserver.observe();
+
         mModifierShortcutManager = new ModifierShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2724,6 +2730,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     } else {
                         mWindowManagerFuncs.unregisterPointerEventListener(mSwipeToScreenshot, DEFAULT_DISPLAY);
                     }
+                }
+            }
+
+            int forceNavbar = Settings.System.getIntForUser(resolver,
+                    Settings.System.FORCE_SHOW_NAVBAR, 0,
+                    UserHandle.USER_CURRENT);
+            if (forceNavbar != mForceNavbar) {
+                mForceNavbar = forceNavbar;
+                if (mLineageHardware.isSupported(LineageHardwareManager.FEATURE_KEY_DISABLE)) {
+                    mLineageHardware.set(LineageHardwareManager.FEATURE_KEY_DISABLE,
+                            mForceNavbar == 1);
                 }
             }
 

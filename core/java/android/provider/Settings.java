@@ -5718,6 +5718,12 @@ public final class Settings {
          */
         public static final String FP_SUCCESS_VIBRATE = "fingerprint_success_vib";
 
+	/**
+         * Home wake button
+         * @hide
+         */
+        public static final String HOME_WAKE_BUTTON = "home_wake_button";
+
         /**
          * Whether to enable or disable vibration on failed fingerprint auth
          * @hide

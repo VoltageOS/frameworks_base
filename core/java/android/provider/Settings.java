@@ -5828,6 +5828,12 @@ public final class Settings {
         public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
+         * Whether to show volume dialog at left side in portrait mode
+         * @hide
+         */
+        public static final String LEFT_VOLUME_DIALOG = "left_volume_dialog";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

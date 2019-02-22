@@ -11122,6 +11122,12 @@ public final class Settings {
         public static final String STATUS_BAR_CLOCK_DATE_FORMAT = "status_bar_clock_date_format";
 
         /**
+         * Whether to display QS clock
+         * @hide
+         */
+        public static final String SHOW_QS_CLOCK = "show_qs_clock";
+
+        /**
          * Whether to show the clock in the right or left position or show it in the center
          * 0: show the clock in the right position (LTR)
          * 1: show the clock in the center

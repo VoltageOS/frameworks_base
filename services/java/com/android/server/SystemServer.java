@@ -239,6 +239,9 @@ import java.util.concurrent.Future;
 // LineageHardware
 import com.android.server.voltage.LineageHardwareService;
 
+// LiveDisplay
+import com.android.server.voltage.display.LiveDisplayService;
+
 /**
  * Entry point to {@code system_server}.
  */
@@ -2547,6 +2550,12 @@ public final class SystemServer implements Dumpable {
                     com.android.internal.R.string.config_pocketBridgeSysfsInpocket).isEmpty()) {
                 t.traceBegin("StartPocketBridgeService");
                 mSystemServiceManager.startService(PocketBridgeService.class);
+                t.traceEnd();
+            }
+            // LiveDisplay
+            if (!mOnlyCore){
+                t.traceBegin("StartLiveDisplayService");
+                mSystemServiceManager.startService(LiveDisplayService.class);
                 t.traceEnd();
             }
         }

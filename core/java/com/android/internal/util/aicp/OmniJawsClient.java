@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package com.android.systemui.omni;
+package com.android.internal.util.aicp;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -40,8 +40,6 @@ import android.os.Handler;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Log;
-
-import com.android.systemui.R;
 
 public class OmniJawsClient {
     private static final String TAG = "SystemUI:OmniJawsClient";
@@ -86,10 +84,10 @@ public class OmniJawsClient {
     private static final String WEATHER_UPDATE = "org.omnirom.omnijaws.WEATHER_UPDATE";
     private static final String WEATHER_ERROR = "org.omnirom.omnijaws.WEATHER_ERROR";
 
-    private static final String AE_EXTRA_FRAGMENT_CLASS = "com.aicp.extras.extra.preference_fragment";
     private static final String AE_SETTINGSACTIVITY = "com.aicp.extras.SettingsActivity";
     private static final String SETTINGS_PACKAGE_NAME = "com.aicp.extras";
     private static final String WEATHER_SETTINGS = "com.aicp.extras.fragments.Weather";
+    private static final String EXTRA_SHOW_FRAGMENT = ":android:show_fragment";
 
     private static final DecimalFormat sNoDigitsFormat = new DecimalFormat("0");
 
@@ -249,7 +247,7 @@ public class OmniJawsClient {
         if (isOmniJawsServiceInstalled()) {
             Intent settings = new Intent(Intent.ACTION_MAIN);
             settings.setClassName(SETTINGS_PACKAGE_NAME, AE_SETTINGSACTIVITY);
-            settings.putExtra(AE_EXTRA_FRAGMENT_CLASS, WEATHER_SETTINGS);
+            settings.putExtra(EXTRA_SHOW_FRAGMENT, WEATHER_SETTINGS);
             return settings;
         }
         return null;
@@ -538,7 +536,8 @@ public class OmniJawsClient {
             IntentFilter filter = new IntentFilter();
             filter.addAction(WEATHER_UPDATE);
             filter.addAction(WEATHER_ERROR);
-            mContext.registerReceiver(mReceiver, filter);
+            if (DEBUG) Log.d(TAG, "registerReceiver");
+            mContext.registerReceiver(mReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
         }
         mObserver.add(observer);
     }
@@ -547,6 +546,7 @@ public class OmniJawsClient {
         mObserver.remove(observer);
         if (mObserver.size() == 0 && mReceiver != null) {
             try {
+                if (DEBUG) Log.d(TAG, "unregisterReceiver");
                 mContext.unregisterReceiver(mReceiver);
             } catch (Exception e) {
             }

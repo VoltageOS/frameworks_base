@@ -385,6 +385,9 @@
     <!-- DataSwitch tile -->
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
+    <!-- VPN tile -->
+    <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"

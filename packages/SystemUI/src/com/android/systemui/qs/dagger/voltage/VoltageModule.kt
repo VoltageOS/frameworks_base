@@ -31,6 +31,7 @@ import com.android.systemui.qs.tiles.SoundTile
 import com.android.systemui.qs.tiles.UsbTetherTile
 import com.android.systemui.qs.tiles.VPNTetheringTile
 
+import com.android.systemui.qs.tiles.VpnTile
 import com.android.systemui.qs.tiles.WifiTile
 
 import dagger.Binds
@@ -118,6 +119,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(FPSInfoTile.TILE_SPEC)
     fun FPSInfoTile(fpsInfoTile: FPSInfoTile): QSTileImpl<*>
+
+    /** Inject VpnTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(VpnTile.TILE_SPEC)
+    fun bindVpnTile(vpnTile: VpnTile): QSTileImpl<*>
 
     /** Inject WifiTile into tileMap in QSModule */
     @Binds

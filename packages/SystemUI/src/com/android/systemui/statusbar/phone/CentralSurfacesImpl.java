@@ -291,6 +291,8 @@ public class CentralSurfacesImpl implements
             "com.android.systemui.statusbar.banner_action_cancel";
     private static final String BANNER_ACTION_SETUP =
             "com.android.systemui.statusbar.banner_action_setup";
+    private static final String LESS_BORING_HEADS_UP =
+            "system:" + Settings.System.LESS_BORING_HEADS_UP;
 
     private static final String FORCE_SHOW_NAVBAR =
             "system:" + Settings.System.FORCE_SHOW_NAVBAR;
@@ -938,6 +940,7 @@ public class CentralSurfacesImpl implements
         mColorExtractor.addOnColorsChangedListener(mOnColorsChangedListener);
 
         mTunerService.addTunable(this, FORCE_SHOW_NAVBAR);
+        mTunerService.addTunable(this, LESS_BORING_HEADS_UP);
 
         mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
 
@@ -4219,6 +4222,11 @@ public class CentralSurfacesImpl implements
                         mNavigationBarController.onDisplayRemoved(mDisplayId);
                     }
                 }
+                break;
+            case LESS_BORING_HEADS_UP:
+                boolean lessBoringHeadsUp =
+                        TunerService.parseIntegerSwitch(newValue, false);
+                mNotificationInterruptStateProvider.setUseLessBoringHeadsUp(lessBoringHeadsUp);
                 break;
             default:
                 break;

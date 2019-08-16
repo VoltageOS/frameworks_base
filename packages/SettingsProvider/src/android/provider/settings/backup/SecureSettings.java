@@ -244,5 +244,6 @@ public class SecureSettings {
         Settings.Secure.SEARCH_PRESS_HOLD_NAV_HANDLE_ENABLED,
         Settings.Secure.SEARCH_LONG_PRESS_HOME_ENABLED,
         Settings.Secure.SYSTEM_BLACK_THEME,
+        Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
     };
 }

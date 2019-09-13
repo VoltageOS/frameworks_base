@@ -350,7 +350,6 @@
         <item name="numPadKeyStyle">@style/NumPadKey</item>
         <item name="backgroundProtectedStyle">@style/BackgroundProtectedStyle</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back</item>
-        <item name="shadowRadius">@dimen/keyguard_shadow_radius</item>
 
         <!-- Needed for MediaRoute chooser dialog -->
         <item name="*android:isLightTheme">false</item>

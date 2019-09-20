@@ -5639,6 +5639,13 @@ public final class Settings {
         public static final String FP_ERROR_VIBRATE = "fingerprint_error_vib";
 
         /**
+         * Whether to inverse keys in navigation bar
+         * Default 0
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_INVERSE = "navigation_bar_inverse";
+
+        /**
          * These are all public system settings
          *
          * @hide

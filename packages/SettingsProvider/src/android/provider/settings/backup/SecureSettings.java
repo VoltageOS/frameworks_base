@@ -197,5 +197,6 @@ public class SecureSettings {
         Settings.Secure.ENABLE_LOCATION_PRIVACY_INDICATOR,
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
         Settings.Secure.SHOW_BACK_ARROW_GESTURE,
+        Settings.Secure.SHOW_CPU_OVERLAY,
     };
 }

@@ -224,5 +224,6 @@ public class SecureSettings {
         Settings.Secure.TORCH_DOUBLE_TAP_POWER_GESTURE_ENABLED,
         Settings.Secure.TORCH_LONG_PRESS_POWER,
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
+        Settings.Secure.DOZE_ON_CHARGE,
     };
 }

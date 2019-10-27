@@ -5430,6 +5430,12 @@ public final class Settings {
         public static final String AICP_LOCKSCREEN_WEATHER_STYLE = "lockscreen_weather_style";
 
         /**
+         * Shows system info in QS OFF:0, CPU temp:1, battery temp:2, gpu freq: 3, gpu load: 4
+         * @hide
+         */
+        public static final String QS_SYSTEM_INFO = "qs_system_info";
+
+        /**
          * Applications list where heasdup should't show
          *
          * @hide
@@ -6448,6 +6454,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_WEATHER_ENABLED);
             PRIVATE_SETTINGS.add(AICP_LOCKSCREEN_WEATHER_STYLE);
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
+            PRIVATE_SETTINGS.add(QS_SYSTEM_INFO);
         }
 
 

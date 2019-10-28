@@ -104,5 +104,6 @@
   <!-- Pocket Service -->
   <java-symbol type="string" name="config_pocketJudgeVendorSensorName" />
 
-
+  <!-- QQS Height -->
+  <java-symbol type="dimen" name="quick_qs_total_height" />
 </resources>

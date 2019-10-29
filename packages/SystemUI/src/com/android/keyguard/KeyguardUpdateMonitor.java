@@ -120,6 +120,8 @@ import android.os.RemoteException;
 import android.os.Trace;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.pocket.IPocketCallback;
+import android.pocket.PocketManager;
 import android.provider.Settings;
 import android.service.dreams.IDreamManager;
 import android.telephony.CarrierConfigManager;
@@ -252,6 +254,9 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     private static final int MSG_REQUIRE_NFC_UNLOCK = 345;
     private static final int MSG_KEYGUARD_DISMISS_ANIMATION_FINISHED = 346;
     private static final int MSG_SERVICE_PROVIDERS_UPDATED = 347;
+
+    // Additional messages should be 600+
+    private static final int MSG_POCKET_STATE_CHANGED = 600;
 
     /** Biometric authentication state: Not listening. */
     private static final int BIOMETRIC_STATE_STOPPED = 0;
@@ -462,6 +467,26 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
     }
 
     private final Handler mHandler;
+    private PocketManager mPocketManager;
+    private boolean mIsDeviceInPocket;
+    private final IPocketCallback mPocketCallback = new IPocketCallback.Stub() {
+        @Override
+        public void onStateChanged(boolean isDeviceInPocket, int reason) {
+            boolean changed = false;
+            if (reason == PocketManager.REASON_SENSOR) {
+                if (isDeviceInPocket != mIsDeviceInPocket) {
+                    mIsDeviceInPocket = isDeviceInPocket;
+                    changed = true;
+                }
+            } else {
+                changed = isDeviceInPocket != mIsDeviceInPocket;
+                mIsDeviceInPocket = false;
+            }
+            if (changed) {
+                mHandler.sendEmptyMessage(MSG_POCKET_STATE_CHANGED);
+            }
+        }
+    };
 
     private final IBiometricEnabledOnKeyguardCallback mBiometricEnabledCallback =
             new IBiometricEnabledOnKeyguardCallback.Stub() {
@@ -2413,6 +2438,11 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
             mDisplayTracker.addDisplayChangeCallback(mDisplayCallback, mainExecutor);
         }
 
+        mPocketManager = (PocketManager) context.getSystemService(Context.POCKET_SERVICE);
+        if (mPocketManager != null) {
+            mPocketManager.addCallback(mPocketCallback);
+        }
+
         mHandler = new Handler(mainLooper) {
             @Override
             public void handleMessage(Message msg) {
@@ -2517,6 +2547,10 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                         break;
                     case MSG_KEYGUARD_DISMISS_ANIMATION_FINISHED:
                         handleKeyguardDismissAnimationFinished();
+                        break;
+                    case MSG_POCKET_STATE_CHANGED:
+                        updateBiometricListeningState(BIOMETRIC_ACTION_UPDATE,
+                                FACE_AUTH_UPDATED_FP_AUTHENTICATED);
                         break;
                     default:
                         super.handleMessage(msg);
@@ -3129,7 +3163,8 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
 
         boolean shouldListen = shouldListenKeyguardState && shouldListenUserState
                 && shouldListenBouncerState && shouldListenUdfpsState
-                && shouldListenSideFpsState;
+                && shouldListenSideFpsState
+                && !mIsDeviceInPocket;
         logListenerModelData(
                 new KeyguardFingerprintListenModel(
                     System.currentTimeMillis(),
@@ -3219,7 +3254,8 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener, Dumpab
                 && faceAndFpNotAuthenticated
                 && !mGoingToSleep
                 && isPostureAllowedForFaceAuth
-                && mAllowedDisplayStateForFaceAuth;
+                && mAllowedDisplayStateForFaceAuth
+                && !mIsDeviceInPocket;
 
         // Aggregate relevant fields for debug logging.
         logListenerModelData(

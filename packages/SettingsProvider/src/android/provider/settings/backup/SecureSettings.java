@@ -214,5 +214,6 @@ public class SecureSettings {
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
         Settings.Secure.DOZE_ON_CHARGE,
         Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
+        Settings.Secure.SHOW_BACK_ARROW_GESTURE,
     };
 }

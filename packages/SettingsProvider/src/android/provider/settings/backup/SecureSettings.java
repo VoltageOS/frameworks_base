@@ -229,6 +229,7 @@ public class SecureSettings {
         Settings.Secure.TORCH_DOUBLE_TAP_POWER_GESTURE_ENABLED,
         Settings.Secure.TORCH_LONG_PRESS_POWER,
         Settings.Secure.DOZE_ON_CHARGE,
-        Settings.Secure.EXTENDED_MONET_THEMES
+        Settings.Secure.EXTENDED_MONET_THEMES,
+        Settings.Secure.SHOW_BACK_ARROW_GESTURE,
     };
 }

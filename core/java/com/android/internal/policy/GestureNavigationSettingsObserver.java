@@ -68,6 +68,9 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
                 Settings.Secure.getUriFor(Settings.Secure.BACK_GESTURE_INSET_SCALE_RIGHT),
                 false, this, UserHandle.USER_ALL);
         r.registerContentObserver(
+                Settings.Secure.getUriFor(Settings.Secure.SHOW_BACK_ARROW_GESTURE),
+                false, this, UserHandle.USER_ALL);
+        r.registerContentObserver(
                 Settings.Secure.getUriFor(Settings.Secure.USER_SETUP_COMPLETE),
                 false, this, UserHandle.USER_ALL);
         DeviceConfig.addOnPropertiesChangedListener(
@@ -152,6 +155,12 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         final float scale = Settings.Secure.getFloat(mContext.getContentResolver(),
                 Settings.Secure.BACK_GESTURE_INSET_SCALE_RIGHT, 1.0f);
         return (int) (getUnscaledInset(userRes) * scale);
+    }
+
+    public boolean getBackArrowGesture() {
+        return Settings.Secure.getIntForUser(
+              mContext.getContentResolver(), Settings.Secure.SHOW_BACK_ARROW_GESTURE, 1,
+              UserHandle.USER_CURRENT) == 1;
     }
 
     public boolean areNavigationButtonForcedVisible() {

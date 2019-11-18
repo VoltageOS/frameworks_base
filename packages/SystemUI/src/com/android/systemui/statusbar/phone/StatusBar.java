@@ -3985,6 +3985,9 @@ public class StatusBar extends SystemUI implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4004,6 +4007,9 @@ public class StatusBar extends SystemUI implements
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES))) {
                 setHeadsUpBlacklist();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR))) {
+                setLockScreenMediaBlurLevel();
             }
         }
 
@@ -4012,6 +4018,7 @@ public class StatusBar extends SystemUI implements
             setStatusBarWindowViewOptions();
             setHeadsUpStoplist();
             setHeadsUpBlacklist();
+            setLockScreenMediaBlurLevel();
         }
     }
 
@@ -4035,6 +4042,12 @@ public class StatusBar extends SystemUI implements
     private void setHeadsUpBlacklist() {
         if (mNotificationInterruptStateProvider != null)
             mNotificationInterruptStateProvider.setHeadsUpBlacklist();
+    }
+
+    private void setLockScreenMediaBlurLevel() {
+        if (mMediaManager != null) {
+            mMediaManager.setLockScreenMediaBlurLevel();
+        }
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {

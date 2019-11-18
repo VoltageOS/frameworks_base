@@ -225,5 +225,6 @@ public class SecureSettings {
         Settings.Secure.TORCH_LONG_PRESS_POWER,
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
         Settings.Secure.DOZE_ON_CHARGE,
+        Settings.Secure.SHOW_BACK_ARROW_GESTURE,
     };
 }

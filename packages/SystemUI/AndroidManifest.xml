@@ -382,6 +382,9 @@
     <permission android:name="com.android.systemui.permission.BIND_WM_SHELL_PROXY_SERVICE"
         android:protectionLevel="signature" />
 
+    <!-- DataSwitch tile -->
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"

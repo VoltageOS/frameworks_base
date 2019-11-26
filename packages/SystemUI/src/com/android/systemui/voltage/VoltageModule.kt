@@ -22,6 +22,7 @@ import com.android.systemui.qs.tiles.SmartPixelsTile
 import com.android.systemui.qs.tiles.SleepModeTile
 import com.android.systemui.qs.tiles.AmbientDisplayTile
 import com.android.systemui.qs.tiles.CaffeineTile
+import com.android.systemui.qs.tiles.DataSwitchTile
 import com.android.systemui.qs.tiles.RebootTile
 import com.android.systemui.qs.tiles.SoundSearchTile
 import com.android.systemui.qs.tiles.SoundTile
@@ -66,6 +67,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(SleepModeTile.TILE_SPEC)
     fun bindSleepModeTile(sleepModeTile: SleepModeTile): QSTileImpl<*>
+
+    /** Inject DataSwitchTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(DataSwitchTile.TILE_SPEC)
+    fun bindDataSwitchTile(dataSwitchTile: DataSwitchTile): QSTileImpl<*>
 
     /** Inject RebootTile into tileMap in QSModule */
     @Binds

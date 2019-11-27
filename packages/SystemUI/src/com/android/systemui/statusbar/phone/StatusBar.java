@@ -189,6 +189,7 @@ import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.pulse.VisualizerView;
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanelController;
+import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.scrim.ScrimView;
 import com.android.systemui.settings.brightness.BrightnessSliderController;
@@ -562,6 +563,7 @@ public class StatusBar extends SystemUI implements
 
     // settings
     private QSPanelController mQSPanelController;
+    private QuickStatusBarHeader mQuickStatusBarHeader;
 
     private final OperatorNameViewController.Factory mOperatorNameViewControllerFactory;
     KeyguardIndicationController mKeyguardIndicationController;
@@ -1377,6 +1379,7 @@ public class StatusBar extends SystemUI implements
                 if (qs instanceof QSFragment) {
                     mQSPanelController = ((QSFragment) qs).getQSPanelController();
                     ((QSFragment) qs).setBrightnessMirrorController(mBrightnessMirrorController);
+                    mQuickStatusBarHeader = ((QSFragment) qs).getQuickStatusBarHeader();
                 }
             });
         }
@@ -4121,6 +4124,9 @@ public class StatusBar extends SystemUI implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QS_SYSTEM_INFO), false,
+                    this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -4146,6 +4152,9 @@ public class StatusBar extends SystemUI implements
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL))) {
                 setBrightnessControl();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.QS_SYSTEM_INFO))) {
+                setQSSYSTEMINFO();
             }
         }
 
@@ -4156,6 +4165,14 @@ public class StatusBar extends SystemUI implements
             setHeadsUpBlacklist();
             setLockScreenMediaBlurLevel();
             setBrightnessControl();
+            setQSSYSTEMINFO();
+        }
+    }
+
+
+    private void setQSSYSTEMINFO() {
+        if (mQuickStatusBarHeader != null) {
+            mQuickStatusBarHeader.updateSettings();
         }
     }
 

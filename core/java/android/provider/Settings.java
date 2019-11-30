@@ -5873,7 +5873,13 @@ public final class Settings {
          * Whether to show VoLTE icon or not
          * @hide
          */
-        public static final String SHOW_VOLTE_ICON = "volte_icon";
+        public static final String SHOW_VOLTE_ICON = "show_volte_icon";
+
+        /**
+         * VoLTE icon style
+         * @hide
+         */
+        public static final String VOLTE_ICON_STYLE = "volte_icon_style";
 
         /**
          * @hide

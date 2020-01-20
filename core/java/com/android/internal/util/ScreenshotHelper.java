@@ -2,6 +2,7 @@ package com.android.internal.util;
 
 import static android.content.Intent.ACTION_USER_SWITCHED;
 import static android.view.WindowManager.ScreenshotSource.SCREENSHOT_OTHER;
+import static android.view.WindowManager.TAKE_SCREENSHOT_SELECTED_REGION;
 
 import static android.view.WindowManager.TAKE_SCREENSHOT_SELECTED_REGION;
 

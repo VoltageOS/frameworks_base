@@ -168,14 +168,15 @@ interface IStatusBarService
      * Voltage
      */
     void toggleCameraFlash();
+    void toggleRecentApps();
+    void toggleSplitScreen();
+    void preloadRecentApps();
+    void cancelPreloadRecentApps();
+    void killForegroundApp();
 
     /**
      * Used to block or unblock usage of gestural navigation
      */
     void setBlockedGesturalNavigation(boolean blocked);
 
-    void toggleRecentApps();
-    void toggleSplitScreen();
-    void preloadRecentApps();
-    void cancelPreloadRecentApps();
 }

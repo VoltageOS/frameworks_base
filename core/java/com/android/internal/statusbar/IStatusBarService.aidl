@@ -237,4 +237,5 @@ interface IStatusBarService
     void cancelPreloadRecentApps();
     void startAssist(in Bundle args);
     void screenPinningStateChanged(boolean enabled);
+    void killForegroundApp();
 }

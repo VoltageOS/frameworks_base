@@ -175,6 +175,11 @@
     <string name="quick_settings_aod_off_label">AOD off</string>
     <string name="quick_settings_aod_off_powersave_label">AOD off\nBattery saver</string>
 
+    <!-- FPS Info tile -->
+    <string name="quick_settings_fpsinfo_label">FPS Info</string>
+    <string name="accessibility_quick_settings_fpsinfo_off">FPS Info off</string>
+    <string name="accessibility_quick_settings_fpsinfo_on">FPS Info on</string>
+
     <!-- Omnijaws Weather -->
     <string name="omnijaws_service_error">Error</string>
     <string name="omnijaws_service_error_long">Error loading weather data</string>

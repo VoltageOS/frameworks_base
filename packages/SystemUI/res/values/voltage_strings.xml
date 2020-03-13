@@ -186,4 +186,8 @@
     <string name="omnijaws_service_last_update">Last update:</string>
     <string name="omnijaws_service_unknown">No weather data</string>
 
+    <!-- Alert slider extras -->
+    <string name="volume_ringer_priority_only">Priority</string>
+    <string name="volume_ringer_alarms_only">Alarms</string>
+
 </resources>

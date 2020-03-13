@@ -37,4 +37,8 @@
     <!-- Status bar tuner -->
     <string name="status_bar_items_title">Status bar icons</string>
 
+    <!-- Alert slider extras -->
+    <string name="volume_ringer_priority_only">Priority</string>
+    <string name="volume_ringer_alarms_only">Alarms</string>
+
 </resources>

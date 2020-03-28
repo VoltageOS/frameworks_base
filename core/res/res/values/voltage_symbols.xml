@@ -203,5 +203,6 @@
 
     <!-- Face unlock -->
     <java-symbol type="array" name="face_error_custom" />
+    <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
 
 </resources>

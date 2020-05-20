@@ -1030,11 +1030,11 @@ public class KeyguardViewMediator extends SystemUI implements Dumpable,
                 // showing, not in the process of going away) then reset its state. Otherwise, let
                 // this fall through and explicitly re-lock the keyguard.
                 mPendingReset = true;
-            } else if (
+            } else if ((
                     (offReason == WindowManagerPolicyConstants.OFF_BECAUSE_OF_TIMEOUT
                             && timeout > 0)
-                            || (offReason == WindowManagerPolicyConstants.OFF_BECAUSE_OF_USER
-                            && !lockImmediately)) {
+                            || offReason == WindowManagerPolicyConstants.OFF_BECAUSE_OF_USER)
+                            && !lockImmediately) {
                 doKeyguardLaterLocked(timeout);
                 mLockLater = true;
             } else if (!mLockPatternUtils.isLockScreenDisabled(currentUser)) {

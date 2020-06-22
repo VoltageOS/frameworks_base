@@ -153,6 +153,9 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
     // Volte Icon Style
     private int mVoLTEstyle;
 
+    // VoWiFi Icon
+    private int mVoWiFiIcon;
+
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
     public MobileSignalController(
@@ -344,8 +347,11 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
             resolver.registerContentObserver(
                     Settings.Secure.getUriFor(Settings.Secure.SHOW_COMBINED_STATUS_BAR_SIGNAL_ICONS), false,
                     this, UserHandle.USER_ALL);
-           updateSettings();
-       }
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.VOWIFI_ICON), false,
+                    this, UserHandle.USER_ALL);
+            updateSettings();
+        }
 
         /*
          *  @hide
@@ -372,6 +378,9 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
                 UserHandle.USER_CURRENT) == 1;
 		mVoLTEstyle = Settings.System.getIntForUser(resolver,
                 Settings.System.VOLTE_ICON_STYLE, 0,
+                UserHandle.USER_CURRENT);
+        mVoWiFiIcon = Settings.System.getIntForUser(resolver,
+                Settings.System.VOWIFI_ICON, 0,
                 UserHandle.USER_CURRENT);
         mConfig = Config.readConfig(mContext);
         setConfiguration(mConfig);
@@ -507,6 +516,51 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
         return mImsManager != null && mImsManager.isEnhanced4gLteModeSettingEnabledByUser();
     }
 
+    private int getVolteResId() {
+        int resId = 0;
+        if (mVoWiFiIcon == 2 && isVowifiAvailable()) {
+            return resId;
+        }
+        if (mCurrentState.imsRegistered && mVolteIcon) {
+            switch(mVoLTEstyle) {
+                // VoLTE
+                case 1:
+                    resId = R.drawable.ic_volte1;
+                    break;
+                // OOS VoLTE
+                case 2:
+                    resId = R.drawable.ic_volte2;
+                    break;
+                // HD Icon
+                case 3:
+                    resId = R.drawable.ic_hd_volte;
+                    break;
+                // ASUS VoLTE
+                case 4:
+                    resId = R.drawable.ic_volte3;
+                    break;
+                // CAF HD Icon
+                case 5:
+                    resId = R.drawable.ic_hd2_volte;
+                    break;
+                // MIUI 11 VoLTE icon
+                case 6:
+                    resId = R.drawable.ic_volte_miui;
+                    break;
+                // EMUI icon
+                case 7:
+                    resId = R.drawable.ic_volte_emui;
+                    break;
+ 	        //Vo
+                case 0:
+                default:
+                    resId = R.drawable.ic_volte;
+                    break;
+            }
+        }
+        return resId;
+    }
+
     private void setListeners() {
         if (mImsManager == null) {
             Log.e(mTag, "setListeners mImsManager is null");
@@ -581,37 +635,7 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
 
         int resId = 0;
         if (mCurrentState.imsRegistered && mVolteIcon) {
-            switch(mVoLTEstyle) {
-                // VoLTE
-                case 1:
-                default:
-                    resId = R.drawable.ic_volte1;
-                    break;
-                // OOS VoLTE
-                case 2:
-                    resId = R.drawable.ic_volte2;
-                    break;
-                // HD Icon
-                case 3:
-                    resId = R.drawable.ic_hd_volte;
-                    break;
-				// ASUS VoLTE
-                case 4:
-                    resId = R.drawable.ic_volte3;
-                    break;
-				// CAF HD Icon
-                case 5:
-                    resId = R.drawable.ic_hd2_volte;
-                    break;
-				// MIUI 11 VoLTE icon
-                case 6:
-                    resId = R.drawable.ic_volte_miui;
-                    break;
-				// EMUI icon
-                case 7:
-                    resId = R.drawable.ic_volte_emui;
-                    break;
-            }
+            resId = getVolteResId();
         }
 
         int volteId = mShowVolteIcon && isVolteSwitchOn() && mVolteIcon ? resId : 0;
@@ -676,7 +700,7 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
             showDataIcon &= mCurrentState.isDefault || dataDisabled;
             int typeIcon = (showDataIcon || mConfig.alwaysShowDataRatIcon) ? icons.dataType : 0;
             MobileIconGroup vowifiIconGroup = getVowifiIconGroup();
-            if (vowifiIconGroup != null ) {
+            if (vowifiIconGroup != null && (mVoWiFiIcon >= 1)) {
                 typeIcon = vowifiIconGroup.dataType;
                 statusIcon = new IconState(true,
                         mCurrentState.enabled && !mCurrentState.airplaneMode? statusIcon.icon : -1,

@@ -21,6 +21,7 @@ import com.android.systemui.qs.tiles.WifiTile
 import com.android.systemui.qs.tiles.SmartPixelsTile
 import com.android.systemui.qs.tiles.SleepModeTile
 import com.android.systemui.qs.tiles.AmbientDisplayTile
+import com.android.systemui.qs.tiles.AntiFlickerTile
 import com.android.systemui.qs.tiles.AODTile
 import com.android.systemui.qs.tiles.CPUInfoTile
 import com.android.systemui.qs.tiles.CaffeineTile
@@ -51,6 +52,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(AmbientDisplayTile.TILE_SPEC)
     fun bindAmbientDisplayTile(ambientDisplayTile: AmbientDisplayTile): QSTileImpl<*>
+
+    /** Inject AntiFlickerTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(AntiFlickerTile.TILE_SPEC)
+    fun bindAntiFlickerTile(antiFlickerTile: AntiFlickerTile): QSTileImpl<*>
 
     /** Inject WifiTile into tileMap in QSModule */
     @Binds

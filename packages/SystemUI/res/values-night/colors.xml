@@ -19,10 +19,10 @@
 <resources>
     <!-- The color of the legacy notifications with customs backgrounds (gingerbread and lollipop.)
     It's fine to override this color since at that point the shade was dark. -->
-    <color name="notification_legacy_background_color">@color/GM2_grey_900</color>
+    <color name="notification_legacy_background_color">@android:color/transparent</color>
 
     <!-- The color of the dividing line between grouped notifications. -->
-    <color name="notification_divider_color">@*android:color/background_device_default_dark</color>
+    <color name="notification_divider_color">@android:color/transparent</color>
 
     <!-- The color of the gear shown behind a notification -->
     <color name="notification_gear_color">@color/GM2_grey_500</color>

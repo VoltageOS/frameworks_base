@@ -404,7 +404,7 @@
     <bool name="config_hideDividersDuringExpand">true</bool>
 
     <!-- Whether or not child notifications that are part of a group will have shadows. -->
-    <bool name="config_enableShadowOnChildNotifications">true</bool>
+    <bool name="config_enableShadowOnChildNotifications">false</bool>
 
     <!-- If true, group numbers are shown in the expander instead of via "+N" overflow number -->
     <bool name="config_showNotificationGroupCountInExpander">true</bool>

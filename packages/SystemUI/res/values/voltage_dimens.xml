@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2022 VoltageOS
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+
+    <!-- Additional gesture navbar lengths -->
+    <dimen name="navigation_home_handle_width_medium">110dp</dimen>
+    <dimen name="navigation_home_handle_width_long">140dp</dimen>
+</resources>

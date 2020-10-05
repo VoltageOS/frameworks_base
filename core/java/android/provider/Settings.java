@@ -5459,6 +5459,9 @@ public final class Settings {
          */
         public static final String HEADS_UP_BLACKLIST_VALUES = "heads_up_blacklist_values";
 
+        /** @hide */
+        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
+
         /**
          * Whether to enable status and navigation bar color in battery saver mode.
          * Heads up timeout configuration
@@ -6465,6 +6468,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AICP_LOCKSCREEN_WEATHER_STYLE);
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
             PRIVATE_SETTINGS.add(QS_SYSTEM_INFO);
+            PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
         }
 
 

@@ -6084,6 +6084,9 @@ public final class Settings {
         @Readable
         public static final String BATTERY_LIGHT_REALLYFULL_COLOR = "battery_light_reallyfull_color";
 
+        /** @hide */
+        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
+
         /**
          * Whether to inverse keys in navigation bar
          * Default 0
@@ -6496,6 +6499,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(AICP_LOCKSCREEN_WEATHER_STYLE);
             PRIVATE_SETTINGS.add(VOLUME_ROCKER_WAKE);
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
+            PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
         }
 
         /**

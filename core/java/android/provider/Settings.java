@@ -6204,6 +6204,13 @@ public final class Settings {
         public static final String PULSE_LIGHT_LAYOUT_STYLE = "pulse_light_layout_style";
 
         /**
+         * Controls whether to show notification headers
+         * @hide
+         */
+        @Readable
+        public static final String NOTIFICATION_HEADERS = "notification_headers";
+
+        /**
          * Whether VoWiFi icon should override VoLTE icon
          * @hide
          */

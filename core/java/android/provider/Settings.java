@@ -5714,6 +5714,12 @@ public final class Settings {
         public static final String SHOW_VOWIFI_ICON = "show_vowifi_icon";
 
         /**
+         * Whether to use partial screenshot when using volume keys
+         * @hide
+         */
+        public static final String SCREENSHOT_TYPE = "screenshot_type";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -5839,6 +5845,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(SCREENSHOT_TYPE);
         }
 
         /**

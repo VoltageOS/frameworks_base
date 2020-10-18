@@ -37,4 +37,10 @@
     <!-- Status bar tuner -->
     <string name="status_bar_items_title">Status bar icons</string>
 
+    <!-- Advanced Reboot -->
+    <string name="global_action_restart_advanced">Advanced</string>
+    <string name="global_action_restart_recovery">Recovery</string>
+    <string name="global_action_restart_bootloader">Bootloader</string>
+    <string name="global_action_restart_ui">SystemUI</string>
+
 </resources>

@@ -364,6 +364,9 @@
     <!-- Network traffic monitor -->
     <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
 
+    <!-- Pulse -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"

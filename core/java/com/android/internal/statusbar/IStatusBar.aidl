@@ -287,7 +287,7 @@ oneway interface IStatusBar
     void runGcForTest();
 
     /**
-     * Aex
+     * Voltage
      */
     void toggleCameraFlash();
     void toggleCameraFlashState(boolean enable);
@@ -296,4 +296,8 @@ oneway interface IStatusBar
 
     // Used to block or unblock usage of gestural navigation
     void setBlockedGesturalNavigation(boolean blocked);
+
+    // Pulse
+    void screenPinningStateChanged(boolean enabled);
+    void leftInLandscapeChanged(boolean isLeft);
 }

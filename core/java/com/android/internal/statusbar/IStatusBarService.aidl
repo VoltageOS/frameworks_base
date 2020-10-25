@@ -180,4 +180,7 @@ interface IStatusBarService
     
     // Used to block or unblock usage of gestural navigation
     void setBlockedGesturalNavigation(boolean blocked);
+
+    // Pulse
+    void screenPinningStateChanged(boolean enabled);
 }

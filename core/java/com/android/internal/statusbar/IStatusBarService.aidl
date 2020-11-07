@@ -229,5 +229,7 @@ interface IStatusBarService
     void unregisterNearbyMediaDevicesProvider(in INearbyMediaDevicesProvider provider);
 
     /** Voltage additions. */
+    void startAssist(in Bundle args);
+
     void toggleCameraFlash();
 }

@@ -234,4 +234,9 @@ interface IStatusBarService
 
     /** Voltage additions. */
     void toggleCameraFlash();
+
+    /**
+     * Starts the default assistant app.
+     */
+    void startAssist(in Bundle args);
 }

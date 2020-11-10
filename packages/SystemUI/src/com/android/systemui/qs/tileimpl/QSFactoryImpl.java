@@ -33,6 +33,7 @@ import com.android.systemui.qs.tiles.AntiFlickerTile;
 import com.android.systemui.qs.tiles.BatterySaverTile;
 import com.android.systemui.qs.tiles.BluetoothTile;
 import com.android.systemui.qs.tiles.CameraToggleTile;
+import com.android.systemui.qs.tiles.CaffeineTile;
 import com.android.systemui.qs.tiles.CastTile;
 import com.android.systemui.qs.tiles.CellularTile;
 import com.android.systemui.qs.tiles.ColorCorrectionTile;
@@ -104,6 +105,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<LiveDisplayTile> mLiveDisplayTileProvider;
     private final Provider<ReadingModeTile> mReadingModeTileProvider;
     private final Provider<AntiFlickerTile> mAntiFlickerTileProvider;
+    private final Provider<CaffeineTile> mCaffeineTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -144,7 +146,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SleepModeTile> sleepModeTileProvider,
             Provider<LiveDisplayTile> liveDisplayTileProvider,
             Provider<ReadingModeTile> readingModeTileProvider,
-            Provider<AntiFlickerTile> antiFlickerTileProvider) {
+            Provider<AntiFlickerTile> antiFlickerTileProvider,
+            Provider<CaffeineTile> caffeineTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -181,6 +184,7 @@ public class QSFactoryImpl implements QSFactory {
         mLiveDisplayTileProvider = liveDisplayTileProvider;
         mReadingModeTileProvider = readingModeTileProvider;
         mAntiFlickerTileProvider = antiFlickerTileProvider;
+        mCaffeineTileProvider = caffeineTileProvider;
     }
 
     /** Creates a tile with a type based on {@code tileSpec} */
@@ -262,6 +266,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mReadingModeTileProvider.get();
             case "anti_flicker":
                 return mAntiFlickerTileProvider.get();
+            case "caffeine":
+                return mCaffeineTileProvider.get();
         }
 
         // Custom tiles

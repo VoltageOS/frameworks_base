@@ -198,8 +198,14 @@
         <item>com.google.android.apps.nexuslauncher</item>
     </string-array>
 
-  <!-- List of system apps that are allowed to be locked with app lock.
+    <!-- List of system apps that are allowed to be locked with app lock.
         Use with extreme caution. -->
-  <string-array name="config_appLockAllowedSystemApps" translatable="false" />
+    <string-array name="config_appLockAllowedSystemApps" translatable="false" />
+
+    <!-- Device model (Build.MODEL) to spoof for netflix, if not empty -->
+    <string name="config_netflixSpoofModel" translatable="false"></string>
+
+    <!-- Build fingerprint from the stock ROM -->
+    <string name="config_stockFingerprint" translatable="false"></string>
 
 </resources>

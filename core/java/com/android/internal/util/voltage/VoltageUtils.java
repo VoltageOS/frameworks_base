@@ -102,6 +102,11 @@ import java.util.Locale;
 
 public class VoltageUtils {
 
+    /**
+     * @hide
+     */
+    public static final String SYSTEMUI_PACKAGE_NAME = "com.android.systemui";
+
     public static List<String> launchablePackages(Context context) {
         List<String> list = new ArrayList<>();
 

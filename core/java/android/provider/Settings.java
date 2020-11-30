@@ -6499,6 +6499,12 @@ public final class Settings {
         public static final String FOD_NIGHT_LIGHT = "fod_night_light";
 
         /**
+         * FOD pressed color
+         * @hide
+         */
+        public static final String FOD_COLOR = "fod_color";
+
+        /**
          * @hide
          */
         public static final String LOCKSCREEN_SMALL_CLOCK = "lockscreen_small_clock";

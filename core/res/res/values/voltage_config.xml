@@ -135,4 +135,7 @@
          Used to decide if we show pulse settings -->
     <bool name="config_ledCanPulse">true</bool>
 
+    <!-- Default FOD pressed color -->
+    <integer name="config_fod_pressed_color">0</integer>
+
 </resources>

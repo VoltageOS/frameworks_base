@@ -11796,6 +11796,12 @@ public final class Settings {
         public static final String PULSE_SMOOTHING_ENABLED = "pulse_smoothing_enabled";
 
         /**
+         * Pulse ambient music visualizer
+         * @hide
+         */
+        public static final String AMBIENT_PULSE_ENABLED = "ambient_pulse_enabled";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

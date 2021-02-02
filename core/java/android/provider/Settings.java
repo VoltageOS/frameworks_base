@@ -11802,6 +11802,12 @@ public final class Settings {
         public static final String AMBIENT_PULSE_ENABLED = "ambient_pulse_enabled";
 
         /**
+         * Pulse Solid units rounded
+         * @hide
+         */
+        public static final String PULSE_SOLID_UNITS_ROUNDED = "pulse_solid_units_rounded";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

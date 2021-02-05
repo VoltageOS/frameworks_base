@@ -13,10 +13,4 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Pocket Lock -->
-    <bool name="config_pocketModeSupported">true</bool>
-
-    <!-- Defines custom OEM sensor for pocket detection. -->
-    <string name="config_pocketJudgeVendorSensorName"></string>
-
 </resources>

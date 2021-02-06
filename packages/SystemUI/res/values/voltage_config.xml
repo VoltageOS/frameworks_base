@@ -1,0 +1,10 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2022 VoltageOS
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- If not zero, limits the internal screen recorder's framerate to the set value. -->
+    <integer name="config_screenRecorderMaxFramerate">0</integer>
+</resources>

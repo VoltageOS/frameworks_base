@@ -87,4 +87,6 @@
     <!-- Whether to allow process with media UID to access CameraServiceProxy -->
     <bool name="config_allowMediaUidForCameraServiceProxy">false</bool>
 
+    <!-- Whether device supports gaming mode profiles -->
+    <bool name="config_gamingmode_performance">false</bool>
 </resources>

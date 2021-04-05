@@ -71,4 +71,7 @@
     <!-- Whether to allow process with media UID to access CameraServiceProxy -->
     <java-symbol type="bool" name="config_allowMediaUidForCameraServiceProxy" />
 
+    <!-- Whether device supports gaming mode profiles -->
+    <java-symbol type="bool" name="config_gamingmode_performance" />
+
 </resources>

@@ -69,4 +69,7 @@
     <java-symbol type="string" name="systemui_restart_title" />
     <java-symbol type="string" name="systemui_restart_message" />
 
+    <!-- Switch USB controller on Asus ROG devices-->
+    <java-symbol type="bool" name="config_switchUsbController" />	
+
 </resources>

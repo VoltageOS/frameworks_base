@@ -39,7 +39,8 @@ import java.util.function.Consumer;
  */
 class DisplayDeviceRepository implements DisplayAdapter.Listener {
     private static final String TAG = "DisplayDeviceRepository";
-    private static final Boolean DEBUG = false;
+
+    private static final boolean DEBUG = false;
 
     public static final int DISPLAY_DEVICE_EVENT_ADDED = 1;
     public static final int DISPLAY_DEVICE_EVENT_CHANGED = 2;

@@ -711,6 +711,9 @@
 
     <!-- VoltageOS additions -->
 
+    <!-- Sleep Mode -->
+    <protected-broadcast android:name="android.intent.action.SLEEP_MODE_TURN_OFF" />
+
     <!-- App lock -->
     <protected-broadcast android:name="com.android.server.app.AppLockManagerService.APP_LOCK_TIMEOUT" />
     <protected-broadcast android:name="android.app.action.UNLOCK_APP" />

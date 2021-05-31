@@ -60,6 +60,7 @@ import com.android.systemui.qs.tiles.RefreshRateTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenRecordTile;
 import com.android.systemui.qs.tiles.SoundSearchTile;
+import com.android.systemui.qs.tiles.SleepModeTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
 import com.android.systemui.qs.tiles.SmartPixelsTile;
 import com.android.systemui.qs.tiles.UiModeNightTile;
@@ -128,6 +129,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<VolumeTile> mVolumeTileProvider;
     private final Provider<RefreshRateTile> mRefreshRateTileProvider;
     private final Provider<SmartPixelsTile> mSmartPixelsTileProvider;
+    private final Provider<SleepModeTile> mSleepModeTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
     private final Provider<CustomTile.Builder> mCustomTileBuilderProvider;
@@ -181,7 +183,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<CPUInfoTile> cpuInfoTileProvider,
             Provider<VolumeTile> volumeTileProvider,
             Provider<RefreshRateTile> refreshRateTileProvider,
-            Provider<SmartPixelsTile> smartPixelsTileProvider) {
+            Provider<SmartPixelsTile> smartPixelsTileProvider,
+            Provider<SleepModeTile> sleepModeTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
 
@@ -231,6 +234,7 @@ public class QSFactoryImpl implements QSFactory {
         mVolumeTileProvider = volumeTileProvider;
         mRefreshRateTileProvider = refreshRateTileProvider;
         mSmartPixelsTileProvider = smartPixelsTileProvider;
+        mSleepModeTileProvider = sleepModeTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -335,6 +339,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mRefreshRateTileProvider.get();
             case "smartpixels":
                 return mSmartPixelsTileProvider.get();
+            case "sleep_mode":
+                return mSleepModeTileProvider.get();
         }
 
         // Custom tiles

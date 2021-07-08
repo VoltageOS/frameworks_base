@@ -17782,6 +17782,12 @@ public final class Settings {
                 "uids_allowed_on_restricted_networks";
 
         /**
+         * Package designated as global VPN provider.
+         * @hide
+         */
+        public static final String GLOBAL_VPN_APP = "global_vpn_app";
+
+        /**
          * Global settings that shouldn't be persisted.
          *
          * @hide

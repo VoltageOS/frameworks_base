@@ -33,6 +33,7 @@
 
     <!-- Defines custom OEM sensor for pocket detection. -->
     <string name="config_pocketJudgeVendorSensorName"></string>
+    <string name="config_pocketJudgeVendorProximitySensorName"></string>
 
     <!-- Defines the sysfs attribute path used by pocket bridge
          to communicate pocket state to the pocket judge kernel driver. -->

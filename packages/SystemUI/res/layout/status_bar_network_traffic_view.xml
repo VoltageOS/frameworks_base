@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2022 FlamingoOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<com.android.systemui.statusbar.StatusBarNetworkTrafficView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="1dp"
+    android:paddingEnd="1dp">
+
+    <com.android.systemui.statusbar.StatusBarIconView
+        android:id="@+id/dot_view"
+        android:layout_width="@dimen/status_bar_icon_size"
+        android:layout_height="@dimen/status_bar_icon_size"
+        android:layout_gravity="center" />
+
+    <FrameLayout
+        android:id="@+id/traffic_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/network_traffic_padding_ends"
+        android:layout_marginEnd="@dimen/network_traffic_padding_ends"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/traffic_rate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@*android:string/config_headlineFontFamilyMedium"
+            android:lineSpacingMultiplier="@dimen/network_traffic_line_spacing_multiplier"
+            android:textSize="@dimen/network_traffic_unit_text_default_size"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </FrameLayout>
+</com.android.systemui.statusbar.StatusBarNetworkTrafficView>

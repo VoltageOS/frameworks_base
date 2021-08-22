@@ -3067,6 +3067,7 @@
   <java-symbol type="id" name="aerr_app_info" />
   <java-symbol type="id" name="aerr_mute" />
 
+  <java-symbol type="string" name="status_bar_network_traffic" />
   <java-symbol type="string" name="status_bar_rotate" />
   <java-symbol type="string" name="status_bar_headset" />
   <java-symbol type="string" name="status_bar_data_saver" />

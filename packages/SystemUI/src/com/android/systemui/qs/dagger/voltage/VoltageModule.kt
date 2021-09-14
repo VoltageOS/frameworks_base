@@ -28,6 +28,7 @@ import com.android.systemui.qs.tiles.CaffeineTile
 import com.android.systemui.qs.tiles.CellularTile
 import com.android.systemui.qs.tiles.CompassTile
 import com.android.systemui.qs.tiles.DataSwitchTile
+import com.android.systemui.qs.tiles.RefreshRateTile
 import com.android.systemui.qs.tiles.SoundTile
 import com.android.systemui.qs.tiles.UsbTetherTile
 import com.android.systemui.qs.tiles.VPNTetheringTile
@@ -72,6 +73,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(HeadsUpTile.TILE_SPEC)
     fun bindHeadsUpTile(headsUpTile: HeadsUpTile): QSTileImpl<*>
+
+    /** Inject RefreshRateTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(RefreshRateTile.TILE_SPEC)
+    fun bindRefreshRateTile(refreshRateTile: RefreshRateTile): QSTileImpl<*>
 
     /** Inject SyncTile into tileMap in QSModule */
     @Binds

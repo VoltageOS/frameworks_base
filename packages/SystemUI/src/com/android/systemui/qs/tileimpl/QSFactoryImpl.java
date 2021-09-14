@@ -58,6 +58,7 @@ import com.android.systemui.qs.tiles.QRCodeScannerTile;
 import com.android.systemui.qs.tiles.QuickAccessWalletTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.ReduceBrightColorsTile;
+import com.android.systemui.qs.tiles.RefreshRateTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.ScreenRecordTile;
 import com.android.systemui.qs.tiles.SleepModeTile;
@@ -125,6 +126,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SoundSearchTile> mSoundSearchTileProvider;
     private final Provider<VpnTile> mVpnTileProvider;
     private final Provider<AODTile> mAODTileProvider;
+    private final Provider<RefreshRateTile> mRefreshRateTileProvider;
     private final Provider<FPSInfoTile> mFPSInfoTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
@@ -177,6 +179,7 @@ public class QSFactoryImpl implements QSFactory {
             Provider<SoundSearchTile> soundSearchTileProvider,
             Provider<VpnTile> vpnTileProvider,
             Provider<AODTile> aodTileProvider,
+            Provider<RefreshRateTile> refreshRateTileProvider,
             Provider<FPSInfoTile> fpsInfoTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
@@ -224,6 +227,7 @@ public class QSFactoryImpl implements QSFactory {
         mSoundSearchTileProvider = soundSearchTileProvider;
         mVpnTileProvider = vpnTileProvider;
         mAODTileProvider = aodTileProvider;
+        mRefreshRateTileProvider = refreshRateTileProvider;
         mFPSInfoTileProvider = fpsInfoTileProvider;
     }
 
@@ -326,6 +330,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mVpnTileProvider.get();
             case "aod":
                 return mAODTileProvider.get();
+            case "refresh_rate":
+                return mRefreshRateTileProvider.get();
             case "fpsinfo":
                 return mFPSInfoTileProvider.get();
         }

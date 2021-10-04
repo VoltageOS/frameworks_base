@@ -6198,6 +6198,12 @@ public final class Settings {
         public static final String PULSE_AMBIENT_LIGHT_WIDTH = "pulse_ambient_light_width";
 
         /**
+         * Width of Ambient edge light layout style
+         * @hide
+         */
+        public static final String PULSE_LIGHT_LAYOUT_STYLE = "pulse_light_layout_style";
+
+        /**
          * Whether VoWiFi icon should override VoLTE icon
          * @hide
          */

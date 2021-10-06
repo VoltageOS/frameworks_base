@@ -66,4 +66,9 @@
     <string name="megabytespersecond_short" translatable="false">MB/s</string>
     <string name="gigabytespersecond_short" translatable="false">GB/s</string>
 
+    <!-- Data usage info in QS footer -->
+    <string name="usage_data">used today</string>
+    <string name="usage_data_default_suffix">Data</string>
+    <string name="usage_wifi_default_suffix">Wi-Fi</string>
+
 </resources>

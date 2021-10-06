@@ -20,4 +20,6 @@
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
 
+    <!-- Color of the UDFPS pressed view -->
+    <color name="config_udfpsColor">#ffffffff</color>
 </resources>

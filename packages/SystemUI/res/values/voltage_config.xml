@@ -4,7 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-
     <!-- Whether usage of the proximity sensor during doze is supported -->
     <bool name="doze_proximity_sensor_supported">true</bool>
 
@@ -48,4 +47,7 @@
 
     <!-- Whether show refresh rate QS tile -->
     <bool name="config_showRefreshRateQsTile">false</bool>
+
+    <!-- Color of the UDFPS pressed view -->
+    <color name="config_udfpsColor">#ffffffff</color>
 </resources>

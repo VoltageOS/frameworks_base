@@ -1,4 +1,4 @@
-/*
+		/*
  * Copyright (C) 2012 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,6 +76,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.crypto.SecretKey;
+
+import com.android.internal.util.voltage.PixelPropsUtils;
 
 /**
  * A java.security.KeyStore interface for the Android KeyStore. An instance of
@@ -164,6 +166,8 @@ public class AndroidKeyStoreSpi extends KeyStoreSpi {
 
     @Override
     public Certificate[] engineGetCertificateChain(String alias) {
+        PixelPropsUtils.onEngineGetCertificateChain();
+
         KeyEntryResponse response = getKeyMetadata(alias);
 
         if (response == null || response.metadata.certificate == null) {

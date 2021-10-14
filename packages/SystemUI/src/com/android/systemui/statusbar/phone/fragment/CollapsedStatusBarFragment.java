@@ -1,4 +1,4 @@
-/*
+	/*
  * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
@@ -196,7 +196,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         }
         mDarkIconManager = new DarkIconManager(view.findViewById(R.id.statusIcons), mFeatureFlags);
         mDarkIconManager.setShouldLog(true);
-        mBlockedIcons.add(getString(com.android.internal.R.string.status_bar_alarm_clock));
         mBlockedIcons.add(getString(com.android.internal.R.string.status_bar_call_strength));
         mDarkIconManager.setBlockList(mBlockedIcons);
         mStatusBarIconController.addIconGroup(mDarkIconManager);

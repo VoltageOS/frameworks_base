@@ -1178,6 +1178,11 @@ public class AlarmManager {
     @RequiresPermission(value = Manifest.permission.SCHEDULE_EXACT_ALARM, conditional = true)
     public void setExactAndAllowWhileIdle(@AlarmType int type, long triggerAtMillis,
             PendingIntent operation) {
+        if (GmsCompat.isEnabled() && !canScheduleExactAlarms()) {
+            setAndAllowWhileIdle(type, triggerAtMillis, operation);
+            return;
+        }
+
         setImpl(type, triggerAtMillis, WINDOW_EXACT, 0, FLAG_ALLOW_WHILE_IDLE, operation,
                 null, null, (Handler) null, null, null);
     }

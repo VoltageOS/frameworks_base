@@ -22,6 +22,7 @@ import com.android.systemui.qs.tiles.SmartPixelsTile
 import com.android.systemui.qs.tiles.SleepModeTile
 import com.android.systemui.qs.tiles.AmbientDisplayTile
 import com.android.systemui.qs.tiles.CaffeineTile
+import com.android.systemui.qs.tiles.SoundTile
 import com.android.systemui.qs.tiles.UsbTetherTile
 
 import dagger.Binds
@@ -61,6 +62,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(SleepModeTile.TILE_SPEC)
     fun bindSleepModeTile(sleepModeTile: SleepModeTile): QSTileImpl<*>
+
+    /** Inject SoundTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(SoundTile.TILE_SPEC)
+    fun bindSoundTile(soundTile: SoundTile): QSTileImpl<*>
 
     /** Inject UsbTetherTile into tileMap in QSModule */
     @Binds

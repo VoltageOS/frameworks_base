@@ -69,6 +69,9 @@ public class ExtSettings {
     public static final IntSetting BLUETOOTH_AUTO_OFF = new IntSetting(
             Setting.Scope.GLOBAL, "bluetooth_off_timeout", 0 /* off by default */);
 
+    public static final IntSetting AUTO_REBOOT_TIMEOUT = new IntSetting(
+            Setting.Scope.GLOBAL, "settings_reboot_after_timeout", 0);
+
     private ExtSettings() {}
 
     // used for making settings defined in this class unreadable by third-party apps

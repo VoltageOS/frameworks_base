@@ -90,7 +90,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical|end"
             android:layout_gravity="center_vertical|end"
-            android:visibility="gone" />
+            android:visibility="gone"
+            systemui:showDark="false" />
 
     </LinearLayout>
     </FrameLayout>

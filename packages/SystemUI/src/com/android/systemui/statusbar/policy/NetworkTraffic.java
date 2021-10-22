@@ -308,7 +308,9 @@ public class NetworkTraffic extends TextView {
         boolean enabled = mIsActive && (mLocation == 2) && mScreenOn && getText() != "";
         if (enabled != mVisible) {
             mVisible = enabled;
-            setVisibility(mVisible ? VISIBLE : GONE);
+	    if(mLocation == 2){
+		setVisibility(mVisible ? VISIBLE : GONE)
+	    }
         }
     }
 

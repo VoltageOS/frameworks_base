@@ -83,16 +83,6 @@
             android:layout_weight="1"
             systemui:textAppearance="@style/TextAppearance.QS.Status"
             android:paddingEnd="2dp" />
-
-        <com.android.systemui.statusbar.policy.NetworkTraffic
-            android:id="@+id/network_traffic"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|end"
-            android:layout_gravity="center_vertical|end"
-            android:visibility="gone"
-            systemui:showDark="false" />
-
     </LinearLayout>
     </FrameLayout>
 

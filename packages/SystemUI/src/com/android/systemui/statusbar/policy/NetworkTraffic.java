@@ -494,18 +494,13 @@ public class NetworkTraffic extends TextView {
             drawableResId = 0;
         }
         drawable = drawableResId != 0 ? resources.getDrawable(drawableResId) : null;
-        if (mDrawable != drawable || mIconTint != newTint) {
+        if (mDrawable != drawable) {
             mDrawable = drawable;
-            mIconTint = newTint;
             setCompoundDrawablesWithIntrinsicBounds(null, null, mDrawable, null);
             updateTrafficDrawable();
         }
     }
 
     protected void updateTrafficDrawable() {
-        if (mDrawable != null) {
-            mDrawable.setColorFilter(mIconTint, PorterDuff.Mode.MULTIPLY);
-        }
-        setTextColor(mIconTint);
     }
 }

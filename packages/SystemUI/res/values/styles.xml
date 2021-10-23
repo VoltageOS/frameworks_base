@@ -230,6 +230,11 @@
         <item name="android:lineHeight">20sp</item>
     </style>
 
+    <style name="TextAppearance.QS.Status.NetworkTraffic" parent="@style/TextAppearance.QS.Status">
+        <item name="android:tint">?android:attr/textColorPrimary</item>
+        <item name="android:iconTint">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="TextAppearance.QS.SecurityFooter" parent="@style/TextAppearance.QS.Status">
         <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>

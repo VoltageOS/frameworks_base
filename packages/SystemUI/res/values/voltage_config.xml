@@ -35,4 +35,7 @@
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
 
+    <!-- Udfps vendor code -->
+    <integer name="config_udfps_vendor_code">0</integer>
+
 </resources>

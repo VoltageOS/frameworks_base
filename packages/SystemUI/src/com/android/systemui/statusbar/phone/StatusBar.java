@@ -630,8 +630,6 @@ public class StatusBar extends SystemUI implements
     private Handler mMainHandler;
     private final DelayableExecutor mMainExecutor;
 
-    protected final H mHandler = createHandler();
-
     private int mInteractingWindows;
     private @TransitionMode int mStatusBarMode;
 
@@ -963,7 +961,7 @@ public class StatusBar extends SystemUI implements
         mStatusBarHideIconsForBouncerManager.setDisplayId(mDisplayId);
 
         mPackageMonitor = new PackageMonitor();
-        mPackageMonitor.register(mContext, mHandler);
+        mPackageMonitor.register(mContext, mMainHandler);
         mPackageMonitor.addListener(this);
 
         // start old BaseStatusBar.start().
@@ -3903,7 +3901,7 @@ public class StatusBar extends SystemUI implements
         return mDeviceInteractive;
     }
 
-    private SbSettingsObserver mSbSettingsObserver = new SbSettingsObserver(mHandler);
+    private SbSettingsObserver mSbSettingsObserver = new SbSettingsObserver(mMainHandler);
     private class SbSettingsObserver extends ContentObserver {
         SbSettingsObserver(Handler handler) {
             super(handler);

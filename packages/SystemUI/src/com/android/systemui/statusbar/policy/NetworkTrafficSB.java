@@ -296,7 +296,7 @@ public class NetworkTrafficSB extends TextView implements StatusIconDisplayable 
                     ? resources.getDimensionPixelSize(R.dimen.net_traffic_multi_text_size)
                     : mNetTrafSize;
         txtImgPadding = resources.getDimensionPixelSize(R.dimen.net_traffic_txt_img_padding);
-        mTintColor = resources.getColor(android.R.color.white);
+        mTintColor = getCurrentTextColor();
         Handler mHandler = new Handler();
         SettingsObserver settingsObserver = new SettingsObserver(mHandler);
         settingsObserver.observe();
@@ -315,7 +315,6 @@ public class NetworkTrafficSB extends TextView implements StatusIconDisplayable 
             filter.addAction(Intent.ACTION_SCREEN_ON);
             mContext.registerReceiver(mIntentReceiver, filter, null, getHandler());
         }
-        Dependency.get(DarkIconDispatcher.class).addDarkReceiver(this);
         updateSettings();
     }
 
@@ -326,7 +325,6 @@ public class NetworkTrafficSB extends TextView implements StatusIconDisplayable 
             mContext.unregisterReceiver(mIntentReceiver);
             mAttached = false;
         }
-        Dependency.get(DarkIconDispatcher.class).removeDarkReceiver(this);
     }
 
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {

@@ -5666,7 +5666,7 @@ public final class Settings {
          */
         public static final String UDFPS_ICON = "udfps_icon";
 
-		/**
+	/**
          * @hide
          */
         public static final String OMNI_CUSTOM_FP_ICON_ENABLED = "custom_fp_icon_enabled";
@@ -5676,7 +5676,10 @@ public final class Settings {
          */
         public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
 
-		/**
+ 	/**
+         * @hide
+         */
+        public static final String USE_TILES_ON_SECURE_KEYGUARD = "use_tiles_on_secure_keyguard";
 
         /**
          * These are all public system settings

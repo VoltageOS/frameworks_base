@@ -106,4 +106,9 @@
 
   <!-- QQS Height -->
   <java-symbol type="dimen" name="quick_qs_total_height" />
+
+  <!-- SystemUI Restart -->
+  <java-symbol type="string" name="systemui_restart_title" />
+  <java-symbol type="string" name="systemui_restart_message" />
+
 </resources>

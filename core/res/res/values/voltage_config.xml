@@ -36,6 +36,9 @@
         <item>lockdown</item>
         <item>torch</item>
     </string-array>
+    
+    <!-- Whether or not we should show vendor mismatch message -->
+    <bool name="config_show_vendor_mismatch_message">true</bool>
 
     <!-- Whether to persist the notification for when a usb drive device is plugged in -->
     <bool name="config_persistUsbDriveNotification">false</bool>

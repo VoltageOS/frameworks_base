@@ -187,4 +187,7 @@
 
     <!-- Proximity check on screen on default -->
     <java-symbol type="bool" name="config_proximityCheckOnWakeEnabledByDefault" />
+
+    <!-- Whether devices suports in-display fingerprint when screen is off -->
+    <java-symbol type="bool" name="config_supportScreenOffUdfps" />
 </resources>

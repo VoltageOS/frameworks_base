@@ -910,6 +910,10 @@ final class DefaultPermissionGrantPolicy {
         String clockAppPackage = getDefaultSystemHandlerActivityPackage(pm, AlarmClock.ACTION_SET_ALARM, userId);
         grantPermissionsToSystemPackage(pm, clockAppPackage, userId, NOTIFICATION_PERMISSIONS);
 
+        // DownloadProviders
+        grantSystemFixedPermissionsToSystemPackage(pm,"com.android.providers.downloads.DownloadProvider", userId,
+                STORAGE_PERMISSIONS);
+
         // Mediascanner
         grantSystemFixedPermissionsToSystemPackage(pm,
                 getDefaultProviderAuthorityPackage("com.android.providers.media.MediaProvider", userId), userId,

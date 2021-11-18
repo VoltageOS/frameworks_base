@@ -21,6 +21,9 @@
     -->
     <integer name="config_udfps_hbm_type">1</integer>
 
+    <!-- Udfps vendor code -->
+    <integer name="config_udfps_vendor_code">22</integer>
+
     <!-- Max visible notification icons -->
     <integer name="config_maxVisibleNotificationIcons">4</integer>
     <integer name="config_maxVisibleNotificationIconsWhenDark">5</integer>
@@ -34,9 +37,6 @@
 
     <!-- FPSInfoService FPS node file path -->
     <string name="config_fpsInfoSysNode" translatable="false"></string>
-
-    <!-- Udfps vendor code -->
-    <integer name="config_udfps_vendor_code">0</integer>
 
     <!-- Whether device has hardware alertslider -->
     <bool name="config_hasAlertSlider">false</bool>

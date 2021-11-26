@@ -86,6 +86,7 @@ import static android.net.NetworkPolicyManager.MASK_METERED_NETWORKS;
 import static android.net.NetworkPolicyManager.MASK_RESTRICTED_MODE_NETWORKS;
 import static android.net.NetworkPolicyManager.POLICY_ALLOW_METERED_BACKGROUND;
 import static android.net.NetworkPolicyManager.POLICY_NONE;
+import static android.net.NetworkPolicyManager.POLICY_REJECT_ALL;
 import static android.net.NetworkPolicyManager.POLICY_REJECT_CELLULAR;
 import static android.net.NetworkPolicyManager.POLICY_REJECT_METERED_BACKGROUND;
 import static android.net.NetworkPolicyManager.POLICY_REJECT_VPN;
@@ -2416,6 +2417,25 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
         }
     }
 
+    private void migrateNetworkIsolation() {
+        // Get pre-12 network-isolation uids
+        final int[] uidsWithPolicy = getUidsWithPolicy(POLICY_REJECT_ALL);
+        final Set<Integer> uidsToDeny =
+                Arrays.stream(uidsWithPolicy).boxed().collect(Collectors.toSet());
+
+        // Remove the POLICY_REJECT_ALL uids from the allowlist
+        Set<Integer> uidsAllowedOnRestrictedNetworks =
+                ConnectivitySettingsManager.getUidsAllowedOnRestrictedNetworks(mContext);
+        uidsAllowedOnRestrictedNetworks.removeAll(uidsToDeny);
+        ConnectivitySettingsManager.setUidsAllowedOnRestrictedNetworks(mContext,
+                uidsAllowedOnRestrictedNetworks);
+
+        // Clear policy to avoid future conflicts
+        for (int uid : uidsToDeny) {
+            removeUidPolicy(uid, POLICY_REJECT_ALL);
+        }
+    }
+
     @GuardedBy({"mUidRulesFirstLock", "mNetworkPoliciesSecondLock"})
     private void readPolicyAL() {
         if (LOGV) Slog.v(TAG, "readPolicyAL()");
@@ -2438,6 +2458,9 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
         } finally {
             IoUtils.closeQuietly(fis);
         }
+
+        // Migrate from pre-12 network-isolation to restricted-networking-mode
+        migrateNetworkIsolation();
     }
 
     private void readPolicyXml(InputStream inputStream, boolean forRestore, int userId)
@@ -2902,6 +2925,9 @@ public class NetworkPolicyManagerService extends INetworkPolicyManager.Stub {
         } catch (IOException | XmlPullParserException e) {
             Slog.w(TAG, "applyRestore: error reading payload for user " + user, e);
         }
+
+        // Migrate from pre-12 network-isolation to restricted-networking-mode
+        migrateNetworkIsolation();
     }
 
     @Override

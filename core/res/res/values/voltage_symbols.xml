@@ -30,4 +30,8 @@
     <!-- Pocket Service -->
     <java-symbol type="string" name="config_pocketJudgeVendorSensorName" />
     <java-symbol type="string" name="config_pocketJudgeVendorProximitySensorName" />
+
+    <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
+    <java-symbol type="bool" name="config_cleanupUnusedFingerprints" />
+
 </resources>

@@ -23,8 +23,6 @@ import android.annotation.Nullable;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.drawable.Icon;
-import android.os.UserHandle;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -45,23 +43,18 @@ import com.android.systemui.navigationbar.buttons.ReverseLinearLayout;
 import com.android.systemui.navigationbar.buttons.ReverseLinearLayout.ReverseRelativeLayout;
 import com.android.systemui.recents.OverviewProxyService;
 import com.android.systemui.shared.system.QuickStepContract;
-import com.android.systemui.tuner.TunerService;
-import com.android.systemui.tuner.TunerService.Tunable;
 
 import java.io.PrintWriter;
 import java.util.Objects;
 
 public class NavigationBarInflaterView extends FrameLayout
-        implements NavigationModeController.ModeChangedListener, Tunable {
+        implements NavigationModeController.ModeChangedListener {
 
     private static final String TAG = "NavBarInflater";
 
     public static final String NAV_BAR_VIEWS = "sysui_nav_bar";
     public static final String NAV_BAR_LEFT = "sysui_nav_bar_left";
     public static final String NAV_BAR_RIGHT = "sysui_nav_bar_right";
-    public static final String NAV_BAR_INVERSE = "sysui_nav_bar_inverse";
-    public static final String NAVIGATION_BAR_ARROW_KEYS = "system:"
-            + Settings.System.NAVIGATION_BAR_ARROW_KEYS;
 
     public static final String MENU_IME_ROTATE = "menu_ime";
     public static final String BACK = "back";
@@ -108,10 +101,6 @@ public class NavigationBarInflaterView extends FrameLayout
 
     private OverviewProxyService mOverviewProxyService;
     private int mNavBarMode = NAV_BAR_MODE_3BUTTON;
-
-    private boolean mUsingCustomLayout;
-    private boolean mInverseLayout;
-
 
     public NavigationBarInflaterView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -163,55 +152,12 @@ public class NavigationBarInflaterView extends FrameLayout
     }
 
     @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        Dependency.get(TunerService.class).addTunable(this, NAV_BAR_VIEWS);
-        Dependency.get(TunerService.class).addTunable(this, NAV_BAR_INVERSE);
-        Dependency.get(TunerService.class).addTunable(this, NAVIGATION_BAR_ARROW_KEYS);
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         Dependency.get(NavigationModeController.class).removeListener(this);
-        Dependency.get(TunerService.class).removeTunable(this);
         super.onDetachedFromWindow();
     }
 
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        if (NAV_BAR_VIEWS.equals(key)) {
-            setNavigationBarLayout(newValue);
-        }
-        if (NAV_BAR_INVERSE.equals(key)) {
-            mInverseLayout = TunerService.parseIntegerSwitch(newValue, false);
-            updateLayoutInversion();
-        }
-        if (NAVIGATION_BAR_ARROW_KEYS.equals(key)) {
-            onLikelyDefaultLayoutChange();
-        }
-        if (QuickStepContract.isGesturalMode(mNavBarMode)) {
-            setNavigationBarLayout(newValue);
-        }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateLayoutInversion();
-    }
-
-    public void setNavigationBarLayout(String layoutValue) {
-        if (!Objects.equals(mCurrentLayout, layoutValue)) {
-            mUsingCustomLayout = layoutValue != null;
-            clearViews();
-            inflateLayout(layoutValue);
-        }
-    }
-
-
     public void onLikelyDefaultLayoutChange() {
-        // Don't override custom layouts
-        if (mUsingCustomLayout) return;
         // Reevaluate new layout
         final String newValue = getDefaultLayout();
         if (!Objects.equals(mCurrentLayout, newValue)) {
@@ -520,9 +466,7 @@ public class NavigationBarInflaterView extends FrameLayout
 
     private void clearAllChildren(ViewGroup group) {
         for (int i = 0; i < group.getChildCount(); i++) {
-            if (group.getChildAt(i).getId() != R.id.dpad_group) {
-                ((ViewGroup) group.getChildAt(i)).removeAllViews();
-            }
+            ((ViewGroup) group.getChildAt(i)).removeAllViews();
         }
     }
 
@@ -533,23 +477,5 @@ public class NavigationBarInflaterView extends FrameLayout
     public void dump(PrintWriter pw) {
         pw.println("NavigationBarInflaterView");
         pw.println("  mCurrentLayout: " + mCurrentLayout);
-    }
-
-    private void updateLayoutInversion() {
-        if (mInverseLayout) {
-            Configuration config = mContext.getResources().getConfiguration();
-            if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-            } else {
-                setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            }
-        } else {
-            setLayoutDirection(View.LAYOUT_DIRECTION_INHERIT);
-        }
-    }
-
-    private boolean showDpadArrowKeys() {
-        return Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.NAVIGATION_BAR_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
     }
 }

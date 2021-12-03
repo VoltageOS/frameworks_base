@@ -297,4 +297,9 @@ oneway interface IStatusBar
     // Pulse
     void screenPinningStateChanged(boolean enabled);
     void leftInLandscapeChanged(boolean isLeft);
+
+    /**
+     * Used to block or unblock usage of gestural navigation
+     */
+    void setBlockedGesturalNavigation(boolean blocked);
 }

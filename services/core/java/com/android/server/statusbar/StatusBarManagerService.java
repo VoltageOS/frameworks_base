@@ -973,6 +973,17 @@ public class StatusBarManagerService extends IStatusBarService.Stub implements D
             try {
                 mBar.toggleCameraFlashState(enable);
             } catch (RemoteException ex) {
+
+            }
+        }
+    }
+
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        if (mBar != null) {
+            try {
+                mBar.setBlockedGesturalNavigation(blocked);
+            } catch (RemoteException ex) {
+                // do nothing
             }
         }
     }

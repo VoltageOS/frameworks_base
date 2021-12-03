@@ -125,4 +125,7 @@
     <!-- Whether to cleanup fingerprints upon connection to the daemon and when user switches -->
     <java-symbol type="bool" name="config_cleanupUnusedFingerprints" />
 
+    <!-- NightLight FOD -->
+    <java-symbol type="bool" name="disable_fod_night_light"/>
+
 </resources>

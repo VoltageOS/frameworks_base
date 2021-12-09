@@ -62,6 +62,7 @@ import com.android.systemui.statusbar.connectivity.NetworkController;
 import com.android.systemui.statusbar.connectivity.SignalCallback;
 import com.android.systemui.statusbar.connectivity.WifiIcons;
 import com.android.systemui.statusbar.connectivity.WifiIndicators;
+import com.android.systemui.statusbar.policy.KeyguardStateController;
 
 import java.io.PrintWriter;
 

@@ -34,6 +34,7 @@ import android.view.View
 
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent
 import com.android.internal.logging.MetricsLogger
+import com.android.systemui.R
 import com.android.systemui.dagger.qualifiers.Background
 import com.android.systemui.dagger.qualifiers.Main
 import com.android.systemui.plugins.qs.QSTile.Icon
@@ -44,7 +45,6 @@ import com.android.systemui.plugins.FalsingManager
 import com.android.systemui.qs.logging.QSLogger
 import com.android.systemui.qs.tileimpl.QSTileImpl
 import com.android.systemui.qs.QSHost
-import com.android.systemui.R
 import com.android.systemui.util.settings.SystemSettings
 
 import javax.inject.Inject
@@ -73,8 +73,9 @@ class RefreshRateTile @Inject constructor(
     private val settingsObserver: SettingsObserver
     private val tileLabel: String
     private val autoModeLabel: String
-    private val defaultRefreshRate: Float
+    private val defaultPeakRefreshRate: Float
 
+    private var ignoreSettingsChange = false
     private var refreshRateMode = Mode.MIN
     private var peakRefreshRate = DEFAULT_REFRESH_RATE
 
@@ -82,8 +83,8 @@ class RefreshRateTile @Inject constructor(
         with (mContext.resources) {
             tileLabel = getString(R.string.refresh_rate_tile_label)
             autoModeLabel = getString(R.string.auto_mode_label)
-            defaultRefreshRate = getDefaultPeakRefreshRate(this.getInteger(
-                com.android.internal.R.integer.config_defaultRefreshRate).toFloat())
+            defaultPeakRefreshRate = getDefaultPeakRefreshRate(getInteger(
+                com.android.internal.R.integer.config_defaultPeakRefreshRate).toFloat())
         }
 
         val display: Display? = mContext.getSystemService(
@@ -95,7 +96,7 @@ class RefreshRateTile @Inject constructor(
                 }
             })
         } ?: run { Log.w(TAG, "No valid default display") }
-        logD("peakRefreshRate = $peakRefreshRate")
+        logD("peakRefreshRate = $peakRefreshRate, defaultPeakRefreshRate = $defaultPeakRefreshRate")
         settingsObserver = SettingsObserver()
     }
 
@@ -109,7 +110,10 @@ class RefreshRateTile @Inject constructor(
 
     override fun isAvailable() = peakRefreshRate > DEFAULT_REFRESH_RATE
 
+    override fun getTileLabel(): CharSequence = tileLabel
+
     override protected fun handleInitialize() {
+        logD("handleInitialize")
         updateMode()
         settingsObserver.observe()
     }
@@ -121,8 +125,6 @@ class RefreshRateTile @Inject constructor(
         updateRefreshRateForMode(refreshRateMode)
         refreshState()
     }
-
-    override fun getTileLabel(): CharSequence = tileLabel
 
     override protected fun handleUpdateState(state: State, arg: Any?) {
         if (state.label == null) {
@@ -143,7 +145,7 @@ class RefreshRateTile @Inject constructor(
 
     private fun updateMode() {
         val minRate = systemSettings.getFloat(MIN_REFRESH_RATE, NO_CONFIG)
-        val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultRefreshRate)
+        val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultPeakRefreshRate)
         logD("minRate = $minRate, maxRate = $maxRate")
 
         if (minRate >= peakRefreshRate) {
@@ -155,15 +157,8 @@ class RefreshRateTile @Inject constructor(
     }
 
     private fun getDefaultPeakRefreshRate(def: Float): Float {
-        var defaultPeakRefreshRate = DeviceConfig.getFloat(
-                DeviceConfig.NAMESPACE_DISPLAY_MANAGER,
-                DisplayManager.DeviceConfig.KEY_PEAK_REFRESH_RATE_DEFAULT,
-                INVALIDATE_REFRESH_RATE)
-        if (defaultPeakRefreshRate == INVALIDATE_REFRESH_RATE) {
-            defaultPeakRefreshRate = def
-        }
-        logD("getDefaultPeakRefreshRate(), defaultPeakRefreshRate = $defaultPeakRefreshRate")
-        return defaultPeakRefreshRate
+        return DeviceConfig.getFloat(DeviceConfig.NAMESPACE_DISPLAY_MANAGER,
+            DisplayManager.DeviceConfig.KEY_PEAK_REFRESH_RATE_DEFAULT, def)
     }
 
     private fun getNextMode(mode: Mode) =
@@ -190,10 +185,10 @@ class RefreshRateTile @Inject constructor(
                 maxRate = DEFAULT_REFRESH_RATE
             }   
         }
-        settingsObserver.unobserve()
+        ignoreSettingsChange = true
         systemSettings.putFloat(MIN_REFRESH_RATE, minRate)
         systemSettings.putFloat(PEAK_REFRESH_RATE, maxRate)
-        settingsObserver.observe()
+        ignoreSettingsChange = false
     }
 
     private fun getTitleForMode(mode: Mode) =
@@ -209,11 +204,11 @@ class RefreshRateTile @Inject constructor(
         AUTO,
     }
 
-    inner class SettingsObserver: ContentObserver(mainHandler) {
+    private inner class SettingsObserver: ContentObserver(mainHandler) {
         private var isObserving = false
 
         override fun onChange(selfChange: Boolean, uri: Uri) {
-            updateMode()
+            if (!ignoreSettingsChange) updateMode()
         }
 
         fun observe() {
@@ -236,7 +231,6 @@ class RefreshRateTile @Inject constructor(
 
         private const val DEFAULT_REFRESH_RATE = 60f
         private const val NO_CONFIG = 0f
-        private const val INVALIDATE_REFRESH_RATE = -1f
 
         private val icon: Icon = ResourceIcon.get(R.drawable.ic_refresh_rate)
         private val displaySettingsIntent = Intent().setComponent(ComponentName("com.android.settings",

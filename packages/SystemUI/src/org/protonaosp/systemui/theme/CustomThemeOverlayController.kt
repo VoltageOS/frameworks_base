@@ -26,7 +26,6 @@ import android.net.Uri
 import android.os.Handler
 import android.os.UserManager
 import android.provider.Settings
-import android.util.Log
 import android.util.TypedValue
 import com.android.systemui.broadcast.BroadcastDispatcher
 import com.android.systemui.dagger.SysUISingleton
@@ -150,7 +149,6 @@ class CustomThemeOverlayController @Inject constructor(
 
                 listEntry.value.forEach { (shade, color) ->
                     val colorSrgb = color.convert<Srgb>()
-                    Log.d(TAG, "Color $group $shade = ${colorSrgb.toHex()}")
                     setColor("system_${group}_$shade", colorSrgb)
                 }
             }

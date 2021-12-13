@@ -115,4 +115,11 @@
   <!-- Cycle through ringer modes -->
   <java-symbol type="string" name="volume_dialog_ringer_guidance_normal" />
 
+  <!-- AlertSlider modes -->
+   <java-symbol type="string" name="alert_slider_mode_normal" />
+   <java-symbol type="string" name="alert_slider_mode_priority" />
+   <java-symbol type="string" name="alert_slider_mode_vibrate" />
+   <java-symbol type="string" name="alert_slider_mode_silent" />
+   <java-symbol type="string" name="alert_slider_mode_dnd" />
+
 </resources>

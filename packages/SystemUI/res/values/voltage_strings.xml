@@ -224,4 +224,9 @@
 
     <!-- Content description indicating that tapping the element will allow deleting the screenshot [CHAR LIMIT=NONE] -->
     <string name="screenshot_delete_description">Delete screenshot</string>
+
+    <!-- AlertSlider -->
+    <string name="alert_slider_mode_priority_text">Priority</string>
+    <string name="alert_slider_mode_dnd_text">DND</string>
+
 </resources>

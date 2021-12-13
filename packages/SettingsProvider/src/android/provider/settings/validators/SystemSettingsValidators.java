@@ -219,5 +219,8 @@ public class SystemSettingsValidators {
                         return true;
                     }
                 });
+        VALIDATORS.put(System.ALERTSLIDER_MODE_POSITION_BOTTOM, ANY_STRING_VALIDATOR);
+        VALIDATORS.put(System.ALERTSLIDER_MODE_POSITION_MIDDLE, ANY_STRING_VALIDATOR);
+        VALIDATORS.put(System.ALERTSLIDER_MODE_POSITION_TOP, ANY_STRING_VALIDATOR);
     }
 }

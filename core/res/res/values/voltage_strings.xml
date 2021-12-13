@@ -63,4 +63,11 @@
     <!-- Cycle through ringer modes -->
     <string name="volume_dialog_ringer_guidance_normal">Calls and notifications will ring</string>
 
+    <!-- AlertSlider modes -->
+    <string name="alert_slider_mode_normal" translatable="false">mode_normal</string>
+    <string name="alert_slider_mode_priority" translatable="false">mode_priority</string>
+    <string name="alert_slider_mode_vibrate" translatable="false">mode_vibrate</string>
+    <string name="alert_slider_mode_silent" translatable="false">mode_silent</string>
+    <string name="alert_slider_mode_dnd" translatable="false">mode_dnd</string>
+
 </resources>

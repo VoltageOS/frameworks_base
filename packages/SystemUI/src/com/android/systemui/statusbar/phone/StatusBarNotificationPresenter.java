@@ -23,10 +23,15 @@ import android.annotation.Nullable;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.content.ComponentName;
+import android.app.Notification;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.provider.Settings;
 import android.os.SystemClock;
 import android.service.notification.NotificationListenerService;
 import android.provider.Settings;
@@ -129,6 +134,7 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
     private final NotificationShadeWindowController mNotificationShadeWindowController;
     private final IStatusBarService mBarService;
     private final DynamicPrivacyController mDynamicPrivacyController;
+    private final NotificationInterruptSuppressor mGamingInterruptSuppressor;
     private boolean mReinflateNotificationsOnUserSwitched;
     private boolean mDispatchUiModeChangeOnUserSwitched;
     private TextView mNotificationPanelDebugText;
@@ -179,6 +185,7 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
         mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        mGamingInterruptSuppressor = new GamingNotificationInterruptSuppressor(context);
 
         IVrManager vrManager = IVrManager.Stub.asInterface(ServiceManager.getService(
                 Context.VR_SERVICE));
@@ -223,6 +230,7 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
             mEntryManager.addNotificationLifetimeExtenders(
                     remoteInputManager.getLifetimeExtenders());
             notificationInterruptStateProvider.addSuppressor(mInterruptSuppressor);
+            notificationInterruptStateProvider.addSuppressor(mGamingInterruptSuppressor);
             mLockscreenUserManager.setUpWithPresenter(this);
             mMediaManager.setUpWithPresenter(this);
             mGutsManager.setUpWithPresenter(this,
@@ -573,6 +581,44 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
         @Override
         public boolean suppressInterruptions(NotificationEntry entry) {
             return mStatusBar.areNotificationAlertsDisabled();
+        }
+    };
+
+    private static final class GamingNotificationInterruptSuppressor implements NotificationInterruptSuppressor {
+        private boolean mGamingModeNoAlert = false;
+
+        private Uri mUriForGamingModeActive = Settings.System.getUriFor(Settings.System.GAMING_MODE_ACTIVE);
+        private Uri mUriForDisableNotificationAlert = Settings.System.getUriFor(Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT);
+
+        private ContentObserver mContentObserver;
+        private ContentResolver mContentResolver;
+
+        public GamingNotificationInterruptSuppressor(Context context) {
+            mContentResolver = context.getContentResolver();
+
+            mContentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                @Override
+                public void onChange(boolean selfChange, Uri uri) {
+                    super.onChange(selfChange, uri);
+                    if (mUriForGamingModeActive.equals(uri) || mUriForDisableNotificationAlert.equals(uri)) {
+                        mGamingModeNoAlert = 
+                            Settings.System.getInt(mContentResolver, Settings.System.GAMING_MODE_ACTIVE, 0) == 1 && 
+                            Settings.System.getInt(mContentResolver, Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT, 0) == 1;
+                    }
+                }
+            };
+
+            mContentResolver.registerContentObserver(mUriForGamingModeActive, false, mContentObserver);
+            mContentResolver.registerContentObserver(mUriForDisableNotificationAlert, false, mContentObserver);
+        }
+
+
+        @Override
+        public boolean suppressAwakeInterruptions(NotificationEntry entry) {
+            Notification notification = entry.getSbn().getNotification();
+            return (mGamingModeNoAlert && 
+                    !TextUtils.equals(notification.category, Notification.CATEGORY_CALL) &&
+                    !TextUtils.equals(notification.category, Notification.CATEGORY_ALARM));
         }
     };
 }

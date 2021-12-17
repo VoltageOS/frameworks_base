@@ -12295,6 +12295,22 @@ public final class Settings {
         public static final String EXTRA_AUTOMATIC_POWER_SAVE_MODE =
                 "extra_automatic_power_save_mode";
 
+	/**
+         * Whether the double tap power button to toggle flashlight when the screen is off
+         * is enabled.
+         *
+         * @hide
+         */
+        public static final String TORCH_DOUBLE_TAP_POWER_GESTURE_ENABLED =
+                "torch_double_tap_power_gesture_enabled";
+
+        /**
+         * Whether to toggle flashlight on long pressing power button when the screen is off.
+         *
+         * @hide
+         */
+        public static final String TORCH_LONG_PRESS_POWER = "torch_long_press_power";
+
         /**
          * Whether lockscreen weather is enabled.
          *

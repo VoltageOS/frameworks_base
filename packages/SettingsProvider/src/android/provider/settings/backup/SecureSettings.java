@@ -243,5 +243,7 @@ public class SecureSettings {
         Settings.Secure.ACCESSIBILITY_FONT_SCALING_HAS_BEEN_CHANGED,
         Settings.Secure.SYSTEM_BLACK_THEME,
         Settings.Secure.TETHERING_ALLOW_VPN_UPSTREAMS,
+        Settings.Secure.TORCH_DOUBLE_TAP_POWER_GESTURE_ENABLED,
+        Settings.Secure.TORCH_LONG_PRESS_POWER,
     };
 }

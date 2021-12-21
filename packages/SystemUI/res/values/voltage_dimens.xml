@@ -63,4 +63,9 @@
 
     <!-- Margin on the right side of the center clock -->
     <dimen name="status_bar_center_clock_padding_end">0dp</dimen>
+
+    <!-- Recognizing fingerprint animation -->
+    <dimen name="udfps_animation_size">280dp</dimen>
+    <dimen name="udfps_animation_offset">0dp</dimen>
+
 </resources>

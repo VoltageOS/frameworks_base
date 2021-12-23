@@ -12693,6 +12693,13 @@ public final class Settings {
         public static final String VOLUME_PANEL_ON_LEFT = "volume_panel_on_left";
 
         /**
+         * Whether to show QS auto brightness toggle button
+         * @hide
+         */
+        @Readable
+        public static final String QSTILE_REQUIRES_UNLOCKING = "qstile_requires_unlocking";
+
+        /**
          * These entries are considered common between the personal and the managed profile,
          * since the managed profile doesn't get to change them.
          */

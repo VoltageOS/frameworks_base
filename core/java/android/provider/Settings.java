@@ -5461,13 +5461,7 @@ public final class Settings {
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
         /**
-         * Whether to show VoLTE icon or not
-         * @hide
-         */
-        public static final String SHOW_VOLTE_ICON = "show_volte_icon";
-
-        /**
-         * VoLTE icon style
+         * Whether to display VoLTE icon when VoLTE present
          * @hide
          */
         public static final String VOLTE_ICON_STYLE = "volte_icon_style";
@@ -6083,10 +6077,10 @@ public final class Settings {
         public static final String FULLSCREEN_GESTURES = "fullscreen_gestures";
 
         /**
-         * Whether to show VoWiFi icon or not
+         * Whether VoWiFi icon should override VoLTE icon
          * @hide
          */
-        public static final String VOWIFI_ICON = "vowifi_icon";
+        public static final String VOLTE_VOWIFI_OVERRIDE = "volte_vowifi_override";
 
         /**
          * VoWiFi icon style

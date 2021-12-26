@@ -16484,6 +16484,14 @@ public final class Settings {
         public static final String HYBRID_SYSUI_BATTERY_WARNING_FLAGS = "hybrid_sysui_battery_warning_flags";
 
         /**
+         * A list of uids that is allowed to use restricted networks.
+         *
+         * @hide
+         */
+        public static final String UIDS_ALLOWED_ON_RESTRICTED_NETWORKS =
+                "uids_allowed_on_restricted_networks";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

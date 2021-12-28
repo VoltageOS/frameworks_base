@@ -21,7 +21,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="4811759950673118541">"Ndërfaqja e përdoruesit të sistemit"</string>
     <string name="status_bar_clear_all_button" msgid="2491321682873657397">"Pastro"</string>
-    <string name="status_bar_no_notifications_title" msgid="7812479124981107507">"Asnjë njoftim"</string>
+    <string name="status_bar_no_notifications_title" msgid="7812479124981107507">"S'ka njoftime"</string>
     <string name="status_bar_ongoing_events_title" msgid="3986169317496615446">"Në vazhdim"</string>
     <string name="status_bar_latest_events_title" msgid="202755896454005436">"Njoftimet"</string>
     <string name="battery_low_title" msgid="6891106956328275225">"Bateria mund të mbarojë së shpejti"</string>

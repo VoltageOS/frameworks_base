@@ -6239,6 +6239,7 @@ public final class Settings {
         /**
           * @hide
           */
+        @Readable
         public static final String GAMING_MODE_APP_LIST = "gaming_mode_app_list";
 
         /**
@@ -6328,6 +6329,7 @@ public final class Settings {
         /**
           * @hide
           */
+        @Readable
         public static final String GAMING_MODE_USE_GAME_DRIVER = "gaming_mode_use_game_driver";
 
         /**

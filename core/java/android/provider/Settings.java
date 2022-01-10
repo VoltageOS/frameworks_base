@@ -6127,6 +6127,12 @@ public final class Settings {
         /** @hide */
         public static final String STATUS_BAR_CLOCK_AUTO_HIDE_SDURATION = "status_bar_clock_auto_hide_sduration";
 
+        /**
+         * Whether to enable the ripple animation on fingerprint unlock
+         * @hide
+         */
+        public static final String ENABLE_RIPPLE_EFFECT = "enable_ripple_effect";
+
 	/**
          * Adjust media artwork wallpaper blur level on lockscreen
          * @hide

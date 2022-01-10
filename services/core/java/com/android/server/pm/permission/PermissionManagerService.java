@@ -2979,8 +2979,9 @@ public class PermissionManagerService extends IPermissionManager.Stub {
 
                             if (isSpecialRuntimePermission(permName) &&
                                     origPermState == null &&
-                                    // don't grant special runtime permission if the app requests it in an update
-                                    !uidStateWasPresent) {
+                                    // don't grant special runtime permission after update,
+                                    // unless app comes from the system image
+                                    (!uidStateWasPresent || ps.isSystem())) {
                                 if (uidState.grantPermission(bp)) {
                                     wasChanged = true;
                                 }

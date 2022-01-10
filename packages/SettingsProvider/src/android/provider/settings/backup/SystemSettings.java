@@ -93,5 +93,6 @@ public class SystemSettings {
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
         Settings.System.USE_OLD_MOBILETYPE,
         Settings.System.LOCKSCREEN_BATTERY_INFO,
+        Settings.System.ENABLE_RIPPLE_EFFECT,
     };
 }

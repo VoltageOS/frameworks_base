@@ -6364,6 +6364,11 @@ public final class Settings {
         public static final String FOD_NIGHT_LIGHT = "fod_night_light";
 
         /**
+         * @hide
+         */
+        public static final String LOCKSCREEN_SMALL_CLOCK = "lockscreen_small_clock";
+
+        /**
          * These are all public system settings
          *
          * @hide
@@ -6502,6 +6507,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(ALERTSLIDER_MODE_POSITION_BOTTOM);
             PRIVATE_SETTINGS.add(ALERTSLIDER_MODE_POSITION_MIDDLE);
             PRIVATE_SETTINGS.add(ALERTSLIDER_MODE_POSITION_TOP);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_SMALL_CLOCK);
         }
 
         /**

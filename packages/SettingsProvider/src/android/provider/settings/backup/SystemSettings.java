@@ -90,5 +90,6 @@ public class SystemSettings {
         Settings.System.NAVIGATION_BAR_INVERSE,
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
         Settings.System.USE_OLD_MOBILETYPE,
+        Settings.System.ENABLE_RIPPLE_EFFECT,
     };
 }

@@ -231,5 +231,6 @@ public class SecureSettings {
         Settings.Secure.DOZE_ON_CHARGE,
         Settings.Secure.EXTENDED_MONET_THEMES,
         Settings.Secure.SHOW_BACK_ARROW_GESTURE,
+        Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
     };
 }

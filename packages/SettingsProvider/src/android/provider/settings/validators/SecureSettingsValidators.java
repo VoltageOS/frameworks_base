@@ -354,5 +354,6 @@ public class SecureSettingsValidators {
         VALIDATORS.put(Secure.GESTURE_NAVBAR_LENGTH_MODE, new InclusiveIntegerRangeValidator(0, 3));
         VALIDATORS.put(Secure.TORCH_DOUBLE_TAP_POWER_GESTURE_ENABLED, BOOLEAN_VALIDATOR);
         VALIDATORS.put(Secure.TORCH_LONG_PRESS_POWER, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(Secure.SECURE_LOCKSCREEN_QS_DISABLED, BOOLEAN_VALIDATOR);
     }
 }

@@ -4963,6 +4963,7 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.HEADS_UP_BLACKLIST_VALUES))) {
                 setHeadsUpBlacklist();
             }
+            update();
         }
 
         public void update() {
@@ -4971,6 +4972,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setLockScreenMediaBlurLevel();
             setLockScreenMediaArt();
             setQsPanelOptions();
+            setScreenBrightnessMode();
             setUseLessBoringHeadsUp();
             updateNavigationBarVisibility();
             setHeadsUpStoplist();

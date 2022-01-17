@@ -11271,6 +11271,24 @@ public final class Settings {
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
+         * Whether to show privacy indicator for location
+         * @hide
+         */
+        public static final String ENABLE_LOCATION_PRIVACY_INDICATOR = "enable_location_privacy_indicator";
+
+        /**
+         * Whether to show privacy indicator for camera
+         * @hide
+         */
+        public static final String ENABLE_CAMERA_PRIVACY_INDICATOR = "enable_camera_privacy_indicator";
+
+        /**
+         * Whether to show privacy indicator for media projection
+         * @hide
+         */
+        public static final String ENABLE_PROJECTION_PRIVACY_INDICATOR = "enable_projection_privacy_indicator";
+
+	/**
          * Whether to show media art on lockscreen
          * Boolean setting. 0 = off, 1 = on.
          * @hide

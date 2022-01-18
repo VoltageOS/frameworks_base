@@ -257,6 +257,7 @@ import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.FastPrintWriter;
 import com.android.internal.util.FrameworkStatsLog;
 import com.android.internal.util.function.pooled.PooledLambda;
+import com.android.internal.util.voltage.cutout.CutoutFullscreenController;
 import com.android.server.LocalManagerRegistry;
 import com.android.server.LocalServices;
 import com.android.server.SystemService;
@@ -794,6 +795,7 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
     private Set<Integer> mProfileOwnerUids = new ArraySet<Integer>();
 
     public AppStandbyInternal mAppStandbyInternal;
+    private CutoutFullscreenController mCutoutFullscreenController;
 
     private final class SettingObserver extends ContentObserver {
         private final Uri mFontScaleUri = Settings.System.getUriFor(FONT_SCALE);
@@ -893,6 +895,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
 
     public void installSystemProviders() {
         mSettingsObserver = new SettingObserver();
+
+        // Force full screen for devices with cutout
+        mCutoutFullscreenController = new CutoutFullscreenController(mContext);
     }
 
     public void retrieveSettings(ContentResolver resolver) {
@@ -7182,6 +7187,12 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
         @Override
         public void unregisterTaskStackListener(ITaskStackListener listener) {
             ActivityTaskManagerService.this.unregisterTaskStackListener(listener);
+        }
+    }
+
+    public boolean shouldForceCutoutFullscreen(String packageName) {
+        synchronized (this) {
+            return mCutoutFullscreenController.shouldForceCutoutFullscreen(packageName);
         }
     }
 }

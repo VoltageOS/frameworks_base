@@ -31,6 +31,8 @@ LOCAL_REQUIRED_MODULES := \
 	NavigationBarModeGesturalOverlayNarrowBack \
 	NavigationBarModeGesturalOverlayWideBack \
 	NavigationBarModeGesturalOverlayExtraWideBack \
+	IconPackAcherusAndroidOverlay \
+	IconPackAcherusSystemUIOverlay \
 	OneHandedModeGesturalOverlay \
 	preinstalled-packages-platform-overlays.xml
 

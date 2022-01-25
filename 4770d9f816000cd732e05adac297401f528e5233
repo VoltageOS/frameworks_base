@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdc797bf_5eb024ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019880
+      },
+      "writtenOn": "2022-01-25T06:49:10Z",
+      "side": 1,
+      "message": "Not worth it.",
+      "revId": "4770d9f816000cd732e05adac297401f528e5233",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

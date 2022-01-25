@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1eb451_d754360e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019875
+      },
+      "writtenOn": "2022-01-25T07:19:55Z",
+      "side": 1,
+      "message": "It can be turned off in settings already",
+      "revId": "fb787eb560619e2a6f8c26a2291b08c2449f1d3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

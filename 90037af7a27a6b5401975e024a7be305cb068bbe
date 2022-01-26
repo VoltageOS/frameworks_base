@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b3e53be_c7385d99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1019880
+      },
+      "writtenOn": "2022-01-26T10:41:48Z",
+      "side": 1,
+      "message": "I have never liked such customisations. But since users want like, let\u0027s make it happen. ",
+      "revId": "90037af7a27a6b5401975e024a7be305cb068bbe",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}

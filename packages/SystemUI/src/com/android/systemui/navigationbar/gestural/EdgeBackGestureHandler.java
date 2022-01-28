@@ -1037,6 +1037,9 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
             case 15: // Previous song
                 VoltageUtils.sendSystemKeyToStatusBar(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
                 break;
+            case 16: // Powermenu
+                VoltageUtils.showPowerMenu();
+                break;
         }
     }
 

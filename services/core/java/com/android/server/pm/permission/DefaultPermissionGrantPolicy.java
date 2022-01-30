@@ -909,6 +909,11 @@ final class DefaultPermissionGrantPolicy {
 
         String clockAppPackage = getDefaultSystemHandlerActivityPackage(pm, AlarmClock.ACTION_SET_ALARM, userId);
         grantPermissionsToSystemPackage(pm, clockAppPackage, userId, NOTIFICATION_PERMISSIONS);
+
+        // Google App
+        grantPermissionsToPackage(pm, "com.google.android.googlequicksearchbox", userId,
+                false /* ignoreSystemPackage */, true /*whitelistRestrictedPermissions*/,
+                PHONE_PERMISSIONS);
     }
 
     private String getDefaultSystemHandlerActivityPackageForCategory(PackageManagerWrapper pm,

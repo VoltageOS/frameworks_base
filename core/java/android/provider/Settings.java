@@ -5657,6 +5657,12 @@ public final class Settings {
 	/** @hide */
         public static final String BACK_GESTURE_HEIGHT = "back_gesture_height";
 
+	/**
+         * Size of gesture bar radius.
+         * @hide
+         */
+        public static final String GESTURE_NAVBAR_RADIUS = "gesture_navbar_radius";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -5785,36 +5791,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VIBRATE_ON_DISCONNECT);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_LOCKSCREEN);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_GESTURE);
-<<<<<<< HEAD
             PRIVATE_SETTINGS.add(TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK);
-=======
-            PRIVATE_SETTINGS.add(HIGH_TOUCH_POLLING_RATE_ENABLE);
-            PRIVATE_SETTINGS.add(HIGH_TOUCH_SENSITIVITY_ENABLE);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_DAY);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_NIGHT);
-            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_AUTO_OUTDOOR_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_ANTI_FLICKER);
-            PRIVATE_SETTINGS.add(DISPLAY_READING_MODE);
-            PRIVATE_SETTINGS.add(DISPLAY_CABC);
-            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ENHANCE);
-            PRIVATE_SETTINGS.add(DISPLAY_AUTO_CONTRAST);
-            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
-            PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
-            PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_ENABLED);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_ALLOW_ON_DND);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_LOW_BLINKING);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_LOW_COLOR);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_MEDIUM_COLOR);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_FULL_COLOR);
-            PRIVATE_SETTINGS.add(BATTERY_LIGHT_REALLYFULL_COLOR);
-            PRIVATE_SETTINGS.add(OMNIJAWS_WEATHER_ICON_PACK);
-            PRIVATE_SETTINGS.add(OMNI_LOCKSCREEN_WEATHER_ENABLED);
-            PRIVATE_SETTINGS.add(AICP_LOCKSCREEN_WEATHER_STYLE);
-            PRIVATE_SETTINGS.add(VOLUME_ROCKER_WAKE);
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
->>>>>>> 256320228ca4 (SystemUI: Allow enabling compact layout of navigation bar)
         }
 
         /**

@@ -138,4 +138,8 @@
     <!-- Wheter device supports an gaming mode profiles -->
     <java-symbol type="bool" name="config_gamingmode_performance" />
 
+    <!-- App lock -->
+    <java-symbol type="string" name="unlock_application" />
+    <java-symbol type="array" name="config_appLockAllowedSystemApps" />
+
 </resources>

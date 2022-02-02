@@ -5676,12 +5676,7 @@ public final class Settings {
          */
         public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
 
- 	/**
-         * @hide
-         */
-        public static final String USE_TILES_ON_SECURE_KEYGUARD = "use_tiles_on_secure_keyguard";
-
-        /**
+         /**
          * These are all public system settings
          *
          * @hide
@@ -10806,6 +10801,13 @@ public final class Settings {
          * @hide
          */
         public static final String GESTURE_NAVBAR_LENGTH_MODE = "gesture_navbar_length_mode";
+
+        /**
+         * Whether to disable secure qs tiles on lockscreen.
+         * Default 1
+         * @hide
+         */
+        public static final String DISABLE_SECURE_TILES_ON_LOCKSCREEN = "disable_secure_tiles_on_lockscreen";
 
         /**
          * These entries are considered common between the personal and the managed profile,

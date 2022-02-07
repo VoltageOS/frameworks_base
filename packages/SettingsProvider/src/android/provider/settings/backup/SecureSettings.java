@@ -192,5 +192,11 @@ public class SecureSettings {
         Settings.Secure.LOCKSCREEN_SHOW_CONTROLS,
         Settings.Secure.LOCKSCREEN_SHOW_WALLET,
         Settings.Secure.LOCKSCREEN_USE_DOUBLE_LINE_CLOCK,
+        Settings.Secure.MONET_ENGINE_ACCURATE_SHADES,
+        Settings.Secure.MONET_ENGINE_COLOR_OVERRIDE,
+        Settings.Secure.MONET_ENGINE_CUSTOM_COLOR,
+        Settings.Secure.MONET_ENGINE_CHROMA_FACTOR,
+        Settings.Secure.MONET_ENGINE_LINEAR_LIGHTNESS,
+        Settings.Secure.MONET_ENGINE_WHITE_LUMINANCE,
     };
 }

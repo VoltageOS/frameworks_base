@@ -114,6 +114,9 @@
     <string name="screenrecord_lowquality_summary">For smaller file size</string>
     <string name="screenrecord_longer_timeout_switch_label">Bigger file size limit</string>
     <string name="screenrecord_longer_timeout_switch_summary">Limit recording size to 15 GB</string>
+    <string name="screenrecord_skip_time_label">Skip timer</string>
+    <string name="screenrecord_skip_time_summary">Remove 3 second wait</string>
+
 
     <!-- Omnijaws Weather -->
     <string name="omnijaws_service_error">Error</string>
@@ -125,4 +128,5 @@
     <string name="omnijaws_current_text">Now</string>
     <string name="omnijaws_package_not_available">OmniJaws not available</string>
     <string name="omnijaws_service_last_update">Last update:</string>
+
 </resources>

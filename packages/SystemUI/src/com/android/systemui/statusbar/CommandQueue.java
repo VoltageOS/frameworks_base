@@ -151,7 +151,6 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
     private static final int MSG_TOGGLE_CAMERA_FLASH_STATE     = 62 << MSG_SHIFT;
     private static final int MSG_KILL_FOREGROUND_APP               = 63 << MSG_SHIFT;
     private static final int MSG_TOGGLE_SETTINGS_PANEL             = 64 << MSG_SHIFT;
-    private static final int MSG_SET_BLOCKED_GESTURAL_NAVIGATION = 65 << MSG_SHIFT;
     private static final int MSG_SCREEN_PINNING_STATE_CHANGED      = 66 << MSG_SHIFT;
     private static final int MSG_LEFT_IN_LANDSCAPE_STATE_CHANGED   = 67 << MSG_SHIFT;
 
@@ -412,7 +411,6 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
         default void toggleCameraFlash() { }
         default void toggleCameraFlashState(boolean enable) { }
         default void killForegroundApp() { }
-        default void setBlockedGesturalNavigation(boolean blocked) {}
         default void screenPinningStateChanged(boolean enabled) { }
         default void leftInLandscapeChanged(boolean isLeft) { }
     }
@@ -1148,14 +1146,6 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
         }
     }
 
-    @Override
-    public void setBlockedGesturalNavigation(boolean blocked) {
-        synchronized (mLock) {
-            mHandler.removeMessages(MSG_SET_BLOCKED_GESTURAL_NAVIGATION);
-            mHandler.obtainMessage(MSG_SET_BLOCKED_GESTURAL_NAVIGATION, blocked).sendToTarget();
-        }
-    }
-    
     public void screenPinningStateChanged(boolean enabled) {
         synchronized (mLock) {
             mHandler.removeMessages(MSG_SCREEN_PINNING_STATE_CHANGED);
@@ -1564,11 +1554,6 @@ public class CommandQueue extends IStatusBar.Stub implements CallbackController<
                 case MSG_KILL_FOREGROUND_APP:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).killForegroundApp();
-                    }
-                    break;
-                case MSG_SET_BLOCKED_GESTURAL_NAVIGATION:
-                    for (int i = 0; i < mCallbacks.size(); i++) {
-                        mCallbacks.get(i).setBlockedGesturalNavigation((Boolean) msg.obj);
                     }
                     break;
                 case MSG_SCREEN_PINNING_STATE_CHANGED:

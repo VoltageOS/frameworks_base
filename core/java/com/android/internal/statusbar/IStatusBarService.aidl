@@ -177,9 +177,6 @@ interface IStatusBarService
     void toggleCameraFlashState(boolean enable);
 
     void killForegroundApp();
-    
-    // Used to block or unblock usage of gestural navigation
-    void setBlockedGesturalNavigation(boolean blocked);
 
     // Pulse
     void screenPinningStateChanged(boolean enabled);

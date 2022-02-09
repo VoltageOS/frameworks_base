@@ -294,9 +294,6 @@ oneway interface IStatusBar
 
     void killForegroundApp();
 
-    // Used to block or unblock usage of gestural navigation
-    void setBlockedGesturalNavigation(boolean blocked);
-
     // Pulse
     void screenPinningStateChanged(boolean enabled);
     void leftInLandscapeChanged(boolean isLeft);

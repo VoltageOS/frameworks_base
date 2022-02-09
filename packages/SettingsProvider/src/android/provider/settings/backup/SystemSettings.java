@@ -98,5 +98,10 @@ public class SystemSettings {
         Settings.System.AOD_NOTIFICATION_PULSE_TIMEOUT,
         Settings.System.NOTIFICATION_PULSE_DURATION,
         Settings.System.NOTIFICATION_HEADERS,
+        Settings.System.GAMING_MODE_ENABLED,
+        Settings.System.GAMING_MODE_DYNAMIC_ADD,
+        Settings.System.GAMING_MODE_APP_LIST,
+        Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
+        Settings.System.GAMING_MODE_DISABLE_ADB,
     };
 }

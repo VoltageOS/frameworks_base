@@ -138,4 +138,7 @@
     <!-- Default FOD pressed color -->
     <integer name="config_fod_pressed_color">0</integer>
 
+    <!-- Wheter device supports an gaming mode profiles -->
+    <bool name="config_gamingmode_performance">false</bool>
+
 </resources>

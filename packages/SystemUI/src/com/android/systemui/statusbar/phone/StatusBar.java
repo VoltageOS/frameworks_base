@@ -269,6 +269,7 @@ import com.android.systemui.statusbar.policy.RemoteInputQuickSettingsDisabler;
 import com.android.systemui.statusbar.policy.TaskHelper;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
+import com.android.systemui.util.settings.SystemSettings;
 import com.android.systemui.volume.VolumeComponent;
 import com.android.systemui.wmshell.BubblesManager;
 import com.android.wm.shell.bubbles.Bubbles;
@@ -773,6 +774,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     private ActivityIntentHelper mActivityIntentHelper;
     private NotificationStackScrollLayoutController mStackScrollerController;
 
+    private final SystemSettings mSystemSettings;
+
     /**
      * Public constructor for StatusBar.
      *
@@ -872,6 +875,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             UnlockedScreenOffAnimationController unlockedScreenOffAnimationController,
             Optional<StartingSurface> startingSurfaceOptional,
             BurnInProtectionController burnInProtectionController,
+            SystemSettings systemSettings,
             TaskHelper taskHelper) {
         super(context);
         mNotificationsController = notificationsController;
@@ -962,6 +966,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         mLockscreenShadeTransitionController = lockscreenShadeTransitionController;
         mStartingSurfaceOptional = startingSurfaceOptional;
         mBurnInProtectionController = burnInProtectionController;
+        mSystemSettings = systemSettings;
         lockscreenShadeTransitionController.setStatusbar(this);
 
         mExpansionChangedListeners = new ArrayList<>();
@@ -1658,7 +1663,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                 mKeyguardIndicationController,
                 this /* statusBar */, mShadeController,
                 mLockscreenShadeTransitionController, mCommandQueue, mInitController,
-                mNotificationInterruptStateProvider);
+                mNotificationInterruptStateProvider,
+                mSystemSettings);
 
         mNotificationShelfController.setOnActivatedListener(mPresenter);
         mRemoteInputManager.getController().addCallback(mNotificationShadeWindowController);

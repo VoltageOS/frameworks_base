@@ -23,10 +23,17 @@ import android.annotation.Nullable;
 import android.app.KeyguardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.app.Notification;
 import android.content.Context;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.service.vr.IVrManager;
@@ -80,6 +87,7 @@ import com.android.systemui.statusbar.notification.stack.NotificationStackScroll
 import com.android.systemui.statusbar.phone.LockscreenGestureLogger.LockscreenUiEvent;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
+import com.android.systemui.util.settings.SystemSettings;
 
 import java.util.List;
 
@@ -126,11 +134,13 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
     private final NotificationShadeWindowController mNotificationShadeWindowController;
     private final IStatusBarService mBarService;
     private final DynamicPrivacyController mDynamicPrivacyController;
+    private final SystemSettings mSystemSettings;
     private boolean mReinflateNotificationsOnUserSwitched;
     private boolean mDispatchUiModeChangeOnUserSwitched;
     private TextView mNotificationPanelDebugText;
 
     protected boolean mVrMode;
+    private boolean mGamingModeNoAlert;
 
     public StatusBarNotificationPresenter(Context context,
             NotificationPanelViewController panel,
@@ -148,7 +158,8 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
             LockscreenShadeTransitionController shadeTransitionController,
             CommandQueue commandQueue,
             InitController initController,
-            NotificationInterruptStateProvider notificationInterruptStateProvider) {
+            NotificationInterruptStateProvider notificationInterruptStateProvider,
+            SystemSettings systemSettings) {
         mKeyguardStateController = keyguardStateController;
         mNotificationPanel = panel;
         mHeadsUpManager = headsUp;
@@ -169,7 +180,22 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
         mKeyguardManager = context.getSystemService(KeyguardManager.class);
         mBarService = IStatusBarService.Stub.asInterface(
                 ServiceManager.getService(Context.STATUS_BAR_SERVICE));
-        mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        mSystemSettings = systemSettings;
+        updateGamingModeSettings();
+        final ContentObserver observer = new ContentObserver(new Handler(Looper.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                final String key = uri.getLastPathSegment();
+                if (key.equals(Settings.System.GAMING_MODE_ACTIVE) ||
+                        key.equals(Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT)) {
+                    updateGamingModeSettings();
+                }
+            }
+        };
+        mSystemSettings.registerContentObserverForUser(Settings.System.GAMING_MODE_ACTIVE,
+            observer, UserHandle.USER_ALL);
+        mSystemSettings.registerContentObserverForUser(Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
+            observer, UserHandle.USER_ALL);
 
         IVrManager vrManager = IVrManager.Stub.asInterface(ServiceManager.getService(
                 Context.VR_SERVICE));
@@ -252,6 +278,18 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
     @Override
     public void onOverlayChanged() {
         onDensityOrFontScaleChanged();
+    }
+
+    private void updateGamingModeSettings() {
+        final boolean gamingModeEnabled = mSystemSettings.getIntForUser(
+            Settings.System.GAMING_MODE_ACTIVE, 0, UserHandle.USER_CURRENT) == 1;
+        if (gamingModeEnabled) {
+            mGamingModeNoAlert = mSystemSettings.getIntForUser(
+                Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT,
+                1, UserHandle.USER_CURRENT) == 1;
+        } else {
+            mGamingModeNoAlert = false;
+        }
     }
 
     private void updateNotificationOnUiModeChanged() {
@@ -508,7 +546,14 @@ public class StatusBarNotificationPresenter implements NotificationPresenter,
 
         @Override
         public boolean suppressAwakeInterruptions(NotificationEntry entry) {
-            return isDeviceInVrMode();
+            if (isDeviceInVrMode()) {
+                return true;
+            } else {
+                final Notification notification = entry.getSbn().getNotification();
+                return (mGamingModeNoAlert &&
+                    !TextUtils.equals(notification.category, Notification.CATEGORY_CALL) &&
+                    !TextUtils.equals(notification.category, Notification.CATEGORY_ALARM));
+            }
         }
 
         @Override

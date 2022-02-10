@@ -123,6 +123,7 @@ android_library {
         "tensorflowlite_java",
         "colorkt",
         "themelib",
+        "faceunlock_framework",
     ],
     manifest: "AndroidManifest.xml",
 

@@ -239,6 +239,7 @@
 
     <!-- Refresh Rate Tile -->
     <string name="refresh_rate_tile_label">Refresh rate</string>
-    <string name="auto_mode_label">Auto</string>
+    <string name="refresh_rate_auto_mode_label">Auto</string>
+    <string name="refresh_rate_label_placeholder"><xliff:g id="Refresh Rate">%1$d</xliff:g> Hz</string>
 
 </resources>

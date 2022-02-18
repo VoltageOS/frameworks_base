@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2020 The Android Open Source Project
- *               2021 AOSP-Krypton Project
+ * Copyright (C) 2021-2022 AOSP-Krypton Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,8 +70,6 @@ class RefreshRateTile @Inject constructor(
 
     private val settingsObserver = SettingsObserver()
     private val deviceConfigListener = DeviceConfigListener()
-
-    private val autoModeLabel = mContext.getString(R.string.refresh_rate_auto_mode_label)
 
     private val supportedRefreshRates = mutableSetOf<Float>()
     private val defaultPeakRefreshRateOverlay = mContext.resources.getInteger(
@@ -153,37 +151,43 @@ class RefreshRateTile @Inject constructor(
     }
 
     private fun cycleToNextMode() {
-        logD("cycleToNextMode")
         val minRate = systemSettings.getFloat(MIN_REFRESH_RATE, NO_CONFIG)
         val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultPeakRefreshRate)
-        logD("minRate = $minRate, maxRate = $maxRate")
-        var newMinRate: Float
-        var newMaxRate: Float
-        if (minRate >= NO_CONFIG && minRate < supportedRefreshRates.last()) {
+        logD("cycleToNextMode: minRate = $minRate, maxRate = $maxRate")
+        if (minRate >= NO_CONFIG && maxRate > minRate) {
+            // Auto mode, cycle to force default
+            updateSettings(DEFAULT_REFRESH_RATE, DEFAULT_REFRESH_RATE)
+        } else if (minRate >= NO_CONFIG && minRate < supportedRefreshRates.last()) {
             // Intermediate mode, cycle to next higher mode
-            newMinRate = supportedRefreshRates.find { it > minRate }!!
-            newMaxRate = DEFAULT_REFRESH_RATE
-        } else {
-            // Cycle to auto
-            newMinRate = NO_CONFIG
-            newMaxRate = defaultPeakRefreshRate
+            val newMinRate = supportedRefreshRates.find { it > minRate }!!
+            updateSettings(newMinRate, newMinRate)
+        } else if (minRate == supportedRefreshRates.last()) {
+            // Peak mode, cycle to auto mode
+            updateSettings(NO_CONFIG, supportedRefreshRates.last())
         }
-        logD("newMinRate = $newMinRate, newMaxRate = $newMaxRate")
+    }
+
+    private fun updateSettings(minRate: Float, maxRate: Float) {
+        logD("updateSettings: minRate = $minRate, maxRate = $maxRate")
         ignoreSettingsChange = true
-        systemSettings.putFloat(MIN_REFRESH_RATE, newMinRate)
-        systemSettings.putFloat(PEAK_REFRESH_RATE, newMaxRate)
+        systemSettings.putFloat(MIN_REFRESH_RATE, minRate)
+        systemSettings.putFloat(PEAK_REFRESH_RATE, maxRate)
         ignoreSettingsChange = false
     }
 
     private fun getTitle(): String {
-        logD("getTitle")
         val minRate = systemSettings.getFloat(MIN_REFRESH_RATE, NO_CONFIG)
         val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultPeakRefreshRate)
-        logD("minRate = $minRate, maxRate = $maxRate")
-        return if (minRate == NO_CONFIG && maxRate == supportedRefreshRates.last()) {
-            autoModeLabel
+        logD("getTitle: minRate = $minRate, maxRate = $maxRate")
+        return if (minRate >= NO_CONFIG && maxRate > minRate) {
+            mContext.getString(
+                R.string.refresh_rate_auto_mode_placeholder,
+                (if (minRate < DEFAULT_REFRESH_RATE) DEFAULT_REFRESH_RATE else minRate).toInt(),
+                maxRate.toInt(),
+            )
         } else {
-            mContext.getString(R.string.refresh_rate_label_placeholder, minRate.toInt())
+            mContext.getString(
+                R.string.refresh_rate_forced_mode_placeholder, minRate.toInt())
         }
     }
 
@@ -242,8 +246,8 @@ class RefreshRateTile @Inject constructor(
         private const val DEBUG = false
 
         private const val INVALID_REFRESH_RATE = -1f
-        private const val DEFAULT_REFRESH_RATE = 60f
         private const val NO_CONFIG = 0f
+        private const val DEFAULT_REFRESH_RATE = 60f
 
         private val refreshRateRegex = Regex("[0-9]+")
 

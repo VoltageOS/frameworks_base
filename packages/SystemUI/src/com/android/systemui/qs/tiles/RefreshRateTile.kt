@@ -119,7 +119,7 @@ class RefreshRateTile @Inject constructor(
 
     override fun getLongClickIntent() = displaySettingsIntent
 
-    override fun isAvailable() = supportedRefreshRates.isNotEmpty()
+    override fun isAvailable() = supportedRefreshRates.size > 1
 
     override fun getTileLabel(): CharSequence =
         mContext.getString(R.string.refresh_rate_tile_label)

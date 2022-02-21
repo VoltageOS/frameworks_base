@@ -659,12 +659,12 @@ public class KeyguardIndicationController {
                 if (animate) {
                     animateText(mTopIndicationView, indication);
                 } else {
-                    mTopIndicationView.switchIndication(indication, null, animate);
+                    mTopIndicationView.switchIndication(indication, null);
                 }
             } else {
                 String percentage = NumberFormat.getPercentInstance()
                         .format(mBatteryLevel / 100f);
-                mTopIndicationView.switchIndication(percentage, null, animate);
+                mTopIndicationView.switchIndication(percentage, null);
             }
             return;
         }

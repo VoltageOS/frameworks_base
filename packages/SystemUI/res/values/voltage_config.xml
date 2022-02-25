@@ -13,6 +13,4 @@
     -->
     <string name="config_screenRecorderAVCProfileLevel" translatable="false">4.2</string>
 
-    <!-- Whether to show VoLTE icon in the status bar -->
-    <bool name="config_display_volte">true</bool>
 </resources>

@@ -23,6 +23,7 @@ import android.database.ContentObserver
 import android.hardware.display.DisplayManager
 import android.os.Handler
 import android.os.Looper
+import android.os.UserHandle
 import android.provider.DeviceConfig
 import android.provider.Settings.System.MIN_REFRESH_RATE
 import android.provider.Settings.System.PEAK_REFRESH_RATE
@@ -57,7 +58,7 @@ class RefreshRateTile @Inject constructor(
     activityStarter: ActivityStarter,
     qsLogger: QSLogger,
     private val systemSettings: SystemSettings,
-): QSTileImpl<State>(
+) : QSTileImpl<State>(
     host,
     backgroundLooper,
     mainHandler,
@@ -71,31 +72,39 @@ class RefreshRateTile @Inject constructor(
     private val settingsObserver = SettingsObserver()
     private val deviceConfigListener = DeviceConfigListener()
 
-    private val supportedRefreshRates = mutableSetOf<Float>()
+    private val supportedRefreshRates: List<Float>
     private val defaultPeakRefreshRateOverlay = mContext.resources.getInteger(
-        com.android.internal.R.integer.config_defaultPeakRefreshRate).toFloat()
-    private var defaultPeakRefreshRate: Float
+        com.android.internal.R.integer.config_defaultPeakRefreshRate
+    ).toFloat()
+    private var defaultPeakRefreshRate: Float = getDefaultPeakRefreshRate()
 
     private var ignoreSettingsChange = false
 
     init {
-        defaultPeakRefreshRate = getDefaultPeakRefreshRate()
-        val display: Display? = mContext.getSystemService(DisplayManager::class.java)
-            .getDisplay(Display.DEFAULT_DISPLAY)
+        logD("defaultPeakRefreshRate = $defaultPeakRefreshRate")
+        val display: Display? = mContext.getSystemService(
+            DisplayManager::class.java
+        ).getDisplay(Display.DEFAULT_DISPLAY)
+
+        val refreshRates = mutableListOf<Float>()
         if (display != null) {
             val mode = display.mode
             display.supportedModes.forEach {
                 if (it.physicalWidth == mode.physicalWidth &&
-                        it.physicalHeight == mode.physicalHeight) {
+                        it.physicalHeight == mode.physicalHeight
+                ) {
                     val refreshRate = refreshRateRegex.find(
-                        it.refreshRate.toString())?.value ?: return@forEach
-                    supportedRefreshRates.add(refreshRate.toFloat())
+                        it.refreshRate.toString()
+                    )?.value?.toFloat() ?: return@forEach
+                    if (!refreshRates.contains(refreshRate)) {
+                        refreshRates.add(refreshRate)
+                    }
                 }
             }
         } else {
             Log.e(TAG, "No valid default display available")
         }
-        logD("defaultPeakRefreshRate = $defaultPeakRefreshRate")
+        supportedRefreshRates = refreshRates.sorted()
         logD("supportedRefreshRates = $supportedRefreshRates")
     }
 
@@ -105,10 +114,11 @@ class RefreshRateTile @Inject constructor(
             DisplayManager.DeviceConfig.KEY_PEAK_REFRESH_RATE_DEFAULT,
             INVALID_REFRESH_RATE
         )
-        if (peakRefreshRate == INVALID_REFRESH_RATE) {
-            return defaultPeakRefreshRateOverlay
+        return if (peakRefreshRate == INVALID_REFRESH_RATE) {
+            defaultPeakRefreshRateOverlay
+        } else {
+            peakRefreshRate
         }
-        return peakRefreshRate
     }
 
     override fun newTileState() = State().apply {
@@ -151,33 +161,63 @@ class RefreshRateTile @Inject constructor(
     }
 
     private fun cycleToNextMode() {
-        val minRate = systemSettings.getFloat(MIN_REFRESH_RATE, NO_CONFIG)
-        val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultPeakRefreshRate)
+        val minRate = systemSettings.getFloatForUser(
+            MIN_REFRESH_RATE,
+            NO_CONFIG,
+            UserHandle.USER_CURRENT
+        )
+        val maxRate = systemSettings.getFloatForUser(
+            PEAK_REFRESH_RATE,
+            defaultPeakRefreshRate,
+            UserHandle.USER_CURRENT
+        )
         logD("cycleToNextMode: minRate = $minRate, maxRate = $maxRate")
-        if (minRate >= NO_CONFIG && maxRate > minRate) {
-            // Auto mode, cycle to force default
-            updateSettings(DEFAULT_REFRESH_RATE, DEFAULT_REFRESH_RATE)
-        } else if (minRate >= NO_CONFIG && minRate < supportedRefreshRates.last()) {
-            // Intermediate mode, cycle to next higher mode
-            val newMinRate = supportedRefreshRates.find { it > minRate }!!
-            updateSettings(newMinRate, newMinRate)
-        } else if (minRate == supportedRefreshRates.last()) {
-            // Peak mode, cycle to auto mode
-            updateSettings(NO_CONFIG, supportedRefreshRates.last())
+        when {
+            minRate >= NO_CONFIG && maxRate > minRate -> {
+                // Auto mode, cycle to force default
+                updateSettings(DEFAULT_REFRESH_RATE, DEFAULT_REFRESH_RATE)
+            }
+            minRate >= NO_CONFIG && minRate < supportedRefreshRates.last() -> {
+                // Intermediate mode, cycle to next higher mode
+                val newMinRate = supportedRefreshRates.find {
+                    it > minRate
+                } ?: return
+                updateSettings(newMinRate, newMinRate)
+            }
+            minRate >= supportedRefreshRates.last() -> {
+                // Peak mode, cycle to auto mode
+                updateSettings(NO_CONFIG, supportedRefreshRates.last())
+            }
         }
     }
 
     private fun updateSettings(minRate: Float, maxRate: Float) {
         logD("updateSettings: minRate = $minRate, maxRate = $maxRate")
         ignoreSettingsChange = true
-        systemSettings.putFloat(MIN_REFRESH_RATE, minRate)
-        systemSettings.putFloat(PEAK_REFRESH_RATE, maxRate)
+        systemSettings.putFloatForUser(
+            MIN_REFRESH_RATE,
+            minRate,
+            UserHandle.USER_CURRENT
+        )
+        systemSettings.putFloatForUser(
+            PEAK_REFRESH_RATE,
+            maxRate,
+            UserHandle.USER_CURRENT
+        )
         ignoreSettingsChange = false
     }
 
     private fun getTitle(): String {
-        val minRate = systemSettings.getFloat(MIN_REFRESH_RATE, NO_CONFIG)
-        val maxRate = systemSettings.getFloat(PEAK_REFRESH_RATE, defaultPeakRefreshRate)
+        val minRate = systemSettings.getFloatForUser(
+            MIN_REFRESH_RATE,
+            NO_CONFIG,
+            UserHandle.USER_CURRENT
+        )
+        val maxRate = systemSettings.getFloatForUser(
+            PEAK_REFRESH_RATE,
+            defaultPeakRefreshRate,
+            UserHandle.USER_CURRENT
+        )
         logD("getTitle: minRate = $minRate, maxRate = $maxRate")
         return if (minRate >= NO_CONFIG && maxRate > minRate) {
             mContext.getString(
@@ -187,7 +227,9 @@ class RefreshRateTile @Inject constructor(
             )
         } else {
             mContext.getString(
-                R.string.refresh_rate_forced_mode_placeholder, minRate.toInt())
+                R.string.refresh_rate_forced_mode_placeholder,
+                minRate.toInt()
+            )
         }
     }
 
@@ -203,8 +245,10 @@ class RefreshRateTile @Inject constructor(
         fun observe() {
             if (isObserving) return
             isObserving = true
-            systemSettings.registerContentObserver(MIN_REFRESH_RATE, this)
-            systemSettings.registerContentObserver(PEAK_REFRESH_RATE, this)
+            systemSettings.registerContentObserverForUser(
+                MIN_REFRESH_RATE, this, UserHandle.USER_ALL)
+            systemSettings.registerContentObserverForUser(
+                PEAK_REFRESH_RATE, this, UserHandle.USER_ALL)
         }
 
         fun unobserve() {
@@ -243,7 +287,8 @@ class RefreshRateTile @Inject constructor(
 
     companion object {
         private const val TAG = "RefreshRateTile"
-        private const val DEBUG = false
+        private val DEBUG: Boolean
+            get() = Log.isLoggable(TAG, Log.DEBUG)
 
         private const val INVALID_REFRESH_RATE = -1f
         private const val NO_CONFIG = 0f

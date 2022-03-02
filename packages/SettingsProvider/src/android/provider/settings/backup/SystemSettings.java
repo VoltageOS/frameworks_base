@@ -89,5 +89,6 @@ public class SystemSettings {
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.NAVIGATION_BAR_INVERSE,
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
+        Settings.System.USE_OLD_MOBILETYPE,
     };
 }

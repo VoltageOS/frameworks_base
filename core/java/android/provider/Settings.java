@@ -5880,6 +5880,13 @@ public final class Settings {
          */
         public static final String OMNI_CUSTOM_FP_ICON = "custom_fingerprint_icon";
 
+        /**
+         * Enable udfps detection even when screen is off
+         * Default value is 0
+         * @hide
+         */
+        public static final String SCREEN_OFF_UDFPS = "screen_off_udfps";
+
          /**
          * Whether to display 4G icon instead LTE
          * @hide

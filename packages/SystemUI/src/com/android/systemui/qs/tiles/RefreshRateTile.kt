@@ -151,7 +151,7 @@ class RefreshRateTile @Inject constructor(
         logD("handleUpdateState: secondaryLabel = ${state.secondaryLabel}")
     }
 
-    override fun getMetricsCategory(): Int = MetricsEvent.KRYPTON
+    override fun getMetricsCategory(): Int = MetricsEvent.VOLTAGE
 
     override protected fun handleDestroy() {
         logD("handleDestroy")
@@ -186,7 +186,7 @@ class RefreshRateTile @Inject constructor(
             }
             minRate >= supportedRefreshRates.last() -> {
                 // Peak mode, cycle to auto mode
-                updateSettings(NO_CONFIG, supportedRefreshRates.last())
+                updateSettings(DEFAULT_REFRESH_RATE, supportedRefreshRates.last())
             }
         }
     }

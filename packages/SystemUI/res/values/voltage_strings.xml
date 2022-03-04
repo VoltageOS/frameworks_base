@@ -41,6 +41,7 @@
     <string name="status_bar_vpn">VPN</string>
     <string name="status_bar_roaming">Roaming indicator</string>
     <string name="status_bar_ims">VoLTE/VoWiFi</string>
+    <string name="status_bar_firewall">Firewall</string>
 
     <!-- Advanced Reboot -->
     <string name="global_action_restart_advanced">Advanced</string>

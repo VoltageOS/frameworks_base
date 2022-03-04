@@ -108,4 +108,8 @@
     <string name="screenrecord_hevc_switch_label">Enable HEVC</string>
     <string name="screenrecord_hevc_switch_summary">Use more efficient HEVC video encoding</string>
 
+    <!-- Name of the firewall status bar icon. -->
+    <string name="status_bar_firewall">Firewall</string>
+    <string name="status_bar_firewall_slot" translatable="false">firewall</string>
+
 </resources>

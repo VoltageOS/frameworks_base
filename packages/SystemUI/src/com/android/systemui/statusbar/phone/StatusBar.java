@@ -69,6 +69,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.metrics.LogMaker;
@@ -628,6 +629,8 @@ public class StatusBar extends SystemUI implements
 
     private Handler mMainHandler;
     private final DelayableExecutor mMainExecutor;
+
+    protected final H mHandler = createHandler();
 
     private int mInteractingWindows;
     private @TransitionMode int mStatusBarMode;

@@ -233,7 +233,6 @@ import com.android.systemui.statusbar.policy.DeviceProvisionedController.DeviceP
 import com.android.systemui.statusbar.policy.ExtensionController;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.statusbar.policy.FlashlightController;
-import com.android.systemui.statusbar.policy.NetworkController;
 import com.android.systemui.statusbar.policy.OnHeadsUpChangedListener;
 import com.android.systemui.statusbar.policy.RemoteInputQuickSettingsDisabler;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
@@ -2006,7 +2005,7 @@ public class StatusBar extends SystemUI implements
         }
     }
 
-    @Override
+//    @Override
     public void toggleCameraFlash() {
         if (DEBUG) {
             Log.d(TAG, "Toggling camera flashlight");

@@ -7169,9 +7169,6 @@ public class PackageManagerService extends IPackageManager.Stub
                 selinuxChangeListener);
 
         m.installWhitelistedSystemPackages();
-
-        EuiccCompatHooks.onServiceInitCompleted(m);
-
         ServiceManager.addService("package", m);
         final PackageManagerNative pmn = m.new PackageManagerNative();
         ServiceManager.addService("package_native", pmn);
@@ -24775,6 +24772,8 @@ public class PackageManagerService extends IPackageManager.Stub
                         mPerUidReadTimeoutsCache = null;
                     }
                 });
+
+        EuiccCompatHooks.onServiceInitCompleted(this);
     }
 
     public void waitForAppDataPrepared() {

@@ -222,6 +222,7 @@ import com.android.systemui.statusbar.policy.KeyguardUserSwitcherController;
 import com.android.systemui.statusbar.policy.KeyguardUserSwitcherView;
 import com.android.systemui.statusbar.policy.OnHeadsUpChangedListener;
 import com.android.systemui.statusbar.window.StatusBarWindowStateController;
+import com.android.systemui.tuner.TunerService;
 import com.android.systemui.unfold.SysUIUnfoldComponent;
 import com.android.systemui.util.Compile;
 import com.android.systemui.util.LargeScreenUtils;
@@ -315,6 +316,11 @@ public final class NotificationPanelViewController extends PanelViewController {
     private static final String COUNTER_PANEL_OPEN_QS = "panel_open_qs";
     private static final String COUNTER_PANEL_OPEN_PEEK = "panel_open_peek";
 
+    private static final String RETICKER_STATUS =
+            "system:" + Settings.System.RETICKER_STATUS;
+    private static final String RETICKER_COLORED =
+            "system:" + Settings.System.RETICKER_COLORED;
+
     private static final Rect M_DUMMY_DIRTY_RECT = new Rect(0, 0, 1, 1);
     private static final Rect EMPTY_RECT = new Rect();
 
@@ -356,6 +362,8 @@ public final class NotificationPanelViewController extends PanelViewController {
     private float mKeyguardNotificationTopPadding;
     /** Current max allowed keyguard notifications determined by measuring the panel. */
     private int mMaxAllowedKeyguardNotifications;
+
+    private final TunerService mTunerService;
 
     private KeyguardQsUserSwitchController mKeyguardQsUserSwitchController;
     private KeyguardUserSwitcherController mKeyguardUserSwitcherController;
@@ -685,6 +693,8 @@ public final class NotificationPanelViewController extends PanelViewController {
     private ImageView mReTickerComebackIcon;
     private TextView mReTickerContentTV;
     private NotificationStackScrollLayout mNotificationStackScroller;
+    private boolean mReTickerStatus;
+    private boolean mReTickerColored;
 
     private final AccessibilityDelegate mAccessibilityDelegate = new AccessibilityDelegate() {
         @Override
@@ -800,7 +810,8 @@ public final class NotificationPanelViewController extends PanelViewController {
             SystemClock systemClock,
             CameraGestureHelper cameraGestureHelper,
             KeyguardBottomAreaViewModel keyguardBottomAreaViewModel,
-            KeyguardBottomAreaInteractor keyguardBottomAreaInteractor) {
+            KeyguardBottomAreaInteractor keyguardBottomAreaInteractor,
+            TunerService tunerService) {
         super(view,
                 falsingManager,
                 dozeLog,
@@ -846,6 +857,7 @@ public final class NotificationPanelViewController extends PanelViewController {
                 LargeScreenUtils.shouldUseSplitNotificationShade(mResources);
         mView.setWillNotDraw(!DEBUG_DRAWABLE);
         mLargeScreenShadeHeaderController = largeScreenShadeHeaderController;
+        mTunerService = tunerService;
         mLayoutInflater = layoutInflater;
         mFeatureFlags = featureFlags;
         mFalsingManager = falsingManager;
@@ -4853,6 +4865,8 @@ public final class NotificationPanelViewController extends PanelViewController {
             mStatusBarStateController.addCallback(mStatusBarStateListener);
             mStatusBarStateListener.onStateChanged(mStatusBarStateController.getState());
             mConfigurationController.addCallback(mConfigurationListener);
+            mTunerService.addTunable(this, RETICKER_STATUS);
+            mTunerService.addTunable(this, RETICKER_COLORED);
             // Theme might have changed between inflating this view and attaching it to the
             // window, so
             // force a call to onThemeChanged
@@ -4870,6 +4884,22 @@ public final class NotificationPanelViewController extends PanelViewController {
             mStatusBarStateController.removeCallback(mStatusBarStateListener);
             mConfigurationController.removeCallback(mConfigurationListener);
             mFalsingManager.removeTapListener(mFalsingTapListener);
+        }
+
+        @Override
+        public void onTuningChanged(String key, String newValue) {
+            switch (key) {
+                case RETICKER_STATUS:
+                    mReTickerStatus =
+                            TunerService.parseIntegerSwitch(newValue, false);
+                    break;
+                case RETICKER_COLORED:
+                    mReTickerColored =
+                            TunerService.parseIntegerSwitch(newValue, false);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -5139,9 +5169,7 @@ public final class NotificationPanelViewController extends PanelViewController {
     /* reTicker */
 
     public void reTickerView(boolean visibility) {
-        boolean reTickerStatus = Settings.System.getIntForUser(mView.getContext().getContentResolver(),
-                Settings.System.RETICKER_STATUS, 0, UserHandle.USER_CURRENT) != 0;
-        if (!reTickerStatus) return;
+        if (!mReTickerStatus) return;
         if (visibility && mReTickerComeback.getVisibility() == View.VISIBLE) {
             reTickerDismissal();
         }
@@ -5168,9 +5196,7 @@ public final class NotificationPanelViewController extends PanelViewController {
             String mergedContentText = reTickerAppName + " " + reTickerContent;
             mReTickerComebackIcon.setImageDrawable(icon);
             Drawable dw = mView.getContext().getDrawable(R.drawable.reticker_background);
-            boolean reTickerColored = Settings.System.getIntForUser(mView.getContext().getContentResolver(),
-                    Settings.System.RETICKER_COLORED, 0, UserHandle.USER_CURRENT) != 0;
-            if (reTickerColored) {
+            if (mReTickerColored) {
                 int col;
                 col = row.getEntry().getSbn().getNotification().color;
                 mAppExceptions = mView.getContext().getResources().getStringArray(R.array.app_exceptions);
@@ -5206,9 +5232,7 @@ public final class NotificationPanelViewController extends PanelViewController {
     }
 
     private void reTickerViewVisibility() {
-        boolean reTickerStatus = Settings.System.getIntForUser(mView.getContext().getContentResolver(),
-                Settings.System.RETICKER_STATUS, 0, UserHandle.USER_CURRENT) != 0;
-        if (!reTickerStatus) {
+        if (!mReTickerStatus) {
             reTickerDismissal();
             return;
         }

@@ -67,7 +67,6 @@ class QuickStatusBarHeaderController extends ViewController<QuickStatusBarHeader
     private boolean mListening;
 
     private SysuiColorExtractor mColorExtractor;
-    private ColorExtractor.OnColorsChangedListener mOnColorsChangedListener;
 
     @Inject
     QuickStatusBarHeaderController(QuickStatusBarHeader view,
@@ -108,11 +107,6 @@ class QuickStatusBarHeaderController extends ViewController<QuickStatusBarHeader
         mIconManager = tintedIconManagerFactory.create(mIconContainer, StatusBarLocation.QS);
         mDemoModeReceiver = new ClockDemoModeReceiver(mClockView);
         mColorExtractor = colorExtractor;
-        mOnColorsChangedListener = (extractor, which) -> {
-            final boolean lightTheme = mColorExtractor.getNeutralColors().supportsDarkText();
-            mClockView.onColorsChanged(lightTheme);
-        };
-        mColorExtractor.addOnColorsChangedListener(mOnColorsChangedListener);
 
         // Don't need to worry about tuner settings for this icon
         mBatteryMeterViewController.ignoreTunerUpdates();
@@ -153,7 +147,6 @@ class QuickStatusBarHeaderController extends ViewController<QuickStatusBarHeader
 
     @Override
     protected void onViewDetached() {
-        mColorExtractor.removeOnColorsChangedListener(mOnColorsChangedListener);
         mPrivacyIconsController.onParentInvisible();
         mStatusBarIconController.removeIconGroup(mIconManager);
         mQSCarrierGroupController.setOnSingleCarrierChangedListener(null);

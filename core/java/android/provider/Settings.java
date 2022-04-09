@@ -5890,6 +5890,15 @@ public final class Settings {
         public static final String SCREEN_OFF_UDFPS = "screen_off_udfps";
 
         /**
+         * Should we listen for fingerprints when the screen is off?  Devices
+         * with a rear-mounted sensor want this, but certain devices have
+         * the sensor embedded in the power key and listening all the time
+         * causes a poor experience.
+         * @hide
+         */
+        public static final String FP_WAKE_UNLOCK = "fp_wake_unlock";
+
+        /**
          * Whether to enable Smart Pixels
          * @hide
          */
@@ -6507,6 +6516,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
             PRIVATE_SETTINGS.add(QS_SYSTEM_INFO);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(FP_WAKE_UNLOCK);
         }
 
 

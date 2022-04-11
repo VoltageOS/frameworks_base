@@ -5957,6 +5957,11 @@ public final class Settings {
          */
         public static final String POWERMENU_TORCH = "powermenu_torch";
 
+	/**
+         * @hide
+         */
+        public static final String ENABLE_TASKBAR = "enable_taskbar";
+
         /**
          * Disable power menu on secure lock screens
          *

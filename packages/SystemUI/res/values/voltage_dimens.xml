@@ -38,9 +38,6 @@
     <dimen name="right_tri_state_up_top_left_radius">24.0dip</dimen>
     <dimen name="right_tri_state_up_top_right_radius">24.0dip</dimen>
 
-    <!-- Bottom margin size when fingerprint in display is active -->
-    <dimen name="keyguard_indication_margin_bottom_fingerprint_in_display">@dimen/keyguard_indication_margin_bottom</dimen>
-
     <!-- Screenshot drawables -->
     <dimen name="screenshot_border_corner_radius">24dp</dimen>
     <dimen name="screenshot_preview_corner_radius">20dp</dimen>
@@ -49,4 +46,5 @@
     <!-- Additional gesture navbar lengths -->
     <dimen name="navigation_home_handle_width_medium">110dp</dimen>
     <dimen name="navigation_home_handle_width_long">140dp</dimen>
+
 </resources>

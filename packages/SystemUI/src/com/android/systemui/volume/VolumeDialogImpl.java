@@ -156,6 +156,7 @@ public class VolumeDialogImpl implements VolumeDialog,
     private static final long USER_ATTEMPT_GRACE_PERIOD = 1000;
     private static final int UPDATE_ANIMATION_DURATION = 80;
 
+    static final int DIALOG_TIMEOUT_MILLIS = 3000;
     static final int DIALOG_SAFETYWARNING_TIMEOUT_MILLIS = 5000;
     static final int DIALOG_ODI_CAPTIONS_TOOLTIP_TIMEOUT_MILLIS = 5000;
     static final int DIALOG_HOVERING_TIMEOUT_MILLIS = 16000;
@@ -323,7 +324,6 @@ public class VolumeDialogImpl implements VolumeDialog,
             mContext.getResources().getInteger(R.integer.config_dialogHideAnimationDurationMs);
         mUseBackgroundBlur =
             mContext.getResources().getBoolean(R.bool.config_volumeDialogUseBackgroundBlur);
-        mHasAlertSlider = mContext.getResources().getBoolean(com.android.internal.R.bool.config_hasAlertSlider);
 
         if (mUseBackgroundBlur) {
             final int dialogRowsViewColorAboveBlur = mContext.getColor(
@@ -790,6 +790,11 @@ public class VolumeDialogImpl implements VolumeDialog,
 
     private void addRow(int stream, int iconRes, int iconMuteRes, boolean important,
             boolean defaultStream) {
+        addRow(stream, iconRes, iconMuteRes, important, defaultStream, false);
+    }
+
+    private void addRow(int stream, int iconRes, int iconMuteRes, boolean important,
+            boolean defaultStream, boolean dynamic) {
         if (D.BUG) Slog.d(TAG, "Adding row for stream " + stream);
         VolumeRow row = new VolumeRow();
         initRow(row, stream, iconRes, iconMuteRes, important, defaultStream);
@@ -969,24 +974,20 @@ public class VolumeDialogImpl implements VolumeDialog,
         ((LinearLayout) mRingerDrawerContainer.findViewById(R.id.volume_drawer_options))
                 .setOrientation(isLandscape() ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
 
-        if (!mHasAlertSlider) {
+        mSelectedRingerContainer.setOnClickListener(view -> {
+            if (mIsRingerDrawerOpen) {
+                hideRingerDrawer();
+            } else {
+                showRingerDrawer();
+            }
+        });
 
-            mSelectedRingerContainer.setOnClickListener(view -> {
-                if (mIsRingerDrawerOpen) {
-                    hideRingerDrawer();
-                } else {
-                    showRingerDrawer();
-                }
-            });
-
-            mRingerDrawerVibrate.setOnClickListener(
-                    new RingerDrawerItemClickListener(RINGER_MODE_VIBRATE));
-            mRingerDrawerMute.setOnClickListener(
-                    new RingerDrawerItemClickListener(RINGER_MODE_SILENT));
-            mRingerDrawerNormal.setOnClickListener(
-                    new RingerDrawerItemClickListener(RINGER_MODE_NORMAL));
-
-        }
+        mRingerDrawerVibrate.setOnClickListener(
+                new RingerDrawerItemClickListener(RINGER_MODE_VIBRATE));
+        mRingerDrawerMute.setOnClickListener(
+                new RingerDrawerItemClickListener(RINGER_MODE_SILENT));
+        mRingerDrawerNormal.setOnClickListener(
+                new RingerDrawerItemClickListener(RINGER_MODE_NORMAL));
 
         final int unselectedColor = Utils.getColorAccentDefaultColor(mContext);
         final int selectedColor = Utils.getColorAttrDefaultColor(
@@ -1587,8 +1588,8 @@ public class VolumeDialogImpl implements VolumeDialog,
                     AccessibilityManager.FLAG_CONTENT_TEXT
                             | AccessibilityManager.FLAG_CONTENT_CONTROLS);
         }
-        return Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.VOLUME_DIALOG_TIMEOUT, 3) * 1000; // s to ms
+        return mAccessibilityMgr.getRecommendedTimeoutMillis(DIALOG_TIMEOUT_MILLIS,
+                AccessibilityManager.FLAG_CONTENT_CONTROLS);
     }
 
     protected void dismissH(int reason) {
@@ -2002,7 +2003,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             mDynamic.put(stream, true);
             if (findRow(stream) == null) {
                 addRow(stream, R.drawable.ic_volume_remote, R.drawable.ic_volume_remote_mute, true,
-                        false);
+                        false, true);
             }
         }
 

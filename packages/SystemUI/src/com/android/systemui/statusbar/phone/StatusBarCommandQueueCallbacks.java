@@ -315,6 +315,12 @@ public class StatusBarCommandQueueCallbacks implements CommandQueue.Callbacks {
             }
         }
 
+        if ((diff1 & StatusBarManager.DISABLE_NOTIFICATION_ICONS) != 0
+                && (state1 & StatusBarManager.DISABLE_NOTIFICATION_ICONS) != 0
+                && mStatusBar.isTicking()) {
+            mStatusBar.haltTicker();
+        }
+
         if ((diff2 & StatusBarManager.DISABLE2_QUICK_SETTINGS) != 0) {
             mStatusBar.updateQsExpansionEnabled();
         }

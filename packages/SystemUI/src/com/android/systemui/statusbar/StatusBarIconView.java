@@ -474,6 +474,40 @@ public class StatusBarIconView extends AnimatedImageView implements StatusIconDi
         return new ScalingDrawableWrapper(icon, scaleFactor);
     }
 
+    public static Drawable getIcon(Context sysuiContext,
+            Context context, StatusBarIcon statusBarIcon, boolean coloredIcon) {
+        int userId = statusBarIcon.user.getIdentifier();
+        if (userId == UserHandle.USER_ALL) {
+            userId = UserHandle.USER_SYSTEM;
+        }
+
+        Drawable icon;
+        String pkgName = statusBarIcon.pkg;
+        if (!coloredIcon) {
+           icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
+        } else {
+            try {
+                icon = pkgName.contains("systemui") || !coloredIcon ?
+                        statusBarIcon.icon.loadDrawableAsUser(context, userId)
+                        : context.getPackageManager().getApplicationIcon(pkgName);
+            } catch (android.content.pm.PackageManager.NameNotFoundException e) {
+                icon = statusBarIcon.icon.loadDrawableAsUser(context, userId);
+            }
+        }
+
+        TypedValue typedValue = new TypedValue();
+        sysuiContext.getResources().getValue(R.dimen.status_bar_icon_scale_factor,
+                typedValue, true);
+        float scaleFactor = typedValue.getFloat();
+
+        // No need to scale the icon, so return it as is.
+        if (scaleFactor == 1.f) {
+            return icon;
+        }
+
+        return new ScalingDrawableWrapper(icon, scaleFactor);
+    }
+
     public StatusBarIcon getStatusBarIcon() {
         return mIcon;
     }

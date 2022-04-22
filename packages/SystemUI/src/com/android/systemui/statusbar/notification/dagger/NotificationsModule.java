@@ -119,7 +119,8 @@ public interface NotificationsModule {
             LeakDetector leakDetector,
             ForegroundServiceDismissalFeatureController fgsFeatureController,
             IStatusBarService statusBarService,
-            DumpManager dumpManager) {
+            DumpManager dumpManager,
+            NotificationEntryManager.KeyguardEnvironment keyguardEnvironment) {
         return new NotificationEntryManager(
                 logger,
                 groupManager,
@@ -129,7 +130,8 @@ public interface NotificationsModule {
                 leakDetector,
                 fgsFeatureController,
                 statusBarService,
-                dumpManager);
+                dumpManager,
+                keyguardEnvironment);
     }
 
     /** Provides an instance of {@link NotificationGutsManager} */

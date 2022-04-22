@@ -467,6 +467,8 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
 
     public void findAndUpdateMediaNotifications() {
         boolean metaDataChanged;
+        NotificationEntry mediaNotification = null;
+        final Optional<StatusBar> statusBarOptional = mStatusBarOptionalLazy.get();
         if (mUsingNotifPipeline) {
             // TODO(b/169655907): get the semi-filtered notifications for current user
             Collection<NotificationEntry> allNotifications = mNotifPipeline.getAllNotifs();
@@ -479,6 +481,19 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable 
 
             if (metaDataChanged) {
                 mEntryManager.updateNotifications("NotificationMediaManager - metaDataChanged");
+                if (PlaybackState.STATE_PLAYING ==
+                        getMediaControllerPlaybackState(mMediaController) &&
+                        statusBarOptional.map(StatusBar::isMusicTickerEnabled).orElse(false) &&
+                        mediaNotification != null && mMediaMetadata != null) {
+                    StatusBarNotification entry = mediaNotification.getSbn();
+                    mMainExecutor.executeDelayed(() -> {
+                        statusBarOptional.ifPresent(
+                                statusBar -> statusBar.tick(entry, true, true, mMediaMetadata, null));
+                    }, 600);
+                } else {
+                    statusBarOptional.ifPresent(
+                        statusBar -> statusBar.resetTrackInfo());
+                }
             }
 
         }

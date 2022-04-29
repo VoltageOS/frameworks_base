@@ -66,6 +66,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.android.internal.annotations.GuardedBy;
+import com.android.internal.gmscompat.GmsHooks;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -1039,6 +1040,13 @@ public final class BluetoothAdapter {
         if (!isBleScanAlwaysAvailable()) {
             return false;
         }
+
+        if (GmsCompat.isEnabled()) {
+            if (!GmsHooks.canEnableBluetoothAdapter()) {
+                return false;
+            }
+        }
+
         String packageName = ActivityThread.currentPackageName();
         try {
             return mManagerService.enableBle(mAttributionSource, mToken);
@@ -1215,6 +1223,13 @@ public final class BluetoothAdapter {
             }
             return true;
         }
+
+        if (GmsCompat.isEnabled()) {
+            if (!GmsHooks.canEnableBluetoothAdapter()) {
+                return false;
+            }
+        }
+
         try {
             return mManagerService.enable(mAttributionSource);
         } catch (RemoteException e) {

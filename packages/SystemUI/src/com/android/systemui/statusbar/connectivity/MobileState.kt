@@ -131,10 +131,6 @@ internal class MobileState(
         return serviceState != null && serviceState!!.roaming
     }
 
-    fun getDataNetworkType(): Int {
-        return serviceState?.getDataNetworkType() ?: 0
-    }
-
     fun setFromMobileStatus(mobileStatus: MobileStatus) {
         activityIn = mobileStatus.activityIn
         activityOut = mobileStatus.activityOut

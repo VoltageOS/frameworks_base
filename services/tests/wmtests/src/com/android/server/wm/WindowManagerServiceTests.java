@@ -31,6 +31,7 @@ import static android.window.DisplayAreaOrganizer.FEATURE_VENDOR_FIRST;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
+import static com.android.dx.mockito.inline.extended.ExtendedMockito.doNothing;
 import static com.android.dx.mockito.inline.extended.ExtendedMockito.doReturn;
 import static com.android.dx.mockito.inline.extended.ExtendedMockito.never;
 import static com.android.dx.mockito.inline.extended.ExtendedMockito.spyOn;
@@ -41,6 +42,7 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -153,6 +155,16 @@ public class WindowManagerServiceTests extends WindowTestsBase {
         mWm.handleTaskFocusChange(tappedTask, null /* window */);
 
         verify(mWm.mAtmService).setFocusedTask(tappedTask.mTaskId, null);
+    }
+
+    @Test
+    public void testDismissKeyguardCanWakeUp() {
+        doReturn(true).when(mWm).checkCallingPermission(anyString(), anyString());
+        spyOn(mWm.mAtmInternal);
+        doReturn(true).when(mWm.mAtmInternal).isDreaming();
+        doNothing().when(mWm.mAtmService.mTaskSupervisor).wakeUp(anyString());
+        mWm.dismissKeyguard(null, "test-dismiss-keyguard");
+        verify(mWm.mAtmService.mTaskSupervisor).wakeUp(anyString());
     }
 
     @Test

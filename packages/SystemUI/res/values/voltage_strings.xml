@@ -207,7 +207,7 @@
     <string name="tristate_rotation_270">Landscape (270°)</string>
 
     <!-- FPS view text placeholder -->
-    <string name="fps_text_placeholder">FPS: <xliff:g id="fps" example="90">%1$d</xliff:g></string>
+    <string name="fps_text_placeholder"><xliff:g id="fps" example="90">%1$d</xliff:g></string>
 
     <!-- Compass QS Tile -->
     <string name="quick_settings_compass_label">Compass</string>

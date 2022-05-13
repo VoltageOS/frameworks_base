@@ -95,7 +95,9 @@
 
      <!-- List of system apps that are allowed to be locked with app lock.
           Use with extreme caution. -->
-     <string-array name="config_appLockAllowedSystemApps" translatable="false" />
+     <string-array name="config_appLockAllowedSystemApps" translatable="false">
+          <item>com.android.gallery3d</item>
+     </string-array>
 
     <!-- Enable face auth only when swiping security view -->
     <bool name="config_faceAuthOnlyOnSecurityView">false</bool>

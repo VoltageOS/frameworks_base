@@ -295,10 +295,6 @@ public class StatusBar extends SystemUI implements
     public static final String SYSTEM_DIALOG_REASON_RECENT_APPS = "recentapps";
     static public final String SYSTEM_DIALOG_REASON_SCREENSHOT = "screenshot";
 
-    private static final String GAMING_MODE_ACTIVE =
-            "system:" + Settings.System.GAMING_MODE_ACTIVE;
-    private static final String GAMING_MODE_DISABLE_NOTIFICATION_ALERT =
-            "system:" + Settings.System.GAMING_MODE_DISABLE_NOTIFICATION_ALERT;
     private static final String FORCE_SHOW_NAVBAR =
             "system:" + Settings.System.FORCE_SHOW_NAVBAR;
 
@@ -1012,8 +1008,6 @@ public class StatusBar extends SystemUI implements
                 SysuiStatusBarStateController.RANK_STATUS_BAR);
 
         mTunerService.addTunable(this, FORCE_SHOW_NAVBAR);
-        mTunerService.addTunable(this, GAMING_MODE_ACTIVE);
-        mTunerService.addTunable(this, GAMING_MODE_DISABLE_NOTIFICATION_ALERT);
 
         mWindowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         mDreamManager = IDreamManager.Stub.asInterface(
@@ -4506,20 +4500,6 @@ public class StatusBar extends SystemUI implements
                     if (hasNavbar) {
                         mNavigationBarController.onDisplayRemoved(mDisplayId);
                     }
-                }
-                break;
-            case GAMING_MODE_ACTIVE:
-                boolean gamingModeActive =
-                        TunerService.parseIntegerSwitch(newValue, false);
-                if (mPresenter != null) {
-                    mPresenter.setGamingModeActive(gamingModeActive);
-                }
-                break;
-            case GAMING_MODE_DISABLE_NOTIFICATION_ALERT:
-                boolean gamingModeNoAlert =
-                        TunerService.parseIntegerSwitch(newValue, true);
-                if (mPresenter != null) {
-                    mPresenter.setGamingModeNoAlert(gamingModeNoAlert);
                 }
                 break;
             default:

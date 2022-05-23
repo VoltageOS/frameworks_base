@@ -23,6 +23,7 @@ import static android.provider.settings.validators.SettingsValidators.LENIENT_IP
 import static android.provider.settings.validators.SettingsValidators.NON_NEGATIVE_INTEGER_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.URI_VALIDATOR;
 import static android.provider.settings.validators.SettingsValidators.VIBRATION_INTENSITY_VALIDATOR;
+import static android.provider.settings.validators.SettingsValidators.ANY_INTEGER_VALIDATOR;
 
 import android.annotation.Nullable;
 import android.compat.annotation.UnsupportedAppUsage;

@@ -4972,6 +4972,7 @@ public class NotificationPanelViewController extends PanelViewController {
             }
             mReTickerComeback.setBackground(dw);
             mReTickerContentTV.setText(mergedContentText);
+            mReTickerContentTV.setTextAppearance(mView.getContext(), R.style.TextAppearance_Notifications_reTicker);
             mReTickerContentTV.setSelected(true);
             RetickerAnimations.doBounceAnimationIn(mReTickerComeback);
             if (reTickerIntent != null) {

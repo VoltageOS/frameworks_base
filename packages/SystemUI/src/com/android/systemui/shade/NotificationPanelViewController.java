@@ -1243,6 +1243,14 @@ public final class NotificationPanelViewController implements Dumpable {
                 mKeyguardStatusViewComponentFactory.build(keyguardStatusView);
         mKeyguardStatusViewController = statusViewComponent.getKeyguardStatusViewController();
         mKeyguardStatusViewController.init();
+
+        mKeyguardStatusBarViewController =
+                mKeyguardStatusBarViewComponentFactory.build(
+                                mKeyguardStatusBar,
+                                mNotificationPanelViewStateProvider)
+                        .getKeyguardStatusBarViewController();
+        mKeyguardStatusBarViewController.init();
+
         updateClockAppearance();
 
         mKeyguardStatusBarViewController =

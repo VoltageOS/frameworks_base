@@ -2280,6 +2280,11 @@ public class DisplayPolicy {
         final int seascapeRotation = displayRotation.getSeascapeRotation();
         final int uiMode = mService.mPolicy.getUiMode();
 
+        final InsetsPolicy policy = mDisplayContent.getInsetsPolicy();
+        if (policy != null) {
+            policy.updateLockedStatus();
+        }
+
         if (hasStatusBar()) {
             mStatusBarHeightForRotation[portraitRotation] =
                     mStatusBarHeightForRotation[upsideDownRotation] =
@@ -2800,7 +2805,7 @@ public class DisplayPolicy {
         if (controlTarget.canShowTransient()) {
             // Show transient bars if they are hidden; restore position if they are visible.
             mDisplayContent.getInsetsPolicy().showTransient(SHOW_TYPES_FOR_SWIPE,
-                    isGestureOnSystemBar);
+                    isGestureOnSystemBar, swipeTarget == mStatusBar);
             controlTarget.showInsets(restorePositionTypes, false);
         } else {
             // Restore visibilities and positions of system bars.
@@ -3473,5 +3478,9 @@ public class DisplayPolicy {
     private boolean isGesturalMode() {
         return Settings.Secure.getIntForUser(mContext.getContentResolver(),
                 Settings.Secure.NAVIGATION_MODE, 2, UserHandle.USER_CURRENT) == 2;
+    }
+
+    public Context getUiContext() {
+        return mUiContext;
     }
 }

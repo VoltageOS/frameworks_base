@@ -6045,6 +6045,12 @@ public final class Settings {
         @Readable
         public static final String RETICKER_STATUS = "reticker_status";
 
+        /**
+         * Current status of whether gestures are locked
+         * @hide
+         */
+        public static final String LOCK_GESTURE_STATUS = "lock_gesture_status";
+
        /**
          * Whether to wake the display when plugging or unplugging the charger
          *

@@ -187,4 +187,7 @@
     <java-symbol type="string" name="sleep_mode_enabled_toast" />
     <java-symbol type="string" name="sleep_mode_disabled_toast" />
 
+    <!-- Lock gesture -->
+    <java-symbol type="string" name="gesture_locked_warning" />
+
 </resources>

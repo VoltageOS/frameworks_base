@@ -184,48 +184,52 @@ class CustomThemeOverlayController @Inject constructor(
         }
 
         override fun onChange(selfChange: Boolean, uri: Uri?) {
-            if (uri == COLOR_OVERRIDE_URI) {
-                val color = Settings.Secure.getInt(mContext.contentResolver, PREF_COLOR_OVERRIDE)
-                var jsonObj = JSONObject(Settings.Secure.getString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES))
-                jsonObj.remove(OVERLAY_CATEGORY_ACCENT_COLOR)
-                jsonObj.remove(OVERLAY_COLOR_SOURCE)
-                jsonObj.remove(OVERLAY_CATEGORY_SYSTEM_PALETTE)
-                if (color != -1) {
-                    val colorStr = String.format("#%08x", color or (0xff shl 24))
-                    jsonObj.put(OVERLAY_COLOR_SOURCE, COLOR_SOURCE_PRESET)
-                    jsonObj.put(OVERLAY_CATEGORY_ACCENT_COLOR, colorStr)
-                    jsonObj.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, colorStr)
-                    jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
+            try{
+                if (uri == COLOR_OVERRIDE_URI) {
+                    val color = Settings.Secure.getInt(mContext.contentResolver, PREF_COLOR_OVERRIDE)
+                    var jsonObj = JSONObject(Settings.Secure.getString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES))
+                    jsonObj.remove(OVERLAY_CATEGORY_ACCENT_COLOR)
+                    jsonObj.remove(OVERLAY_COLOR_SOURCE)
+                    jsonObj.remove(OVERLAY_CATEGORY_SYSTEM_PALETTE)
+                    if (color != -1) {
+                        val colorStr = String.format("#%08x", color or (0xff shl 24))
+                        jsonObj.put(OVERLAY_COLOR_SOURCE, COLOR_SOURCE_PRESET)
+                        jsonObj.put(OVERLAY_CATEGORY_ACCENT_COLOR, colorStr)
+                        jsonObj.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, colorStr)
+                        jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
+                    } else {
+                        jsonObj.put(OVERLAY_SOURCE_BOTH, 1)
+                        jsonObj.put(OVERLAY_COLOR_SOURCE, "home_wallpaper")
+                        jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
+                    }
+                    Settings.Secure.putString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES, jsonObj.toString())
                 } else {
-                    jsonObj.put(OVERLAY_SOURCE_BOTH, 1)
-                    jsonObj.put(OVERLAY_COLOR_SOURCE, "home_wallpaper")
-                    jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
-                }
-                Settings.Secure.putString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES, jsonObj.toString())
-            } else {
-                // update fields not taken care of in getOverlay()
-                cond = Zcam.ViewingConditions(
-                    surroundFactor = Zcam.ViewingConditions.SURROUND_AVERAGE,
-                    // sRGB
-                    adaptingLuminance = 0.4 * whiteLuminance,
-                    // Gray world
-                    backgroundLuminance = CieLab(
-                        L = 50.0,
-                        a = 0.0,
-                        b = 0.0,
-                    ).toXyz().y * whiteLuminance,
-                    referenceWhite = Illuminants.D65.toAbs(whiteLuminance),
-                )
+                    // update fields not taken care of in getOverlay()
+                    cond = Zcam.ViewingConditions(
+                            surroundFactor = Zcam.ViewingConditions.SURROUND_AVERAGE,
+                            // sRGB
+                            adaptingLuminance = 0.4 * whiteLuminance,
+                            // Gray world
+                            backgroundLuminance = CieLab(
+                                    L = 50.0,
+                                    a = 0.0,
+                                    b = 0.0,
+                            ).toXyz().y * whiteLuminance,
+                            referenceWhite = Illuminants.D65.toAbs(whiteLuminance),
+                    )
 
-                targets = MaterialYouTargets(
-                    chromaFactor = chromaFactor,
-                    useLinearLightness = linearLightness,
-                    cond = cond,
-                )
-                // Just do a dummy update, update timestamp_field
-                var jsonObj = JSONObject(Settings.Secure.getString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES))
-                jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
-                Settings.Secure.putString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES, jsonObj.toString())
+                    targets = MaterialYouTargets(
+                            chromaFactor = chromaFactor,
+                            useLinearLightness = linearLightness,
+                            cond = cond,
+                    )
+                    // Just do a dummy update, update timestamp_field
+                    var jsonObj = JSONObject(Settings.Secure.getString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES))
+                    jsonObj.put(TIMESTAMP_FIELD, System.currentTimeMillis())
+                    Settings.Secure.putString(mContext.contentResolver, Settings.Secure.THEME_CUSTOMIZATION_OVERLAY_PACKAGES, jsonObj.toString())
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

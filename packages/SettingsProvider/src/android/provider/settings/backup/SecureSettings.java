@@ -198,5 +198,6 @@ public class SecureSettings {
         Settings.Secure.SECURE_LOCKSCREEN_QS_DISABLED,
         Settings.Secure.SHOW_BACK_ARROW_GESTURE,
         Settings.Secure.SHOW_CPU_OVERLAY,
+        Settings.Secure.STATUS_BAR_SHOW_VIBRATE_ICON
     };
 }

@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar.phone;
 
 import static android.app.StatusBarManager.WINDOW_STATE_SHOWING;
+import static com.android.systemui.qs.QSPanel.QS_SHOW_AUTO_BRIGHTNESS_BUTTON;
 
 import android.app.StatusBarManager;
 import android.graphics.RectF;
@@ -119,9 +120,6 @@ public class NotificationShadeWindowViewController {
     private RectF mTempRect = new RectF();
     private boolean mIsTrackingBarGesture = false;
 
-    private static final String QS_SHOW_AUTO_BRIGHTNESS =
-            Settings.Secure.QS_SHOW_AUTO_BRIGHTNESS;
-
     @Inject
     public NotificationShadeWindowViewController(
             NotificationWakeUpCoordinator coordinator,
@@ -179,6 +177,8 @@ public class NotificationShadeWindowViewController {
         mBrightnessMirror = mView.findViewById(R.id.brightness_mirror_container);
         mAutoBrightnessIcon = (ImageView)
                 mBrightnessMirror.findViewById(R.id.brightness_icon);
+        mShowAutoBrightnessButton = mTunerService.getValue(
+                QS_SHOW_AUTO_BRIGHTNESS_BUTTON, 1) == 1;
     }
 
     /**
@@ -202,21 +202,11 @@ public class NotificationShadeWindowViewController {
                     break;
                 case Settings.Secure.DOZE_TAP_SCREEN_GESTURE:
                     mSingleTapEnabled = configuration.tapGestureEnabled(UserHandle.USER_CURRENT);
-                    break;
-                case QS_SHOW_AUTO_BRIGHTNESS:
-                    mShowAutoBrightnessButton =
-                            TunerService.parseIntegerSwitch(newValue, true);
-                    if (mAutoBrightnessIcon != null) {
-                        mAutoBrightnessIcon.setVisibility(
-                                mShowAutoBrightnessButton ? View.VISIBLE : View.GONE);
-                    }
-                    break;
             }
         };
         mTunerService.addTunable(tunable,
                 Settings.Secure.DOZE_DOUBLE_TAP_GESTURE,
-                Settings.Secure.DOZE_TAP_SCREEN_GESTURE,
-                QS_SHOW_AUTO_BRIGHTNESS);
+                Settings.Secure.DOZE_TAP_SCREEN_GESTURE);
 
         GestureDetector.SimpleOnGestureListener gestureListener =
                 new GestureDetector.SimpleOnGestureListener() {
@@ -462,8 +452,8 @@ public class NotificationShadeWindowViewController {
                     mBrightnessMirror = child;
                     mAutoBrightnessIcon = (ImageView)
                             child.findViewById(R.id.brightness_icon);
-                    mAutoBrightnessIcon.setVisibility(mShowAutoBrightnessButton
-                            ? View.VISIBLE : View.GONE);
+                    mAutoBrightnessIcon.setVisibility(!mShowAutoBrightnessButton
+                            ? View.GONE : View.VISIBLE);
                 }
             }
 

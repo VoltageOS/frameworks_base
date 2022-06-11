@@ -17912,6 +17912,15 @@ public final class Settings {
         public static final String RESTRICTED_NETWORKING_MODE = "restricted_networking_mode";
 
         /**
+         * Whether strict standby policy should be used. When dismissing from recents,
+         * this will force stop apps with restricted battery usage and put them into
+         * RESTRICTED standby bucket. Also all restrictions will be imposed even when
+         * device is charging.
+         * @hide
+         */
+        public static final String STRICT_STANDBY_POLICY = "strict_standby_policy";
+
+        /**
          * Set whether speaker media can be muted by ringer mode.
          * @hide
          */

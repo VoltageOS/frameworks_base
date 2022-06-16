@@ -29,6 +29,8 @@ import com.android.systemui.qs.tiles.CellularTile
 import com.android.systemui.qs.tiles.DataSwitchTile
 import com.android.systemui.qs.tiles.SoundTile
 import com.android.systemui.qs.tiles.UsbTetherTile
+import com.android.systemui.qs.tiles.VPNTetheringTile
+
 import com.android.systemui.qs.tiles.WifiTile
 
 import dagger.Binds
@@ -86,6 +88,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(UsbTetherTile.TILE_SPEC)
     fun bindUsbTetherTile(usbTetherTile: UsbTetherTile): QSTileImpl<*>
+
+    /** Inject VPNTetheringTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(VPNTetheringTile.TILE_SPEC)
+    fun bindVPNTetheringTile(vpnTetheringTile: VPNTetheringTile): QSTileImpl<*>
 
     /** Inject AODTile into tileMap in QSModule */
     @Binds

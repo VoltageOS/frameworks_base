@@ -11532,12 +11532,6 @@ public final class Settings {
         public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
 
         /**
-         * Whether or not to vibrate when back gesture is used
-         * @hide
-         */
-        public static final String BACK_GESTURE_HAPTIC = "back_gesture_haptic";
-
-        /**
          * Whether to show media art on lockscreen
          * Boolean setting. 0 = off, 1 = on.
          * @hide

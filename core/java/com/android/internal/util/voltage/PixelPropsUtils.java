@@ -47,7 +47,9 @@ public class PixelPropsUtils {
     private static final Map<String, ArrayList<String>> propsToKeep;
 
     private static final String[] packagesToChangePixel6 = {
-            "com.google.android.gms"
+            "com.google.android.gms",
+	    "com.google.android.as",
+	    "com.google.android.inputmethod.latin"
     };
 
     private static final String[] packagesToChangePixelXL = {

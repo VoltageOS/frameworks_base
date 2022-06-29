@@ -17927,6 +17927,14 @@ public final class Settings {
         public static final String RINGER_MUTE_SPEAKER_MEDIA = "ringer_mute_speaker_media";
 
         /**
+         * Whether force background freezer should be used. This will freeze tasks with
+         * restricted battery usage when moving them to background and unfreeze them when
+         * moving to foreground.
+         * @hide
+         */
+        public static final String FORCE_BACKGROUND_FREEZER = "force_background_freezer";
+
+        /**
          * The saved last speaker media volume before setting to silent or vibrate.
          * @hide
          */

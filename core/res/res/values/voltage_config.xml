@@ -182,4 +182,7 @@
   <!-- Default state for LiveDisplay -->
   <bool name="config_liveDisplayAvailable">true</bool>
 
+  <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
+  <bool name="config_showRefreshRateTile">true</bool>
+
 </resources>

@@ -76,6 +76,9 @@ class RefreshRateTile @Inject constructor(
     private val defaultPeakRefreshRateOverlay = mContext.resources.getInteger(
         com.android.internal.R.integer.config_defaultPeakRefreshRate
     ).toFloat()
+    private val showRefreshRateTile = mContext.resources.getBoolean(
+        com.android.internal.R.bool.config_showRefreshRateTile
+    )
     private var defaultPeakRefreshRate: Float = getDefaultPeakRefreshRate()
 
     private var ignoreSettingsChange = false
@@ -129,7 +132,7 @@ class RefreshRateTile @Inject constructor(
 
     override fun getLongClickIntent() = displaySettingsIntent
 
-    override fun isAvailable() = supportedRefreshRates.size > 1
+    override fun isAvailable() = supportedRefreshRates.size > 1 && showRefreshRateTile
 
     override fun getTileLabel(): CharSequence =
         mContext.getString(R.string.refresh_rate_tile_label)

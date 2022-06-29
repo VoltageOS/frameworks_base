@@ -136,4 +136,7 @@
     <!-- Whether key handler sends intent when changing slider position -->
     <string name="config_alertSliderIntent"></string>
 
+  <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
+  <bool name="config_showRefreshRateTile">true</bool>
+
 </resources>

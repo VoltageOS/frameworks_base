@@ -117,9 +117,9 @@ public class ShadeControllerImpl implements ShadeController {
         }
 
         // TODO(b/62444020): remove when this bug is fixed
-        Log.v(TAG, "NotificationShadeWindow: " + getNotificationShadeWindowView()
-                + " canPanelBeCollapsed(): "
-                + getNotificationPanelViewController().canPanelBeCollapsed());
+        // Log.v(TAG, "NotificationShadeWindow: " + getNotificationShadeWindowView()
+        //        + " canPanelBeCollapsed(): "
+        //        + getNotificationPanelViewController().canPanelBeCollapsed());
         if (getNotificationShadeWindowView() != null
                 && getNotificationPanelViewController().canPanelBeCollapsed()
                 && (flags & CommandQueue.FLAG_EXCLUDE_NOTIFICATION_PANEL) == 0) {

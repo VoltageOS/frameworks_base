@@ -552,12 +552,14 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     public void showTicker(boolean animate) {
         if (mTickerViewContainer != null) {
             animateShow(mTickerViewContainer, animate);
+            animateShow(mCenterClockLayout, animate);
         }
     }
 
     public void hideTicker(boolean animate) {
         if (mTickerViewContainer != null) {
             animateHide(mTickerViewContainer, animate);
+            animateHide(mCenterClockLayout, animate);
         }
     }
 

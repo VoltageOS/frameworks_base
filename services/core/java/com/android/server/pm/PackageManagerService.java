@@ -29190,7 +29190,7 @@ public class PackageManagerService extends IPackageManager.Stub
                 mediaProviderAppId = mediaProvider.getUid();
             }
 
-            AndroidPackage permissionController = mPackages.get("com.android.permissioncontroller");
+            AndroidPackage permissionController = mPackages.get(mRequiredPermissionControllerPackage);
             if (permissionController != null) {
                 permissionControllerAppId = permissionController.getUid();
             }

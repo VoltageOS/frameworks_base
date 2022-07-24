@@ -28,6 +28,7 @@ LOCAL_REQUIRED_MODULES := \
 	DisplayCutoutEmulationTallOverlay \
 	DisplayCutoutEmulationWaterfallOverlay \
 	DisplayCutoutEmulationWideOverlay \
+	NotchBarKillerOverlay \
 	NavigationBarMode3ButtonOverlay \
 	NavigationBarModeGesturalOverlay \
 	NavigationBarModeGesturalOverlayNarrowBack \

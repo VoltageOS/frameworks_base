@@ -6039,13 +6039,6 @@ public final class Settings {
         public static final String ENABLE_RIPPLE_EFFECT = "enable_ripple_effect";
 
         /**
-         * reTicker Status
-         * @hide
-         */
-        @Readable
-        public static final String RETICKER_STATUS = "reticker_status";
-
-        /**
          * Current status of whether gestures are locked
          * @hide
          */
@@ -6057,13 +6050,6 @@ public final class Settings {
          * @hide
          */
         public static final String WAKE_WHEN_PLUGGED_OR_UNPLUGGED = "wake_when_plugged_or_unplugged";
-
-        /**
-         * reTicker Colored
-         * @hide
-         */
-        @Readable
-        public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
          * Which Vibration Pattern to use

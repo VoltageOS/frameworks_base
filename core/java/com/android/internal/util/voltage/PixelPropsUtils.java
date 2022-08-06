@@ -32,6 +32,7 @@ import java.util.Map;
 public class PixelPropsUtils {
 
     private static final String TAG = PixelPropsUtils.class.getSimpleName();
+    public static final String PACKAGE_GMS = "com.google.android.gms";
     private static final String DEVICE = "ro.product.device";
     private static final boolean DEBUG = false;
 
@@ -176,7 +177,9 @@ public class PixelPropsUtils {
         propsToChangeMI11.put("MODEL", "M2102K1G");
     }
 
-    public static void setProps(String packageName) {
+    public static void setProps(Application app) {
+        final String packageName = app.getPackageName();
+        final String processName = app.getProcessName();
         if (packageName == null) {
             return;
         }
@@ -217,11 +220,15 @@ public class PixelPropsUtils {
                 if (DEBUG) Log.d(TAG, "Defining " + key + " prop for: " + packageName);
                 setPropValue(key, value);
             }
-            if (packageName.equals("com.google.android.gms")) {
-                final String processName = Application.getProcessName();
-                if (processName.equals("com.google.android.gms.unstable")) {
-                    sIsGms = true;
-                }
+            if (packageName.equals(PACKAGE_GMS) &&
+                  processName.equals(PACKAGE_GMS + ".unstable")) {
+              sIsGms = true;
+            }
+            if (isPixelDevice){
+               if (packageName.equals(PACKAGE_GMS) &&
+                    processName.equals(PACKAGE_GMS + ".unstable")){
+                  setPropValue("MODEL", Build.MODEL + " ");
+               }
             }
             // Set proper indexing fingerprint
             if (packageName.equals("com.google.android.settings.intelligence")) {

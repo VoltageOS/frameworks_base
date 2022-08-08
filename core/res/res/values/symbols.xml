@@ -4512,4 +4512,7 @@
 
   <java-symbol type="array" name="config_serviceStateLocationAllowedPackages" />
   <java-symbol type="dimen" name="status_bar_height_default" />
+
+  <!-- Button that opens the screen with details of an application error -->
+  <java-symbol type="string" name="aerr_show_details" />
 </resources>

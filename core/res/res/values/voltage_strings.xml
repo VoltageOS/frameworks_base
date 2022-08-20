@@ -38,4 +38,7 @@
     <!-- Enable face auth only when swiping security view -->
     <java-symbol type="bool" name="config_faceAuthOnlyOnSecurityView" />
 
+    <!-- Parallel space badge -->
+    <string name="parallel_space_badge_label">%1$s</string>
+
 </resources>

@@ -182,4 +182,7 @@
     <integer name="config_proximityCheckTimeout">250</integer>
     <bool name="config_proximityCheckOnWakeEnabledByDefault">false</bool>
 
+    <!-- Parallel space max count. Should overlay according to device performance. -->
+    <integer name="config_parallelSpaceMaxCount">9</integer>
+
 </resources>

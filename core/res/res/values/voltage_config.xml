@@ -194,5 +194,8 @@
 
      <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
      <bool name="config_showRefreshRateTile">true</bool>
+     
+     <!-- Switch USB controller on Asus ROG devices-->
+     <bool name="config_switchUsbController">false</bool>
 
 </resources>

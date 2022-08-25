@@ -98,7 +98,6 @@ import com.android.systemui.keyguard.KeyguardUnlockAnimationController;
 import com.android.systemui.media.KeyguardMediaController;
 import com.android.systemui.media.MediaDataManager;
 import com.android.systemui.media.MediaHierarchyManager;
-import com.android.systemui.model.SysUiState;
 import com.android.systemui.navigationbar.NavigationModeController;
 import com.android.systemui.plugins.FalsingManager;
 import com.android.systemui.plugins.qs.QS;
@@ -334,8 +333,6 @@ public class NotificationPanelViewControllerTest extends SysuiTestCase {
     @Mock
     private NotificationShadeWindowController mNotificationShadeWindowController;
     @Mock
-    private SysUiState mSysUiState;
-    @Mock
     private NotificationListContainer mNotificationListContainer;
     @Mock
     private NotificationStackSizeCalculator mNotificationStackSizeCalculator;
@@ -533,7 +530,6 @@ public class NotificationPanelViewControllerTest extends SysuiTestCase {
                 mControlsComponent,
                 mInteractionJankMonitor,
                 mQsFrameTranslateController,
-                mSysUiState,
                 mKeyguardUnlockAnimationController,
                 mNotificationListContainer,
                 mPanelEventsEmitter,

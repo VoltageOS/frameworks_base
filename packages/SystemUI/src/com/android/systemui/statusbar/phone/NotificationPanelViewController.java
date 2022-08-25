@@ -126,6 +126,7 @@ import com.android.keyguard.dagger.KeyguardStatusBarViewComponent;
 import com.android.keyguard.dagger.KeyguardStatusViewComponent;
 import com.android.keyguard.dagger.KeyguardUserSwitcherComponent;
 import com.android.systemui.DejankUtils;
+import com.android.systemui.Dependency;
 import com.android.systemui.R;
 import com.android.systemui.RetickerAnimations;
 import com.android.systemui.animation.ActivityLaunchAnimator;
@@ -798,7 +799,6 @@ public class NotificationPanelViewController extends PanelViewController {
             ControlsComponent controlsComponent,
             InteractionJankMonitor interactionJankMonitor,
             QsFrameTranslateController qsFrameTranslateController,
-            SysUiState sysUiState,
             KeyguardUnlockAnimationController keyguardUnlockAnimationController,
             NotificationListContainer notificationListContainer,
             PanelEventsEmitter panelEventsEmitter,
@@ -875,7 +875,8 @@ public class NotificationPanelViewController extends PanelViewController {
         mUiExecutor = uiExecutor;
         mSecureSettings = secureSettings;
         mInteractionJankMonitor = interactionJankMonitor;
-        mSysUiState = sysUiState;
+        // TODO: inject via dagger instead of Dependency
+        mSysUiState = Dependency.get(SysUiState.class);
         mPanelEventsEmitter = panelEventsEmitter;
         pulseExpansionHandler.setPulseExpandAbortListener(() -> {
             if (mQs != null) {

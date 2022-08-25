@@ -17,6 +17,7 @@
 package com.android.systemui.statusbar.dagger;
 
 import android.app.IActivityManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Handler;
 import android.service.dreams.IDreamManager;
@@ -37,6 +38,7 @@ import com.android.systemui.statusbar.ActionClickLogger;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.MediaArtworkProcessor;
 import com.android.systemui.statusbar.NotificationClickNotifier;
+import com.android.systemui.statusbar.NotificationListener;
 import com.android.systemui.statusbar.NotificationLockscreenUserManager;
 import com.android.systemui.statusbar.NotificationMediaManager;
 import com.android.systemui.statusbar.NotificationRemoteInputManager;
@@ -161,6 +163,18 @@ public interface CentralSurfacesDependenciesModule {
                 mainExecutor,
                 mediaDataManager,
                 dumpManager);
+    }
+
+    /** */
+    @SysUISingleton
+    @Provides
+    static NotificationListener provideNotificationListener(
+            Context context,
+            NotificationManager notificationManager,
+            SystemClock systemClock,
+            @Main Executor mainExecutor) {
+        return new NotificationListener(
+                context, notificationManager, systemClock, mainExecutor);
     }
 
     /** */

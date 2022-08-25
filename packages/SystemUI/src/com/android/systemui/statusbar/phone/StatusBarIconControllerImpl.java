@@ -30,6 +30,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.android.internal.statusbar.StatusBarIcon;
+import com.android.systemui.Dependency;
 import com.android.systemui.Dumpable;
 import com.android.systemui.R;
 import com.android.systemui.dagger.qualifiers.Main;
@@ -86,10 +87,11 @@ public class StatusBarIconControllerImpl extends StatusBarIconList implements Tu
             TunerService tunerService,
             DumpManager dumpManager,
             @Main Handler handler,
-            SystemSettings systemSettings) {
+            SystemSettings systemSettings,
+            DumpManager dumpManager) {
         super(context.getResources().getStringArray(
                 com.android.internal.R.array.config_statusBarIcons));
-        configurationController.addCallback(this);
+        Dependency.get(ConfigurationController.class).addCallback(this);
 
         mContext = context;
         mSystemSettings = systemSettings;
@@ -97,7 +99,7 @@ public class StatusBarIconControllerImpl extends StatusBarIconList implements Tu
         loadDimens();
 
         commandQueue.addCallback(this);
-        tunerService.addTunable(this, ICON_HIDE_LIST);
+        Dependency.get(TunerService.class).addTunable(this, ICON_HIDE_LIST);
         demoModeController.addCallback(this);
         dumpManager.registerDumpable(getClass().getSimpleName(), this);
 

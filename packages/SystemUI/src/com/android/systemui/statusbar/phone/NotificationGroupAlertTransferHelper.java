@@ -28,7 +28,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.android.internal.statusbar.NotificationVisibility;
-import com.android.systemui.dagger.SysUISingleton;
+import com.android.systemui.Dependency;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.plugins.statusbar.StatusBarStateController.StateListener;
 import com.android.systemui.statusbar.notification.NotificationEntryListener;
@@ -48,14 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
 /**
  * A helper class dealing with the alert interactions between {@link NotificationGroupManagerLegacy}
  * and {@link HeadsUpManager}. In particular, this class deals with keeping
  * the correct notification in a group alerting based off the group suppression and alertOverride.
  */
-@SysUISingleton
 public class NotificationGroupAlertTransferHelper implements OnHeadsUpChangedListener,
         StateListener {
 
@@ -77,7 +74,8 @@ public class NotificationGroupAlertTransferHelper implements OnHeadsUpChangedLis
 
     private HeadsUpManager mHeadsUpManager;
     private final RowContentBindStage mRowContentBindStage;
-    private final NotificationGroupManagerLegacy mGroupManager;
+    private final NotificationGroupManagerLegacy mGroupManager =
+            Dependency.get(NotificationGroupManagerLegacy.class);
 
     private NotificationEntryManager mEntryManager;
 
@@ -86,14 +84,9 @@ public class NotificationGroupAlertTransferHelper implements OnHeadsUpChangedLis
     /**
      * Injected constructor. See {@link StatusBarPhoneModule}.
      */
-    @Inject
-    public NotificationGroupAlertTransferHelper(
-            RowContentBindStage bindStage,
-            StatusBarStateController statusBarStateController,
-            NotificationGroupManagerLegacy notificationGroupManagerLegacy) {
+    public NotificationGroupAlertTransferHelper(RowContentBindStage bindStage) {
+        Dependency.get(StatusBarStateController.class).addCallback(this);
         mRowContentBindStage = bindStage;
-        mGroupManager = notificationGroupManagerLegacy;
-        statusBarStateController.addCallback(this);
     }
 
     /** Causes the TransferHelper to register itself as a listener to the appropriate classes. */

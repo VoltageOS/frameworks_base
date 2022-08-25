@@ -29,7 +29,6 @@ import android.os.UserHandle;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
-import com.android.systemui.dagger.SysUISingleton;
 import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.shared.plugins.PluginManager;
 import com.android.systemui.statusbar.dagger.CentralSurfacesModule;
@@ -44,13 +43,10 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.Executor;
 
-import javax.inject.Inject;
-
 /**
  * This class handles listening to notification updates and passing them along to
  * NotificationPresenter to be displayed to the user.
  */
-@SysUISingleton
 @SuppressLint("OverrideAbstract")
 public class NotificationListener extends NotificationListenerWithPlugins {
     private static final String TAG = "NotificationListener";
@@ -71,14 +67,11 @@ public class NotificationListener extends NotificationListenerWithPlugins {
     /**
      * Injected constructor. See {@link CentralSurfacesModule}.
      */
-    @Inject
     public NotificationListener(
             Context context,
             NotificationManager notificationManager,
             SystemClock systemClock,
-            @Main Executor mainExecutor,
-            PluginManager pluginManager) {
-        super(pluginManager);
+            @Main Executor mainExecutor) {
         mContext = context;
         mNotificationManager = notificationManager;
         mSystemClock = systemClock;

@@ -26,7 +26,7 @@ import dagger.Module;
 /**
  * Dagger Module providing {@link CentralSurfacesImpl}.
  */
-@Module
+@Module(includes = {StatusBarPhoneDependenciesModule.class})
 public interface StatusBarPhoneModule {
     /**
      * Provides our instance of CentralSurfaces which is considered optional.

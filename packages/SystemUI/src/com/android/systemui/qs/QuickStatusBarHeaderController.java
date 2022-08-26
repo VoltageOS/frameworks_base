@@ -32,6 +32,7 @@ import com.android.systemui.statusbar.phone.StatusIconContainer;
 import com.android.systemui.statusbar.policy.Clock;
 import com.android.systemui.statusbar.policy.VariableDateViewController;
 import com.android.systemui.util.ViewController;
+import com.android.systemui.Dependency;
 
 import java.util.List;
 

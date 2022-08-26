@@ -737,7 +737,7 @@ public class Clock extends TextView implements
         }
     };
 
-    private class TaskStackListenerImpl extends TaskStackChangeListener {
+    private class TaskStackListenerImpl implements TaskStackChangeListener {
         @Override
         public void onTaskStackChanged() {
             updateShowClock();

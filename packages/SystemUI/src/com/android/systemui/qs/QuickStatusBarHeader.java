@@ -56,7 +56,7 @@ import com.android.systemui.statusbar.policy.Clock;
 import com.android.systemui.statusbar.policy.VariableDateView;
 import com.android.systemui.util.LargeScreenUtils;
 import com.android.systemui.tuner.TunerService;
-
+import com.android.systemui.Dependency;
 import java.util.List;
 
 /**

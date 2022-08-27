@@ -832,6 +832,7 @@ public class ApplicationPackageManager extends PackageManager {
             "com.google.android.feature.PIXEL_2019_MIDYEAR_EXPERIENCE",
             "com.google.android.feature.PIXEL_2018_EXPERIENCE",
             "com.google.android.feature.PIXEL_2017_EXPERIENCE",
+            "com.google.android.feature.PIXEL_2022_MIDYEAR_EXPERIENCE",
             "com.google.android.feature.PIXEL_EXPERIENCE",
             "com.google.android.feature.GOOGLE_BUILD",
             "com.google.android.feature.GOOGLE_EXPERIENCE"

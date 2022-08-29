@@ -51,6 +51,7 @@
     <string name="status_bar_vpn">VPN</string>
     <string name="status_bar_ims">VoLTE/VoWiFi</string>
 
+<<<<<<< HEAD
     <!-- Advanced Reboot -->
     <string name="global_action_restart_advanced">Advanced</string>
     <string name="global_action_restart_recovery">Recovery</string>
@@ -59,4 +60,9 @@
 
     <!-- Name of the clock in status bar [CHAR LIMIT=30] -->
     <string name="clock">Clock</string>
+=======
+    <!-- Sleep Mode -->
+    <string name="quick_settings_sleep_mode_label">Sleep Mode</string>
+
+>>>>>>> b1da22573814 (base: Introduce automated Sleep Mode [1/2])
 </resources>

@@ -25,5 +25,12 @@
     <string name="reboot_to_bootloader_message">Rebooting to bootloader</string>
     <string name="reboot_title">Reboot</string>
     <string name="reboot_message">Rebooting system</string>
+
+    <!-- Sleep Mode -->
+    <string name="notification_channel_sleep">Sleep Mode</string>
+    <string name="sleep_mode_notification_title">Sleep mode enabled</string>
+    <string name="sleep_mode_notification_content">Tap to turn off sleep mode</string>
+    <string name="sleep_mode_enabled_toast">Sleep mode turned on</string>
+    <string name="sleep_mode_disabled_toast">Sleep mode turned off</string>
 	
 </resources>

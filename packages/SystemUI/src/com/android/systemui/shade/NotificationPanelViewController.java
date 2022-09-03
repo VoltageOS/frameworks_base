@@ -4862,7 +4862,8 @@ public final class NotificationPanelViewController extends PanelViewController {
         positionClockAndNotifications(true /* forceUpdate */);
     }
 
-    private class OnAttachStateChangeListener implements View.OnAttachStateChangeListener {
+    private class OnAttachStateChangeListener implements View.OnAttachStateChangeListener,
+            TunerService.Tunable {
         @Override
         public void onViewAttachedToWindow(View v) {
             mFragmentService.getFragmentHostManager(mView)

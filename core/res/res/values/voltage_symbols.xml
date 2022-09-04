@@ -176,4 +176,6 @@
     <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
     <java-symbol type="bool" name="config_showRefreshRateTile" />
 
+    <!-- Whether to handle audio direction changes between major call states -->
+    <java-symbol type="bool" name="config_handleAudioDirectionChangesBetweenCallStateChanges" />
 </resources>

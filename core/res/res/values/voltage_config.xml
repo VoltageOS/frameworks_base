@@ -168,4 +168,8 @@
 
      <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
      <bool name="config_showRefreshRateTile">true</bool>
+
+    <!-- Whether to handle audio direction changes between major call states -->
+    <bool name="config_handleAudioDirectionChangesBetweenCallStateChanges">true</bool>
+
 </resources>

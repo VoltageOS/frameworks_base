@@ -24,4 +24,6 @@
     <!-- Whether device supports an alt. ambient display -->
     <java-symbol type="bool" name="config_alt_ambient_display"/>
 
+    <!-- Location indicator -->
+    <java-symbol type="drawable" name="stat_sys_location" />
 </resources>

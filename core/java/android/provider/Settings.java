@@ -5643,6 +5643,12 @@ public final class Settings {
         public static final String RETICKER_LANDSCAPE_ONLY = "reticker_landscape_only";
 
         /**
+         * Show app volume rows in volume panel
+         * @hide
+         */
+        public static final String SHOW_APP_VOLUME = "show_app_volume";
+
+        /**
          * @hide
          */
         public static final String USE_OLD_MOBILETYPE = "use_old_mobiletype";
@@ -18585,6 +18591,11 @@ public final class Settings {
         @SdkConstant(SdkConstant.SdkConstantType.ACTIVITY_INTENT_ACTION)
         public static final String ACTION_VOLUME =
                 "android.settings.panel.action.VOLUME";
+        /**
+         * @hide
+         */
+        public static final String ACTION_APP_VOLUME =
+                "android.settings.panel.action.APP_VOLUME";
     }
 
     /**

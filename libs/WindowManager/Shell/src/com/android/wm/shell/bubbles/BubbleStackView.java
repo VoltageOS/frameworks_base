@@ -1151,8 +1151,7 @@ public class BubbleStackView extends FrameLayout
             return false;
         }
         final boolean seen = getPrefBoolean(ManageEducationViewKt.PREF_MANAGED_EDUCATION);
-        final boolean shouldShow = (!seen || BubbleDebugConfig.forceShowUserEducation(mContext))
-                && mExpandedBubble != null;
+        final boolean shouldShow = (!seen || BubbleDebugConfig.forceShowUserEducation(mContext));
         if (BubbleDebugConfig.DEBUG_USER_EDUCATION) {
             Log.d(TAG, "Show manage edu: " + shouldShow);
         }
@@ -1226,7 +1225,9 @@ public class BubbleStackView extends FrameLayout
             removeView(mManageEduView);
             mManageEduView = new ManageEducationView(mContext, mPositioner);
             addView(mManageEduView);
-            mManageEduView.show(mExpandedBubble.getExpandedView());
+            if (mExpandedBubble != null && mExpandedBubble.getExpandedView() != null) {
+                mManageEduView.show(mExpandedBubble.getExpandedView());
+            }
         }
     }
 
@@ -2011,7 +2012,8 @@ public class BubbleStackView extends FrameLayout
         updateOverflowVisibility();
         updatePointerPosition(false /* forIme */);
         mExpandedAnimationController.expandFromStack(() -> {
-            if (mIsExpanded && mExpandedBubble.getExpandedView() != null) {
+            if (mIsExpanded && mExpandedBubble != null
+                    && mExpandedBubble.getExpandedView() != null) {
                 maybeShowManageEdu();
             }
         } /* after */);

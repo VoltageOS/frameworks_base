@@ -54,6 +54,7 @@ import com.android.wm.shell.splitscreen.SplitScreen;
 import com.android.wm.shell.startingsurface.StartingSurface;
 import com.android.wm.shell.tasksurfacehelper.TaskSurfaceHelper;
 import com.android.wm.shell.transition.ShellTransitions;
+import com.voltage.systemui.dagger.SystemUIVoltageModule;
 
 import java.util.Map;
 import java.util.Optional;
@@ -73,7 +74,8 @@ import dagger.Subcomponent;
         SystemUIBinder.class,
         SystemUIModule.class,
         SystemUICoreStartableModule.class,
-        ReferenceSystemUIModule.class})
+        ReferenceSystemUIModule.class,
+	SystemUIVoltageModule.class})
 public interface SysUIComponent {
 
     /**

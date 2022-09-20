@@ -5742,7 +5742,11 @@ public class ComputerEngine implements Computer {
             return PackageInfoUtils.generateProcessInfo(sus.processes, 0);
         } else if (settingBase instanceof PackageSetting) {
             final PackageSetting ps = (PackageSetting) settingBase;
-            return PackageInfoUtils.generateProcessInfo(ps.getPkg().getProcesses(), 0);
+            if (ps.getPkg() != null) {
+                return PackageInfoUtils.generateProcessInfo(ps.getPkg().getProcesses(), 0);
+            } else {
+                Slog.i(TAG, "PackageSetting has no package: " + ps.getPackageName() + ", " + uid);
+            }
         }
         return null;
     }

@@ -644,7 +644,7 @@ public class NotificationGroupAlertTransferHelper implements OnHeadsUpChangedLis
     }
 
     private boolean onlySummaryAlerts(NotificationEntry entry) {
-        return entry.getSbn().getNotification().getGroupAlertBehavior()
+        return entry != null && entry.getSbn().getNotification().getGroupAlertBehavior()
                 == Notification.GROUP_ALERT_SUMMARY;
     }
 

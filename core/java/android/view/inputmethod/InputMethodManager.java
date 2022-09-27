@@ -2262,7 +2262,8 @@ public final class InputMethodManager {
 
         if (windowGainingFocus == null) {
             windowGainingFocus = view.getWindowToken();
-            if (windowGainingFocus == null) {
+            // Sometimes getViewRootImpl() will return null, so we also need to prevent NPE here.
+            if (windowGainingFocus == null || view.getViewRootImpl() == null) {
                 Log.e(TAG, "ABORT input: ServedView must be attached to a Window");
                 return false;
             }

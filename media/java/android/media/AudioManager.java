@@ -6672,8 +6672,8 @@ public class AudioManager {
             }
         }
         if (k == ports.size()) {
-            // this hould never happen
-            Log.e(TAG, "updatePortConfig port not found for handle: "+port.handle().id());
+            // this should never happen
+            Log.w(TAG, "updatePortConfig port not found for handle: " + port.handle().id());
             return null;
         }
         AudioGainConfig gainCfg = portCfg.gain();

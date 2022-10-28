@@ -422,7 +422,6 @@ public class FaceManager implements BiometricAuthenticator, BiometricFaceConstan
         final List<FaceSensorPropertiesInternal> faceSensorProperties =
                 getSensorPropertiesInternal();
         if (faceSensorProperties.isEmpty()) {
-            Slog.e(TAG, "No sensors");
             return;
         }
 
@@ -550,7 +549,6 @@ public class FaceManager implements BiometricAuthenticator, BiometricFaceConstan
         final List<FaceSensorPropertiesInternal> faceSensorProperties =
                 getSensorPropertiesInternal();
         if (faceSensorProperties.isEmpty()) {
-            Slog.e(TAG, "No sensors");
             return new ArrayList<>();
         }
 
@@ -597,7 +595,6 @@ public class FaceManager implements BiometricAuthenticator, BiometricFaceConstan
         final List<FaceSensorPropertiesInternal> faceSensorProperties =
                 getSensorPropertiesInternal();
         if (faceSensorProperties.isEmpty()) {
-            Slog.e(TAG, "No sensors");
             return false;
         }
 
@@ -623,7 +620,6 @@ public class FaceManager implements BiometricAuthenticator, BiometricFaceConstan
         final List<FaceSensorPropertiesInternal> faceSensorProperties =
                 getSensorPropertiesInternal();
         if (faceSensorProperties.isEmpty()) {
-            Slog.e(TAG, "No sensors");
             return false;
         }
 

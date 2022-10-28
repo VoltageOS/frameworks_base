@@ -3929,7 +3929,7 @@ public final class ViewRootImpl implements ViewParent,
                     int numValidRequests = validLayoutRequesters.size();
                     for (int i = 0; i < numValidRequests; ++i) {
                         final View view = validLayoutRequesters.get(i);
-                        Log.w("View", "requestLayout() improperly called by " + view +
+                        if (DEBUG_LAYOUT) Log.d("View", "requestLayout() improperly called by " + view +
                                 " during layout: running second layout pass");
                         view.requestLayout();
                     }
@@ -3952,7 +3952,7 @@ public final class ViewRootImpl implements ViewParent,
                                 int numValidRequests = finalRequesters.size();
                                 for (int i = 0; i < numValidRequests; ++i) {
                                     final View view = finalRequesters.get(i);
-                                    Log.w("View", "requestLayout() improperly called by " + view +
+                                    if (DEBUG_LAYOUT) Log.d("View", "requestLayout() improperly called by " + view +
                                             " during second layout pass: posting in next frame");
                                     view.requestLayout();
                                 }

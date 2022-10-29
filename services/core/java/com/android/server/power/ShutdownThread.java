@@ -62,6 +62,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class ShutdownThread extends Thread {
     // constants
+    private static final boolean DEBUG = false;
     private static final String TAG = "ShutdownThread";
     private static final int ACTION_DONE_POLL_WAIT_MS = 500;
     private static final int RADIOS_STATE_POLL_SLEEP_MS = 100;
@@ -164,7 +165,9 @@ public final class ShutdownThread extends Thread {
         // any additional calls are just returned
         synchronized (sIsStartedGuard) {
             if (sIsStarted) {
-                Log.d(TAG, "Request to shutdown already running, returning.");
+                if (DEBUG) {
+                    Log.d(TAG, "Request to shutdown already running, returning.");
+                }
                 return;
             }
         }
@@ -186,7 +189,9 @@ public final class ShutdownThread extends Thread {
         int themeResId = isNightMode ? android.R.style.Theme_DeviceDefault_Dialog_Alert :
                 android.R.style.Theme_DeviceDefault_Light_Dialog_Alert;
 
-        Log.d(TAG, "Notifying thread to start shutdown longPressBehavior=" + longPressBehavior);
+        if (DEBUG) {
+            Log.d(TAG, "Notifying thread to start shutdown longPressBehavior=" + longPressBehavior);
+        }
 
         if (confirm) {
             final CloseDialogReceiver closer = new CloseDialogReceiver(context);
@@ -400,26 +405,34 @@ public final class ShutdownThread extends Thread {
     }
 
     private static boolean showSysuiReboot() {
-        Log.d(TAG, "Attempting to use SysUI shutdown UI");
+        if (DEBUG) {
+            Log.d(TAG, "Attempting to use SysUI shutdown UI");
+        }
         try {
             StatusBarManagerInternal service = LocalServices.getService(
                     StatusBarManagerInternal.class);
             if (service.showShutdownUi(mReboot, mReason, mAdvancedReboot)) {
                 // Sysui will handle shutdown UI.
-                Log.d(TAG, "SysUI handling shutdown UI");
+                if (DEBUG) {
+                    Log.d(TAG, "SysUI handling shutdown UI");
+                }
                 return true;
             }
         } catch (Exception e) {
             // If anything went wrong, ignore it and use fallback ui
         }
-        Log.d(TAG, "SysUI is unavailable");
+        if (DEBUG) {
+            Log.d(TAG, "SysUI is unavailable");
+        }
         return false;
     }
 
     private static void beginShutdownSequence(Context context) {
         synchronized (sIsStartedGuard) {
             if (sIsStarted) {
-                Log.d(TAG, "Shutdown sequence already running, returning.");
+                if (DEBUG) {
+                    Log.d(TAG, "Shutdown sequence already running, returning.");
+                }
                 return;
             }
             sIsStarted = true;

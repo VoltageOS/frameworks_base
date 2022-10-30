@@ -170,7 +170,10 @@
     <!-- Switch USB controller on Asus ROG devices-->
     <java-symbol type="bool" name="config_switchUsbController" />	
 
-  <!-- Whether the device supports Smart Pixels -->
-  <java-symbol type="bool" name="config_supportSmartPixels" />
+    <!-- Whether the device supports Smart Pixels -->
+    <java-symbol type="bool" name="config_supportSmartPixels" />
+
+    <!-- Whether to show Refresh Rate Tile or Not (Only For High Refresh Rate Devices) -->
+    <java-symbol type="bool" name="config_showRefreshRateTile" />
 
 </resources>

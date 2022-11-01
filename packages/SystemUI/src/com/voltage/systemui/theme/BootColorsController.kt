@@ -36,6 +36,7 @@ import com.android.systemui.statusbar.policy.DeviceProvisionedController
 import com.android.systemui.theme.ThemeOverlayApplier
 import com.android.systemui.theme.ThemeOverlayController
 import com.android.systemui.util.settings.SecureSettings
+import com.android.systemui.util.settings.SystemSettings
 import java.lang.RuntimeException
 import java.util.concurrent.Executor
 import javax.inject.Inject
@@ -58,12 +59,13 @@ class BootColorsController @Inject constructor(
     private val userTracker: UserTracker,
     featureFlags: FeatureFlags,
     wakefulnessLifecycle: WakefulnessLifecycle,
-    configurationController: ConfigurationController
+    configurationController: ConfigurationController,
+    systemSettings: SystemSettings
 ) : ThemeOverlayController(
     context, broadcastDispatcher, bgHandler, mainExecutor, bgExecutor,
     themeOverlayApplier, secureSettings, wallpaperManager, userManager,
     deviceProvisionedController, userTracker, dumpManager, featureFlags,
-    resources, wakefulnessLifecycle, configurationController
+    resources, wakefulnessLifecycle, configurationController, systemSettings
 ) {
     init {
         with(configurationController) {

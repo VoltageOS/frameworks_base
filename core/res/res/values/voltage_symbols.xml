@@ -44,4 +44,8 @@
     <java-symbol type="array" name="config_globallyDisabledComponents" />
     <java-symbol type="array" name="config_forceEnabledComponents" />
 
+     <!-- Hide IME space -->
+     <java-symbol type="dimen" name="navigation_bar_frame_height_hide_ime" />
+     <java-symbol type="dimen" name="navigation_bar_frame_height_landscape_hide_ime" />
+
 </resources>

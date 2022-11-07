@@ -204,7 +204,6 @@ import com.android.internal.policy.PhoneWindow;
 import com.android.internal.policy.TransitionAnimation;
 import com.android.internal.statusbar.IStatusBarService;
 import com.android.internal.util.ArrayUtils;
-import com.android.internal.util.voltage.VoltageUtils;
 import com.android.internal.util.ScreenshotHelper;
 import com.android.internal.util.hwkeys.ActionHandler;
 import com.android.internal.util.hwkeys.ActionUtils;
@@ -675,9 +674,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mVolumeMusicControlActive;
     private boolean mVolumeMusicControl;
 
-    private SwipeToScreenshotListener mSwipeToScreenshot;
-    private boolean mSwipeToScreenshotEnabled = false;
-
     private class PolicyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -821,9 +817,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.POWER_BUTTON_SUPPRESSION_DELAY_AFTER_GESTURE_WAKE), false, this,
-                    UserHandle.USER_ALL);
-	        resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_BUTTON_MUSIC_CONTROL), false, this,
@@ -2040,12 +2033,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         mHandler = new PolicyHandler();
-        mSwipeToScreenshot = new SwipeToScreenshotListener(mContext,
-            () -> interceptScreenshotChord(
-                TAKE_SCREENSHOT_FULLSCREEN,
-                SCREENSHOT_KEY_OTHER,
-                0 /*pressDelay*/
-            ));
         mWakeGestureListener = new MyWakeGestureListener(mContext, mHandler);
         // only for hwkey devices
         if (!mContext.getResources().getBoolean(
@@ -2511,16 +2498,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
     }
 
-    private void enableSwipeThreeFingerGesture(boolean enabled) {
-        if (mSwipeToScreenshotEnabled == enabled) return;
-        mSwipeToScreenshotEnabled = enabled;
-        if (mSwipeToScreenshotEnabled) {
-            mWindowManagerFuncs.registerPointerEventListener(mSwipeToScreenshot, DEFAULT_DISPLAY);
-        } else {
-            mWindowManagerFuncs.unregisterPointerEventListener(mSwipeToScreenshot, DEFAULT_DISPLAY);
-        }
-    }
-
     /**
      * Read values from config.xml that may be overridden depending on
      * the configuration of the device.
@@ -2593,12 +2570,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     .getBoolean(com.android.internal.R.bool.config_volumeHushGestureEnabled)) {
                 mRingerToggleChord = VOLUME_HUSH_OFF;
             }
-
-            //Three Finger Gesture
-            final boolean threeFingerGestureEnabled = Settings.System.getIntForUser(resolver,
-                    Settings.System.THREE_FINGER_GESTURE, 0,
-                    UserHandle.USER_CURRENT) == 1;
-            enableSwipeThreeFingerGesture(threeFingerGestureEnabled);
 
             mVolumeMusicControl = Settings.System.getIntForUser(resolver,
                     Settings.System.VOLUME_BUTTON_MUSIC_CONTROL, 0,

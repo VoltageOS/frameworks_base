@@ -89,8 +89,6 @@ public class SystemSettings {
         Settings.System.DISPLAY_COLOR_MODE,
         Settings.System.ALARM_ALERT,
         Settings.System.NOTIFICATION_LIGHT_PULSE,
-        Settings.System.FULLSCREEN_GESTURES,
-        Settings.System.NAVIGATION_BAR_INVERSE,
         Settings.System.ENABLE_RIPPLE_EFFECT,
         Settings.System.VOLUME_BUTTON_MUSIC_CONTROL,
         Settings.System.USE_OLD_MOBILETYPE,

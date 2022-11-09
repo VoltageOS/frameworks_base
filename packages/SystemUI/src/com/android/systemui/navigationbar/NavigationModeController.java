@@ -19,33 +19,27 @@ package com.android.systemui.navigationbar;
 import static android.content.Intent.ACTION_OVERLAY_CHANGED;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.om.IOverlayManager;
 import android.content.pm.PackageManager;
 import android.content.res.ApkAssets;
-import android.database.ContentObserver;
-import android.net.Uri;
-import android.os.Handler;
 import android.os.PatternMatcher;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.android.systemui.Dumpable;
 import com.android.systemui.dagger.SysUISingleton;
-import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.dagger.qualifiers.UiBackground;
 import com.android.systemui.dump.DumpManager;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
-import com.android.systemui.util.settings.SecureSettings;
-import com.android.systemui.util.settings.SystemSettings;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -64,17 +58,12 @@ public class NavigationModeController implements Dumpable {
 
     public interface ModeChangedListener {
         void onNavigationModeChanged(int mode);
-        default void onNavigationHandleWidthModeChanged(int mode) {}
-        default void onNavBarLayoutInverseChanged(boolean inverse) {}
-        default void onSettingsChanged() {}
     }
 
     private final Context mContext;
     private Context mCurrentUserContext;
     private final IOverlayManager mOverlayManager;
     private final Executor mUiBgExecutor;
-    private final SecureSettings mSecureSettings;
-    private final SystemSettings mSystemSettings;
 
     private ArrayList<ModeChangedListener> mListeners = new ArrayList<>();
 
@@ -91,21 +80,6 @@ public class NavigationModeController implements Dumpable {
                     updateCurrentInteractionMode(true /* notify */);
                 }
             };
-
-    private final class SettingsObserver extends ContentObserver {
-        public SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            for (int i = 0; i < mListeners.size(); i++) {
-                mListeners.get(i).onSettingsChanged();
-            }
-        }
-    }
-
-    private SettingsObserver mSettingsObserver;
 
     // The primary user SysUI process doesn't get AppInfo changes from overlay package changes for
     // the secondary user (b/158613864), so we need to update the interaction mode here as well
@@ -126,16 +100,12 @@ public class NavigationModeController implements Dumpable {
             DeviceProvisionedController deviceProvisionedController,
             ConfigurationController configurationController,
             @UiBackground Executor uiBgExecutor,
-            DumpManager dumpManager,
-            @Main Handler mainHandler,
-            SecureSettings secureSettings,
-            SystemSettings systemSettings) {
+            DumpManager dumpManager) {
         mContext = context;
         mCurrentUserContext = context;
         mOverlayManager = IOverlayManager.Stub.asInterface(
                 ServiceManager.getService(Context.OVERLAY_SERVICE));
         mUiBgExecutor = uiBgExecutor;
-        mSecureSettings = secureSettings;
         dumpManager.registerDumpable(getClass().getSimpleName(), this);
 
         deviceProvisionedController.addCallback(mDeviceProvisionedCallback);
@@ -144,11 +114,6 @@ public class NavigationModeController implements Dumpable {
         overlayFilter.addDataScheme("package");
         overlayFilter.addDataSchemeSpecificPart("android", PatternMatcher.PATTERN_LITERAL);
         mContext.registerReceiverAsUser(mReceiver, UserHandle.ALL, overlayFilter, null, null);
-
-        mSettingsObserver = new SettingsObserver(new Handler());
-        mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
-                Settings.System.BACK_GESTURE_HEIGHT),
-                false, mSettingsObserver, UserHandle.USER_ALL);
 
         configurationController.addCallback(new ConfigurationController.ConfigurationListener() {
             @Override
@@ -160,29 +125,6 @@ public class NavigationModeController implements Dumpable {
             }
         });
 
-        mSecureSettings.registerContentObserverForUser(
-            Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
-            new ContentObserver(mainHandler) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    mListeners.forEach(listener ->
-                        listener.onNavigationHandleWidthModeChanged(
-                            getNavigationHandleWidthMode()));
-                }
-            }, UserHandle.USER_ALL);
-
-        mSystemSettings = systemSettings;
-        mSystemSettings.registerContentObserverForUser(
-            Settings.System.NAVIGATION_BAR_INVERSE,
-            new ContentObserver(mainHandler) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    mListeners.forEach(listener ->
-                        listener.onNavBarLayoutInverseChanged(
-                            shouldInvertNavBarLayout()));
-                }
-            }, UserHandle.USER_ALL);
-
         updateCurrentInteractionMode(false /* notify */);
     }
 
@@ -190,8 +132,8 @@ public class NavigationModeController implements Dumpable {
         mCurrentUserContext = getCurrentUserContext();
         int mode = getCurrentInteractionMode(mCurrentUserContext);
         mUiBgExecutor.execute(() ->
-            mSecureSettings.putStringForUser(Settings.Secure.NAVIGATION_MODE,
-                String.valueOf(mode), UserHandle.USER_CURRENT));
+            Settings.Secure.putString(mCurrentUserContext.getContentResolver(),
+                    Secure.NAVIGATION_MODE, String.valueOf(mode)));
         if (DEBUG) {
             Log.d(TAG, "updateCurrentInteractionMode: mode=" + mode);
         }
@@ -244,16 +186,6 @@ public class NavigationModeController implements Dumpable {
             Log.e(TAG, "Failed to create package context", e);
             return null;
         }
-    }
-
-    public int getNavigationHandleWidthMode() {
-        return mSecureSettings.getIntForUser(Settings.Secure.GESTURE_NAVBAR_LENGTH_MODE,
-            0, UserHandle.USER_CURRENT);
-    }
-
-    public boolean shouldInvertNavBarLayout() {
-        return mSystemSettings.getIntForUser(Settings.System.NAVIGATION_BAR_INVERSE,
-            0, UserHandle.USER_CURRENT) == 1;
     }
 
     @Override

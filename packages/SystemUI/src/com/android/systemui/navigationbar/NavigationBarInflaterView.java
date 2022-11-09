@@ -20,16 +20,9 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.WindowManagerPolicyConstants.NAV_BAR_MODE_3BUTTON;
 
 import android.annotation.Nullable;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
 import android.graphics.drawable.Icon;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.UserHandle;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -109,20 +102,11 @@ public class NavigationBarInflaterView extends FrameLayout
     private OverviewProxyService mOverviewProxyService;
     private int mNavBarMode = NAV_BAR_MODE_3BUTTON;
 
-    private int mHomeHandleWidthMode = 0;
-    private boolean mNavBarLayoutInverse = false;
-
-    private CustomSettingsObserver mCustomSettingsObserver;
     public NavigationBarInflaterView(Context context, AttributeSet attrs) {
         super(context, attrs);
         createInflaters();
         mOverviewProxyService = Dependency.get(OverviewProxyService.class);
-        final NavigationModeController controller = Dependency.get(NavigationModeController.class);
-        mNavBarMode = controller.addListener(this);
-        mHomeHandleWidthMode = controller.getNavigationHandleWidthMode();
-        mNavBarLayoutInverse = controller.shouldInvertNavBarLayout();
-        updateLayoutInversion();
-        mCustomSettingsObserver = new CustomSettingsObserver();
+        mNavBarMode = Dependency.get(NavigationModeController.class).addListener(this);
     }
 
     @VisibleForTesting
@@ -168,53 +152,9 @@ public class NavigationBarInflaterView extends FrameLayout
     }
 
     @Override
-    public void onNavigationHandleWidthModeChanged(int mode) {
-        if (mHomeHandleWidthMode != mode) {
-            mHomeHandleWidthMode = mode;
-            if (QuickStepContract.isGesturalMode(mNavBarMode)) {
-                clearViews();
-                inflateLayout(getDefaultLayout());
-            }
-        }
-    }
-
-    @Override
-    public void onNavBarLayoutInverseChanged(boolean inverse) {
-        if (mNavBarLayoutInverse == inverse) return;
-        mNavBarLayoutInverse = inverse;
-        if (mNavBarMode != NAV_BAR_MODE_3BUTTON) return;
-        updateLayoutInversion();
-    }
-
-    private void updateLayoutInversion() {
-        if (mNavBarLayoutInverse) {
-            final int layoutDirection = mContext.getResources()
-                .getConfiguration().getLayoutDirection();
-            setLayoutDirection(layoutDirection == LAYOUT_DIRECTION_RTL
-                ? LAYOUT_DIRECTION_LTR
-                : LAYOUT_DIRECTION_RTL);
-        } else {
-            setLayoutDirection(LAYOUT_DIRECTION_INHERIT);
-        }
-    }
-
-    @Override
-    protected void onAttachedToWindow() {
-        mCustomSettingsObserver.observe();
-        super.onAttachedToWindow();
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
-        mCustomSettingsObserver.stop();
         Dependency.get(NavigationModeController.class).removeListener(this);
         super.onDetachedFromWindow();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateLayoutInversion();
     }
 
     public void onLikelyDefaultLayoutChange() {
@@ -445,16 +385,6 @@ public class NavigationBarInflaterView extends FrameLayout
             v = inflater.inflate(R.layout.contextual, parent, false);
         } else if (HOME_HANDLE.equals(button)) {
             v = inflater.inflate(R.layout.home_handle, parent, false);
-            final ViewGroup.LayoutParams lp = v.getLayoutParams();
-            if (mHomeHandleWidthMode == 1) {
-                lp.width = getResources().getDimensionPixelSize(
-                    R.dimen.navigation_home_handle_width_medium);
-                v.setLayoutParams(lp);
-            } else if (mHomeHandleWidthMode == 2) {
-                lp.width = getResources().getDimensionPixelSize(
-                    R.dimen.navigation_home_handle_width_long);
-                v.setLayoutParams(lp);
-            }
         } else if (IME_SWITCHER.equals(button)) {
             v = inflater.inflate(R.layout.ime_switcher, parent, false);
         } else if (button.startsWith(KEY)) {
@@ -547,33 +477,6 @@ public class NavigationBarInflaterView extends FrameLayout
 
     private static float convertDpToPx(Context context, float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
-    }
-
-    private class CustomSettingsObserver extends ContentObserver {
-
-        CustomSettingsObserver() {
-            super(new Handler(Looper.getMainLooper()));
-        }
-
-        void observe() {
-            final ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.GESTURE_NAVBAR_RADIUS),
-                    false, this, UserHandle.USER_ALL);
-        }
-
-        void stop() {
-            mContext.getContentResolver().unregisterContentObserver(this);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.GESTURE_NAVBAR_RADIUS))) {
-                clearViews();
-                inflateLayout(getDefaultLayout());
-            }
-        }
     }
 
     public void dump(PrintWriter pw) {

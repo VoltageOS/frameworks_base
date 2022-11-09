@@ -39,8 +39,6 @@ import android.os.SystemProperties;
 import android.os.Trace;
 import android.provider.DeviceConfig;
 import android.util.DisplayMetrics;
-import android.os.UserHandle;
-import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Choreographer;
@@ -242,8 +240,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
     private int mRightInset;
     private int mSysUiFlags;
 
-    private int mEdgeHeight;
-
     // For Tf-Lite model.
     private BackGestureTfClassifierProvider mBackGestureTfClassifierProvider;
     private Map<String, Integer> mVocab;
@@ -358,28 +354,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
         updateCurrentUserResources();
     }
 
-    private void updateEdgeHeightValue() {
-        if (mDisplaySize == null) {
-            return;
-        }
-        int edgeHeightSetting = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.BACK_GESTURE_HEIGHT, 0, UserHandle.USER_CURRENT);
-        // edgeHeigthSettings cant be range 0 - 3
-        // 0 means full height
-        // 1 measns half of the screen
-        // 2 means lower third of the screen
-        // 3 means lower sicth of the screen
-        if (edgeHeightSetting == 0) {
-            mEdgeHeight = mDisplaySize.y;
-        } else if (edgeHeightSetting == 1) {
-            mEdgeHeight = (mDisplaySize.y * 3) / 4;
-        } else if (edgeHeightSetting == 2) {
-            mEdgeHeight = mDisplaySize.y / 2;
-        } else {
-            mEdgeHeight = mDisplaySize.y / 4;
-        }
-    }
-
     public void setStateChangeCallback(Runnable callback) {
         mStateChangeCallback = callback;
     }
@@ -462,10 +436,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
         mIsGesturalModeEnabled = QuickStepContract.isGesturalMode(mode);
         updateIsEnabled();
         updateCurrentUserResources();
-    }
-
-    public void onSettingsChanged() {
-        updateEdgeHeightValue();
     }
 
     public void onNavBarTransientStateChanged(boolean isTransient) {
@@ -668,11 +638,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
         // Disallow if we are in the bottom gesture area
         if (y >= (mDisplaySize.y - mBottomGestureHeight)) {
             return false;
-        }
-        if (mEdgeHeight != 0) {
-            if (y < (mDisplaySize.y - mBottomGestureHeight - mEdgeHeight)) {
-                return false;
-            }
         }
         // If the point is way too far (twice the margin), it is
         // not interesting to us for logging purposes, nor we
@@ -904,7 +869,6 @@ public class EdgeBackGestureHandler extends CurrentUserTracker
         if (mEdgeBackPlugin != null) {
             mEdgeBackPlugin.setDisplaySize(mDisplaySize);
         }
-        updateEdgeHeightValue();
     }
 
     private boolean sendEvent(int action, int code) {

@@ -834,10 +834,6 @@ public class NavigationBarView extends FrameLayout {
         updateRotationButton();
     }
 
-    public void onSettingsChanged() {
-        mEdgeBackGestureHandler.onSettingsChanged();
-    }
-
     public void setAccessibilityButtonState(final boolean visible, final boolean longClickable) {
         mLongClickableAccessibilityButton = longClickable;
         getAccessibilityButton().setLongClickable(longClickable);
@@ -1165,6 +1161,8 @@ public class NavigationBarView extends FrameLayout {
 
         pw.println("    mScreenOn: " + mScreenOn);
 
+
+        dumpButton(pw, "back", getBackButton());
         dumpButton(pw, "home", getHomeButton());
         dumpButton(pw, "handle", getHomeHandle());
         dumpButton(pw, "rcnt", getRecentsButton());

@@ -5962,29 +5962,6 @@ public final class Settings {
          * the setting value. See an example above.
          */
 
-        /**
-         * Whether to hide navbar pill and keyboard space.
-         * Default 0.
-         * @hide
-         */
-        public static final String FULLSCREEN_GESTURES = "fullscreen_gestures";
-
-        /**
-         * Whether to inverse keys in navigation bar
-         * Default 0
-         * @hide
-         */
-        public static final String NAVIGATION_BAR_INVERSE = "navigation_bar_inverse";
-
-        /**
-         * Size of gesture bar radius.
-         * @hide
-         */
-        public static final String GESTURE_NAVBAR_RADIUS = "gesture_navbar_radius";
-
-        /** @hide */
-        public static final String BACK_GESTURE_HEIGHT = "back_gesture_height";
-
 	/**
          * Double tap on lockscreen to sleep
          * @hide
@@ -11994,14 +11971,6 @@ public final class Settings {
          */
         public static final String LAUNCHER_TASKBAR_EDUCATION_SHOWING =
                 "launcher_taskbar_education_showing";
-
-        /**
-         * Gesture navbar length mode.
-         * Supported modes: 0 for normal length, 1 for medium and 2 for long.
-         * Default 0.
-         * @hide
-         */
-        public static final String GESTURE_NAVBAR_LENGTH_MODE = "gesture_navbar_length_mode";
 
         /**
          * Whether the double tap power button to toggle flashlight when the screen is off

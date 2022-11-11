@@ -87,6 +87,7 @@
                         android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
                         android:paddingEnd="@dimen/status_bar_left_clock_end_padding"
                         android:gravity="center_vertical|start"
+                        systemui:isStatusBar="true"
                     />
                 </com.android.keyguard.AlphaOptimizedLinearLayout>
 
@@ -174,6 +175,7 @@
             android:singleLine="true"
             android:gravity="center"
             android:visibility="gone"
+            systemui:isStatusBar="true"
         />
     </com.android.keyguard.AlphaOptimizedLinearLayout>
 

@@ -6760,6 +6760,13 @@ public final class Settings {
         public static final String QS_BRIGHTNESS_SLIDER_HAPTIC_FEEDBACK = "qs_brightness_slider_haptic_feedback";
 
         /**
+         * Give haptic feedback on volume slider changes.
+         * @hide
+         */
+        @Readable
+        public static final String VOLUME_SLIDER_HAPTIC_FEEDBACK = "volume_slider_haptic_feedback";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *

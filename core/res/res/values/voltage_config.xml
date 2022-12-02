@@ -41,10 +41,6 @@
     <!-- Whether device supports an alt. ambient display -->
     <bool name="config_alt_ambient_display">false</bool>
 
-    <!-- List of system apps that are allowed to be locked with app lock.
-          Use with extreme caution. -->
-    <string-array name="config_appLockAllowedSystemApps" translatable="false" />
-
     <!-- Parallel space max count. Should overlay according to device performance. -->
     <integer name="config_parallelSpaceMaxCount">9</integer>
 
@@ -190,5 +186,9 @@
 
     <!-- Defines custom OEM sensor for pocket detection. -->
     <string name="config_pocketJudgeVendorSensorName"></string>
+
+    <!-- List of system apps that are allowed to be locked with app lock.
+          Use with extreme caution. -->
+    <string-array name="config_appLockAllowedSystemApps" translatable="false" />
 
 </resources>

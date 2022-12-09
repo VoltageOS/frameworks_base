@@ -499,6 +499,7 @@ public class ScreenshotController {
      * Release the constructed window context.
      */
     private void releaseContext() {
+        TaskStackChangeListeners.getInstance().unregisterTaskStackListener(mTaskListener);
         mContext.unregisterReceiver(mCopyBroadcastReceiver);
         mContext.release();
     }

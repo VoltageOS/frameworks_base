@@ -5303,6 +5303,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return;
         }
 
+        TelecomManager telecomManager = getTelecommService();
+        if (telecomManager != null && telecomManager.isInCall()) {
+            return;
+        }
+
         if (mPowerManager.isInteractive() && !isKeyguardShowingAndNotOccluded()){
             return;
         }

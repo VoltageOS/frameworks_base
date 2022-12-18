@@ -201,7 +201,4 @@
 
     <!-- Whether devices suports in-display fingerprint when screen is off -->
     <java-symbol type="bool" name="config_supportScreenOffUdfps" />
-
-    <!-- Smart Pixels UDFPS -->
-    <java-symbol type="bool" name="disable_smart_pixels_on_udfps"/>
 </resources>

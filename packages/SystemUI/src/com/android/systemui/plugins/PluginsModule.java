@@ -60,7 +60,7 @@ public abstract class PluginsModule {
     @Provides
     @Named(PLUGIN_DEBUG)
     static boolean providesPluginDebug() {
-        return Build.IS_DEBUGGABLE;
+        return Build.IS_ENG;
     }
 
     @Binds

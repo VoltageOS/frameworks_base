@@ -79,7 +79,7 @@ class ControlsProviderLifecycleManager(
 
     companion object {
         private const val LOAD_TIMEOUT_SECONDS = 20L // seconds
-        private const val DEBUG = true
+        private const val DEBUG = false
         private val BIND_FLAGS = Context.BIND_AUTO_CREATE or Context.BIND_FOREGROUND_SERVICE or
             Context.BIND_NOT_PERCEPTIBLE
         // Use BIND_NOT_PERCEPTIBLE so it will be at lower priority from SystemUI.

@@ -37,7 +37,7 @@ import javax.inject.Inject
 import kotlin.collections.LinkedHashMap
 
 private const val TAG = "MediaDataFilter"
-private const val DEBUG = true
+private const val DEBUG = false
 private const val EXPORTED_SMARTSPACE_TRAMPOLINE_ACTIVITY_NAME =
     ("com.google" +
         ".android.apps.gsa.staticplugins.opa.smartspace.ExportedSmartspaceTrampolineActivity")

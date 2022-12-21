@@ -275,7 +275,7 @@ constructor(context: Context, private val foldStateProvider: FoldStateProvider) 
 }
 
 private const val TAG = "PhysicsBasedUnfoldTransitionProgressProvider"
-private const val DEBUG = true
+private const val DEBUG = false
 
 private const val USE_CANNED_ANIMATION = true
 private const val CANNED_ANIMATION_DURATION_MS = 1000

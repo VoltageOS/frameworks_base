@@ -67,7 +67,7 @@ class UserSwitchingDialog extends Dialog {
     private static final long TRACE_TAG = Trace.TRACE_TAG_ACTIVITY_MANAGER;
 
     // User switching doesn't happen that frequently, so it doesn't hurt to have it always on
-    protected static final boolean DEBUG = true;
+    protected static final boolean DEBUG = false;
 
     private static final long DIALOG_SHOW_HIDE_ANIMATION_DURATION_MS = 300;
     private final boolean mDisableAnimations;

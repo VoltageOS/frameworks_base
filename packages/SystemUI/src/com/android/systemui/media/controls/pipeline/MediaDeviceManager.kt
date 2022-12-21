@@ -49,7 +49,7 @@ import javax.inject.Inject
 
 private const val PLAYBACK_TYPE_UNKNOWN = 0
 private const val TAG = "MediaDeviceManager"
-private const val DEBUG = true
+private const val DEBUG = false
 
 /** Provides information about the route (ie. device) where playback is occurring. */
 class MediaDeviceManager

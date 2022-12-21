@@ -111,7 +111,7 @@ public enum ShellProtoLogGroup implements IProtoLogGroup {
         private static final String TAG_WM_SHELL = "WindowManagerShell";
         private static final String TAG_WM_STARTING_WINDOW = "ShellStartingWindow";
 
-        private static final boolean ENABLE_DEBUG = true;
-        private static final boolean ENABLE_LOG_TO_PROTO_DEBUG = true;
+        private static final boolean ENABLE_DEBUG = false;
+        private static final boolean ENABLE_LOG_TO_PROTO_DEBUG = false;
     }
 }

@@ -33,7 +33,7 @@ import com.google.gson.Gson
 import javax.inject.Inject
 
 private val TAG = ClockRegistry::class.simpleName
-private val DEBUG = true
+private val DEBUG = false
 
 /** ClockRegistry aggregates providers and plugins */
 open class ClockRegistry(

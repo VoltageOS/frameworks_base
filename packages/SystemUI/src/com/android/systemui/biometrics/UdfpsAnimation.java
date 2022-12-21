@@ -43,7 +43,7 @@ import com.android.systemui.tuner.TunerService;
 
 public class UdfpsAnimation extends ImageView {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String LOG_TAG = "UdfpsAnimations";
 
     private static final String UDFPS_ANIM =

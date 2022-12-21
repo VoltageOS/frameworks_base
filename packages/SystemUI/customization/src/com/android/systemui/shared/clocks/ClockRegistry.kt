@@ -32,7 +32,7 @@ import com.android.systemui.plugins.PluginManager
 import org.json.JSONObject
 
 private val TAG = ClockRegistry::class.simpleName
-private const val DEBUG = true
+private const val DEBUG = false
 
 /** ClockRegistry aggregates providers and plugins */
 open class ClockRegistry(

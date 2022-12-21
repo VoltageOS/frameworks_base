@@ -212,7 +212,7 @@ class PhysicsBasedUnfoldTransitionProgressProvider(
 }
 
 private const val TAG = "PhysicsBasedUnfoldTransitionProgressProvider"
-private const val DEBUG = true
+private const val DEBUG = false
 
 private const val SPRING_STIFFNESS = 600.0f
 private const val MINIMAL_VISIBLE_CHANGE = 0.001f

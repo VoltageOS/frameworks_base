@@ -162,12 +162,7 @@ public final class Trace {
     @UnsupportedAppUsage
     @SystemApi(client = MODULE_LIBRARIES)
     public static boolean isTagEnabled(long traceTag) {
-        if (!Build.IS_ENG) {
             return false;
-        }
-
-        long tags = nativeGetEnabledTags();
-        return (tags & traceTag) != 0;
     }
 
     /**

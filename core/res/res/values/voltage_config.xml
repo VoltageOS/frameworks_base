@@ -116,7 +116,21 @@
 
     <!-- List of system apps that are allowed to be locked with app lock.
           Use with extreme caution. -->
-    <string-array name="config_appLockAllowedSystemApps" translatable="false" />
+     <string-array name="config_appLockAllowedSystemApps" translatable="false">
+          <item>com.android.gallery3d</item>
+          <item>com.android.contacts</item>
+          <item>io.chaldeaprjkt.gamespace</item>
+          <item>com.android.dialer</item>
+          <item>com.android.messaging</item>
+          <item>org.lineageos.etar</item>
+          <item>org.lineageos.eleven</item>
+          <item>com.android.deskclock</item>
+          <item>com.android.documentsui</item>
+          <item>com.android.stk</item>
+          <item>com.android.calculator2</item>
+          <item>app.grapheneos.camera</item>
+          <item>com.caf.fmradio</item>
+     </string-array>
 
     <!-- Array containing custom error messages from vendor. -->
     <string-array name="face_error_vendor" translatable="false">

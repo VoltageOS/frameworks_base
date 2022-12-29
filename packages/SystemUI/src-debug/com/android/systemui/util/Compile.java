@@ -19,5 +19,5 @@ package com.android.systemui.util;
 /** Constants that vary by compilation configuration. */
 public class Compile {
     /** Whether SystemUI was compiled in debug mode, and supports debug features */
-    public static final boolean IS_DEBUG = true;
+    public static final boolean IS_DEBUG = false;
 }

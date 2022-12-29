@@ -335,7 +335,7 @@ public class NotificationShadeWindowControllerImpl implements NotificationShadeW
     }
 
     protected boolean isDebuggable() {
-        return Build.IS_DEBUGGABLE;
+        return Build.IS_ENG;
     }
 
     private void adjustScreenOrientation(State state) {

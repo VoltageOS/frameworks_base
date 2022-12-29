@@ -114,7 +114,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
     AbstractVibratorStep nextVibrateStep(long startTime, VibratorController controller,
             VibrationEffect.Composed effect, int segmentIndex,
             long previousStepVibratorOffTimeout) {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
         if (segmentIndex >= effect.getSegments().size()) {
@@ -145,7 +145,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
 
     /** Called when this conductor is going to be started running by the VibrationThread. */
     public void prepareToStart() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
         CombinedVibration.Sequential sequentialEffect = toSequential(mVibration.getEffect());
@@ -169,7 +169,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
     }
 
     public boolean isFinished() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
         if (mCancelledImmediately) {
@@ -187,7 +187,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      */
     @Nullable
     public Vibration.EndInfo calculateVibrationEndInfo() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -219,7 +219,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      *   method needs to be run again.
      */
     public boolean waitUntilNextStepIsDue() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -257,7 +257,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
 
     @Nullable
     private Step pollNext() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -274,7 +274,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * to be played next.
      */
     public void runNextStep() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
         // In theory a completion callback could have come in between the wait finishing and
@@ -324,7 +324,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * @param immediate indicates whether cancellation should abort urgently and skip cleanup steps.
      */
     public void notifyCancelled(@NonNull Vibration.EndInfo cancelInfo, boolean immediate) {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(false);
         }
         if (DEBUG) {
@@ -407,7 +407,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
 
     @GuardedBy("mLock")
     private boolean hasPendingNotifySignalLocked() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);  // Reads VibrationThread variables as well as signals.
         }
         return (mSignalCancel != null && mCancelledVibrationEndInfo == null)
@@ -420,7 +420,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * changes.
      */
     private void processAllNotifySignals() {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -470,7 +470,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * {@link Step#cancel()}.
      */
     public void processCancel(Vibration.EndInfo cancelInfo) {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -493,7 +493,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * <p>This will remove and trigger {@link Step#cancelImmediately()} in all steps, in order.
      */
     public void processCancelImmediately(Vibration.EndInfo cancelInfo) {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 
@@ -515,7 +515,7 @@ final class VibrationStepConductor implements IBinder.DeathRecipient {
      * first step found will be resumed by this method, in no particular order.
      */
     private void processVibratorsComplete(@NonNull int[] vibratorsToProcess) {
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             expectIsVibrationThread(true);
         }
 

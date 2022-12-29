@@ -107,7 +107,7 @@ public final class UserTypeFactory {
         builders.put(USER_TYPE_PROFILE_CLONE, getDefaultTypeProfileClone());
         builders.put(USER_TYPE_PARALLEL_DEFAULT, getDefaultTypeParallelDefault());
         builders.put(USER_TYPE_PARALLEL_SHARE, getDefaultTypeParallelShare());
-        if (Build.IS_DEBUGGABLE) {
+        if (Build.IS_ENG) {
             builders.put(USER_TYPE_PROFILE_TEST, getDefaultTypeProfileTest());
         }
 

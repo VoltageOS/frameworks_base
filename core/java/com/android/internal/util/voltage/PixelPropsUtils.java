@@ -64,7 +64,9 @@ public class PixelPropsUtils {
             "com.google.android.apps.wallpaper",
             "com.google.android.contacts",
             "com.google.android.deskclock",
-            "com.google.android.inputmethod.latin"
+            "com.google.android.inputmethod.latin",
+            "com.google.android.gms.persistent",
+            "com.google.android.as"
     };
 
     // Packages to Spoof as Pixel 7 Pro

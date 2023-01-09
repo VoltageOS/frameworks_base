@@ -42,7 +42,7 @@ import com.android.internal.voltage.app.LineageContextConstants;
 /** @hide */
 public class LineageHardwareService extends SystemService {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = LineageHardwareService.class.getSimpleName();
 
     private final Context mContext;

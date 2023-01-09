@@ -57,7 +57,7 @@ import static com.android.server.display.color.DisplayTransformManager.LEVEL_COL
 /** @hide */
 public class LineageHardwareService extends SystemService {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final String TAG = LineageHardwareService.class.getSimpleName();
 
     private final Context mContext;

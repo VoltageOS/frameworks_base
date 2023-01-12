@@ -12048,12 +12048,6 @@ public final class Settings {
         public static final String PULSE_VERTICAL_MIRROR = "pulse_vertical_mirror";
 
         /**
-         * Whether to show or hide the arrow for back gesture
-         * @hide
-         */
-        public static final String BACK_GESTURE_ARROW = "back_gesture_arrow";
-
-        /**
          * Enable udfps detection even when screen is off
          * Default value is 0
          * @hide

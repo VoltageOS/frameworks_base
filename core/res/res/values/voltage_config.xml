@@ -205,4 +205,6 @@
     <integer name="config_proximityCheckTimeout">250</integer>
     <bool name="config_proximityCheckOnWakeEnabledByDefault">false</bool>
 
+    <!-- Display color inversion availability -->
+    <bool name="config_displayInversionAvailable">true</bool>
 </resources>

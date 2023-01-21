@@ -11657,6 +11657,11 @@ public final class Settings {
          */
         public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
 
+         /**
+         * @hide
+         */
+        public static final String EXTENDED_MONET_THEMES = "monet_themes_style";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.

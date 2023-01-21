@@ -115,6 +115,12 @@ import javax.inject.Inject;
 @SysUISingleton
 public class ThemeOverlayController implements CoreStartable, Dumpable {
     protected static final String TAG = "ThemeOverlayController";
+    protected static final String OVERLAY_VIVID_THEME =
+            "com.android.system.monet.vivid";
+    protected static final String OVERLAY_SD_THEME =
+            "com.android.system.monet.snowpaintdrop";
+    protected static final String OVERLAY_ESPRESSO_THEME =
+            "com.android.system.monet.expresso";
     private static final boolean DEBUG = false;
 
     protected static final int NEUTRAL = 0;
@@ -486,6 +492,18 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
                 },
                 UserHandle.USER_ALL);
 
+        mSecureSettings.registerContentObserverForUser(
+                Settings.Secure.getUriFor(Settings.Secure.EXTENDED_MONET_THEMES),
+                false,
+                new ContentObserver(mBgHandler) {
+                    @Override
+                    public void onChange(boolean selfChange, Collection<Uri> collection, int flags,
+                            int userId) {
+                        reevaluateSystemTheme(true /* forceReload */);
+                    }
+                },
+                UserHandle.USER_ALL);
+
         mUserTracker.addCallback(mUserTrackerCallback, mMainExecutor);
 
         mDeviceProvisionedController.addCallback(mDeviceProvisionedListener);
@@ -716,6 +734,19 @@ public class ThemeOverlayController implements CoreStartable, Dumpable {
         if (!categoryToPackage.containsKey(OVERLAY_CATEGORY_ACCENT_COLOR)
                 && mSecondaryOverlay != null) {
             categoryToPackage.put(OVERLAY_CATEGORY_ACCENT_COLOR, mSecondaryOverlay.getIdentifier());
+        }
+
+        int isExtendedTheme = Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                Settings.Secure.EXTENDED_MONET_THEMES , 0, currentUser);
+	    if (categoryToPackage.containsKey(OVERLAY_CATEGORY_SYSTEM_PALETTE) && isExtendedTheme == 1) {
+                OverlayIdentifier vividTheme = new OverlayIdentifier(OVERLAY_VIVID_THEME);
+                categoryToPackage.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, vividTheme);	
+	    } else if (categoryToPackage.containsKey(OVERLAY_CATEGORY_SYSTEM_PALETTE) && isExtendedTheme == 2) {
+                OverlayIdentifier sdTheme = new OverlayIdentifier(OVERLAY_SD_THEME);
+                categoryToPackage.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, sdTheme);
+	    } else if (categoryToPackage.containsKey(OVERLAY_CATEGORY_SYSTEM_PALETTE) && isExtendedTheme == 3) {
+                OverlayIdentifier espTheme = new OverlayIdentifier(OVERLAY_ESPRESSO_THEME);
+                categoryToPackage.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, espTheme);
         }
 
         Set<UserHandle> managedProfiles = new HashSet<>();

@@ -12058,6 +12058,7 @@ public final class Settings {
 
 	/**
          * Pulse gravity
+        /**
          * @hide
          */
         public static final String PULSE_CUSTOM_GRAVITY = "pulse_custom_gravity";
@@ -12073,6 +12074,11 @@ public final class Settings {
          * @hide
          */
         public static final String PULSE_VERTICAL_MIRROR = "pulse_vertical_mirror";
+
+         /**
+         * @hide
+         */
+        public static final String EXTENDED_MONET_THEMES = "monet_themes_style";
 
         /**
          * Enable udfps detection even when screen is off

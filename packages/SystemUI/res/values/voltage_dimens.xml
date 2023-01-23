@@ -45,9 +45,6 @@
     <!-- Height of the big battery circle icon in the status bar. -->
     <dimen name="status_bar_battery_icon_big_circle_height">@dimen/status_bar_battery_icon_big_circle_width</dimen>
 
-    <!-- Maximum vertical offset of statusbar for burn-in protection -->
-    <dimen name="status_bar_offset_max_y">4dp</dimen>
-
     <!-- OmniWeather image size -->
     <dimen name="current_weather_image_size">30dp</dimen>
 

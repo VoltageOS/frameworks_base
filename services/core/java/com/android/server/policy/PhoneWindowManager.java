@@ -1689,7 +1689,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     void showGlobalActionsInternal() {
-        final boolean keyguardShowing = isKeyguardShowingAndNotOccluded();
+        final boolean keyguardShowing = isKeyguardLocked();
         if (keyguardShowing && isKeyguardSecure(mCurrentUserId) &&
                 mGlobalActionsOnLockDisable) {
             return;

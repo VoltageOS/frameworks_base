@@ -91,4 +91,6 @@
     <dimen name="burnin_protection_horizontal_shift">1dp</dimen>
     <dimen name="burnin_protection_vertical_shift">1dp</dimen>
 
+     <!-- Expanded QS clock/date paddings -->
+    <dimen name="qs_expanded_clock_date_padding_start">8dp</dimen>
 </resources>

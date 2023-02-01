@@ -25,6 +25,7 @@
     android:gravity="center"
     android:layout_gravity="top"
     android:orientation="horizontal"
+    android:minHeight="@dimen/qs_panel_padding_top"
     android:clickable="true">
 
     <FrameLayout
@@ -32,20 +33,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
+    	android:minHeight="@dimen/qs_panel_padding_top"
         android:gravity="center_vertical|start" >
 
-        <com.android.systemui.statusbar.policy.VariableDateView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textAppearance="@style/TextAppearance.QS.Status"
-            systemui:longDatePattern="@string/abbrev_wday_month_day_no_year_alarm"
-            systemui:shortDatePattern="@string/abbrev_month_day_no_year"
-            systemui:showDark="false"
-        />
     </FrameLayout>
 
     <!-- We want this to be centered (to align with notches). In order to do that, the following
@@ -66,7 +56,27 @@
         android:layout_weight="1"
         android:gravity="center_vertical|end" >
 
-        <include layout="@layout/ongoing_privacy_chip" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="center_vertical|end">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="2dp"
+            android:layout_gravity="center_vertical|end"
+            android:gravity="center_vertical|end">
+
+                 <include layout="@layout/ongoing_privacy_chip" />
+
+    	      </LinearLayout>
+
+        </LinearLayout>
 
     </FrameLayout>
 

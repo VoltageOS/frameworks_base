@@ -6,6 +6,9 @@ import java.util.Set;
 /** @hide */
 public class ExtSettings {
 
+    public static final BoolSetting AUTO_GRANT_OTHER_SENSORS_PERMISSION = new BoolSetting(
+            Setting.Scope.PER_USER, "auto_grant_OTHER_SENSORS_perm", true);
+
     private ExtSettings() {}
 
     // used for making settings defined in this class unreadable by third-party apps

@@ -22,6 +22,7 @@ import android.annotation.IntRange;
 import android.annotation.Nullable;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.ext.settings.ExtSettings;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -357,8 +358,7 @@ class ImageExporter {
                 throw new ImageExportException(EXIF_READ_EXCEPTION, e);
             }
 
-            if (Settings.Secure.getInt(resolver, Settings.Secure.SCREENSHOT_TIMESTAMP_EXIF,
-                    DISABLE_SCREENSHOT_TIMESTAMP_EXIF) != ENABLE_SCREENSHOT_TIMESTAMP_EXIF) {
+            if (!ExtSettings.SCREENSHOT_TIMESTAMP_EXIF.get(resolver.getContext())) {
                 captureTime = null;
             }
 

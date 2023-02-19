@@ -474,6 +474,8 @@ public class QuickStatusBarHeader extends FrameLayout implements TunerService.Tu
     }
 
     private void updateAlphaAnimator() {
+        int endPadding = mContext.getResources()
+                .getDimensionPixelSize(R.dimen.status_bar_left_clock_end_padding);
         if (mUseCombinedQSHeader) {
             mAlphaAnimator = null;
             return;
@@ -486,7 +488,7 @@ public class QuickStatusBarHeader extends FrameLayout implements TunerService.Tu
                 .addFloat(mClockDateView, "alpha", 1, 0, 0, 0, 0)
                 // Move the clock container
                 .addFloat(mClockContainer, "translationX",
-                    mHeaderPaddingLeft + mStatusBarPaddingEnd, mExpandedQsClockDateStart)
+                    mHeaderPaddingLeft + mStatusBarPaddingEnd, mExpandedQsClockDateStart - endPadding)
                 .addFloat(mDateView, "translationX",
                     mHeaderPaddingLeft + mStatusBarPaddingEnd, mExpandedQsClockDateStart)
                 // Enlarge clock on expanding down
@@ -514,6 +516,7 @@ public class QuickStatusBarHeader extends FrameLayout implements TunerService.Tu
                         }
                         mDateView.setVisibility(View.VISIBLE);
                         mQSCarriers.setVisibility(View.VISIBLE);
+                        setChipVisibility(mPrivacyChip.getVisibility() == View.VISIBLE);
                         setSeparatorVisibility(false);
                     }
 
@@ -563,7 +566,6 @@ public class QuickStatusBarHeader extends FrameLayout implements TunerService.Tu
             mIconsAlphaAnimator = mIconsAlphaAnimatorFixed;
             mIconsAlphaAnimator.setPosition(mKeyguardExpansionFraction);
             setBatteryRemainingOnClick(false);
-        } else {
             mIconsAlphaAnimator = null;
             mIconContainer.setAlpha(1);
             mBatteryRemainingIcon.setAlpha(1);

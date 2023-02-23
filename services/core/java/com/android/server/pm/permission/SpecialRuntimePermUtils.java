@@ -29,14 +29,14 @@ import android.util.Slog;
 import android.util.SparseArray;
 
 import com.android.server.LocalServices;
-import com.android.server.ext.SystemServerExt;
 import com.android.server.pm.UserManagerInternal;
 import com.android.server.pm.parsing.pkg.AndroidPackage;
 import com.android.server.pm.pkg.component.ParsedUsesPermission;
 
 import java.util.List;
 
-import static android.content.pm.SpecialRuntimePermAppUtils.*;
+import static android.content.pm.SpecialRuntimePermAppUtils.FLAG_AWARE_OF_RUNTIME_INTERNET_PERMISSION;
+import static android.content.pm.SpecialRuntimePermAppUtils.FLAG_REQUESTS_INTERNET_PERMISSION;
 
 public class SpecialRuntimePermUtils {
     private static final String TAG = "SpecialRuntimePermUtils";
@@ -50,7 +50,7 @@ public class SpecialRuntimePermUtils {
         return false;
     }
 
-    public static boolean shouldAutoGrant(String packageName, int userId, String perm) {
+    public static boolean shouldAutoGrant(Context ctx, String packageName, int userId, String perm) {
         if (!isSpecialRuntimePermission(perm)) {
             return false;
         }

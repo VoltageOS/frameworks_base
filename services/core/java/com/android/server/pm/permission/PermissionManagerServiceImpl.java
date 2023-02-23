@@ -3652,7 +3652,7 @@ public class PermissionManagerServiceImpl implements PermissionManagerServiceInt
 
         for (String permission : pkg.getRequestedPermissions()) {
             final boolean isPregrantedSpecialRuntimePermission = newlyInstalled &&
-                    SpecialRuntimePermUtils.shouldAutoGrant(pkg.getPackageName(), userId, permission);
+                    SpecialRuntimePermUtils.shouldAutoGrant(mContext, pkg.getPackageName(), userId, permission);
 
             final boolean shouldGrantPermission;
             synchronized (mLock) {

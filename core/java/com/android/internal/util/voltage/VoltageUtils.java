@@ -24,6 +24,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.IActivityManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import android.content.om.IOverlayManager;
 import android.content.om.OverlayInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.PowerManager;
@@ -72,10 +74,29 @@ import android.view.WindowManagerGlobal;
 import com.android.internal.R;
 import com.android.internal.statusbar.IStatusBarService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class VoltageUtils {
+
+    public static List<String> launchablePackages(Context context) {
+        List<String> list = new ArrayList<>();
+
+        Intent filter = new Intent(Intent.ACTION_MAIN, null);
+        filter.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        List<ResolveInfo> apps = context.getPackageManager().queryIntentActivities(filter,
+                PackageManager.GET_META_DATA);
+
+        int numPackages = apps.size();
+        for (int i = 0; i < numPackages; i++) {
+            ResolveInfo app = apps.get(i);
+            list.add(app.activityInfo.packageName);
+        }
+
+        return list;
+    }
 
     public static void switchScreenOff(Context ctx) {
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);

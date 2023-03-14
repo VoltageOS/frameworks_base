@@ -22,7 +22,6 @@ import android.annotation.Nullable;
 import android.app.ActivityTaskManager;
 import android.app.AlarmManager;
 import android.app.AlarmManager.AlarmClockInfo;
-import android.app.AppGlobals;
 import android.app.IActivityManager;
 import android.app.SynchronousUserSwitchObserver;
 import android.app.admin.DevicePolicyManager;
@@ -31,10 +30,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.media.AudioManager;
-import android.net.INetworkPolicyManager;
+import android.net.ConnectivityManager;
+import android.net.INetworkPolicyListener;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkPolicyManager;
 import android.nfc.NfcAdapter;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,6 +55,7 @@ import android.util.ArraySet;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 
 import com.android.systemui.Dependency;
@@ -84,8 +89,6 @@ import com.android.systemui.util.time.DateFormatUtil;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -158,6 +161,8 @@ public class PhoneStatusBarPolicy
     private final SensorPrivacyController mSensorPrivacyController;
     private final RecordingController mRecordingController;
     private final RingerModeTracker mRingerModeTracker;
+    private final ConnectivityManager mConnectivityManager;
+    private final NetworkPolicyManager mNetworkPolicyManager;
 
     private boolean mZenVisible;
     private boolean mVibrateVisible;
@@ -166,6 +171,8 @@ public class PhoneStatusBarPolicy
 
     private boolean mManagedProfileIconVisible = false;
     private boolean mFirewallVisible = false;
+
+    private int mLastResumedActivityUid = -1;
 
     private BluetoothController mBluetooth;
     private AlarmManager.AlarmClockInfo mNextAlarm;
@@ -219,6 +226,8 @@ public class PhoneStatusBarPolicy
         mUiBgExecutor = uiBgExecutor;
         mTelecomManager = telecomManager;
         mRingerModeTracker = ringerModeTracker;
+        mConnectivityManager = context.getSystemService(ConnectivityManager.class);
+        mNetworkPolicyManager = context.getSystemService(NetworkPolicyManager.class);
 
         mSlotCast = resources.getString(com.android.internal.R.string.status_bar_cast);
         mSlotHotspot = resources.getString(com.android.internal.R.string.status_bar_hotspot);
@@ -275,6 +284,8 @@ public class PhoneStatusBarPolicy
         } catch (RemoteException e) {
             // Ignore
         }
+
+        mNetworkPolicyManager.registerListener(mNetworkPolicyListener);
 
         // TTY status
         updateTTY();
@@ -610,12 +621,24 @@ public class PhoneStatusBarPolicy
         mUiBgExecutor.execute(() -> {
             try {
                 final int uid = ActivityTaskManager.getService().getLastResumedActivityUid();
-                final boolean isRestricted = INetworkPolicyManager.Stub.asInterface(
-                        ServiceManager.getService(Context.NETWORK_POLICY_SERVICE))
-                        .isUidNetworkingBlocked(uid, false);
+                if (mLastResumedActivityUid != uid) {
+                    mLastResumedActivityUid = uid;
+                    try {
+                        mConnectivityManager.unregisterNetworkCallback(mNetworkCallback);
+                    } catch (IllegalArgumentException e) {
+                        // Ignore
+                    }
+                    mConnectivityManager.registerDefaultNetworkCallbackForUid(uid, mNetworkCallback,
+                            mHandler);
+                }
+                final boolean isRestricted =
+                        mNetworkPolicyManager.isUidNetworkingBlocked(uid, false /*meteredNetwork*/);
                 boolean isLauncher = false;
-                List<ResolveInfo> homeActivities = new ArrayList<>();
-                AppGlobals.getPackageManager().getHomeActivities(homeActivities);
+                List<ResolveInfo> homeActivities =
+                        mContext.getPackageManager().queryIntentActivitiesAsUser(
+                                new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME)
+                                        .addCategory(Intent.CATEGORY_DEFAULT),
+                                PackageManager.ResolveInfoFlags.of(0), UserHandle.getUserId(uid));
                 for (ResolveInfo homeActivity : homeActivities) {
                     if (uid == homeActivity.activityInfo.applicationInfo.uid) {
                         isLauncher = true;
@@ -642,6 +665,23 @@ public class PhoneStatusBarPolicy
             }
         });
     }
+
+    private final ConnectivityManager.NetworkCallback mNetworkCallback =
+            new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onCapabilitiesChanged(@NonNull Network network,
+                        @NonNull NetworkCapabilities networkCapabilities) {
+                    mHandler.post(() -> updateFirewall());
+                }
+            };
+
+    private final INetworkPolicyListener mNetworkPolicyListener =
+            new NetworkPolicyManager.Listener() {
+        @Override
+        public void onUidPoliciesChanged(int uid, int uidPolicies) {
+            mHandler.post(() -> updateFirewall());
+        }
+    };
 
     private final SynchronousUserSwitchObserver mUserSwitchListener =
             new SynchronousUserSwitchObserver() {

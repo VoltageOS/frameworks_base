@@ -39,6 +39,7 @@ import com.android.systemui.qs.QSHost;
 import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 import com.android.systemui.util.settings.SecureSettings;
+import com.android.systemui.settings.UserTracker;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
@@ -61,11 +62,13 @@ public class CPUInfoTile extends QSTileImpl<BooleanState> {
             StatusBarStateController statusBarStateController,
             ActivityStarter activityStarter,
             QSLogger qsLogger,
+            UserTracker userTracker,
             SecureSettings secureSettings) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger);
 
-        mSetting = new SettingObserver(secureSettings, mHandler, Secure.SHOW_CPU_OVERLAY) {
+        mSetting = new SettingObserver(secureSettings, mHandler, Secure.SHOW_CPU_OVERLAY,
+                userTracker.getUserId()) {
             @Override
             protected void handleValueChanged(int value, boolean observedChange) {
                 handleRefreshState(value);

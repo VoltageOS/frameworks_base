@@ -48,6 +48,7 @@ import com.android.systemui.qs.logging.QSLogger;
 import com.android.systemui.qs.tileimpl.QSTileImpl;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.util.settings.SecureSettings;
+import com.android.systemui.settings.UserTracker;
 
 import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
@@ -79,12 +80,14 @@ public class SleepModeTile extends SecureQSTile<QSTile.BooleanState> {
             ActivityStarter activityStarter,
             QSLogger qsLogger,
             SecureSettings secureSettings,
-            KeyguardStateController keyguardStateController
+            KeyguardStateController keyguardStateController,
+            UserTracker userTracker
     ) {
         super(host, backgroundLooper, mainHandler, falsingManager, metricsLogger,
                 statusBarStateController, activityStarter, qsLogger, keyguardStateController);
 
-        mSetting = new SettingObserver(secureSettings, mHandler, Settings.Secure.SLEEP_MODE_ENABLED) {
+        mSetting = new SettingObserver(secureSettings, mHandler, Settings.Secure.SLEEP_MODE_ENABLED,
+                userTracker.getUserId()) {
             @Override
             protected void handleValueChanged(int value, boolean observedChange) {
                 handleRefreshState(value);

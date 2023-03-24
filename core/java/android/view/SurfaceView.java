@@ -1625,6 +1625,8 @@ public class SurfaceView extends View implements ViewRootImpl.SurfaceChangedCall
         public void unlockCanvasAndPost(Canvas canvas) {
             try {
                 mSurface.unlockCanvasAndPost(canvas);
+            } catch (Exception e) {
+                mSurface.destroy();
             } finally {
                 mSurfaceLock.unlock();
             }

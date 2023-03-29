@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.lang.reflect.Field;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static android.ext.settings.GnssConstants.PSDS_DISABLED;
 import static android.ext.settings.GnssConstants.PSDS_SERVER_GRAPHENEOS;
@@ -70,7 +71,9 @@ public class ExtSettings {
             Setting.Scope.GLOBAL, "bluetooth_off_timeout", 0 /* off by default */);
 
     public static final IntSetting AUTO_REBOOT_TIMEOUT = new IntSetting(
-            Setting.Scope.GLOBAL, "settings_reboot_after_timeout", 0);
+            Setting.Scope.GLOBAL, "settings_reboot_after_timeout",
+            // default value: 3 days
+            (int) TimeUnit.DAYS.toMillis(0));
 
     private ExtSettings() {}
 

@@ -199,6 +199,7 @@ import com.android.server.Watchdog;
 import com.android.server.apphibernation.AppHibernationManagerInternal;
 import com.android.server.compat.CompatChange;
 import com.android.server.compat.PlatformCompat;
+import com.android.server.ext.SeInfoOverride;
 import com.android.server.pm.Installer.InstallerException;
 import com.android.server.pm.Settings.VersionInfo;
 import com.android.server.pm.dex.ArtManagerService;
@@ -1539,6 +1540,8 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
                 selinuxChangeListener);
         injector.getCompatibility().registerListener(SELinuxMMAC.SELINUX_R_CHANGES,
                 selinuxChangeListener);
+
+        m.selinuxChangeListener = selinuxChangeListener;
 
         m.installAllowlistedSystemPackages();
         IPackageManagerImpl iPackageManager = m.new IPackageManagerImpl();
@@ -6198,6 +6201,11 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
         public boolean updateListOfBusyPackages(boolean add, List<String> packageNames, IBinder callerBinder) {
             return privInstallerHelper.updateListOfBusyPackages(add, packageNames, callerBinder);
         }
+
+        @Override
+        public void updateSeInfo(String packageName) {
+            SeInfoOverride.updateSeInfo(PackageManagerService.this, packageName);
+        }
     }
 
     private class PackageManagerLocalImpl implements PackageManagerLocal {
@@ -7477,5 +7485,12 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
         synchronized (mLock) {
             mSettings.addInstallerPackageNames(installSource);
         }
+    }
+
+    private CompatChange.ChangeListener selinuxChangeListener;
+
+    public void updateSeInfo(String packageName) {
+        // use the same procedure that is used for SELinux compat changes
+        selinuxChangeListener.onCompatChange(packageName);
     }
 }

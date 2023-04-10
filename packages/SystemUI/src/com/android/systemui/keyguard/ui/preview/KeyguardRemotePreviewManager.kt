@@ -125,10 +125,13 @@ constructor(
             isDestroyed = true
             val hostToken = renderer.hostToken
             hostToken?.unlinkToDeath(this, 0)
-            try {
-                runBlocking(mainDispatcher) { renderer.destroy() }
-            } catch (e: InterruptedException) {
-                Log.w(TAG, "Interrupted while destroying observer", e)
+            runBlocking(mainDispatcher) {
+                try {
+                     renderer.destroy()
+                } catch (e: InterruptedException) {
+            	    Thread.currentThread().interrupt()
+                    Log.w(TAG, "Interrupted while destroying observer", e)
+                }
             }
             return hostToken
         }

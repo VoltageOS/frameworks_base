@@ -137,7 +137,6 @@ class LargeScreenShadeHeaderController @Inject constructor(
     private val iconContainer: StatusIconContainer = header.findViewById(R.id.statusIcons)
     private val qsCarrierGroup: QSCarrierGroup = header.findViewById(R.id.carrier_group)
 
-    private var batteryStyle = batteryIcon.getBatteryStyle()
     private var cutoutLeft = 0
     private var cutoutRight = 0
     private var sbPaddingLeft = 0
@@ -521,14 +520,9 @@ class LargeScreenShadeHeaderController @Inject constructor(
         iconManager.setTint(fillColor)
         val textColor = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary)
         val colorStateList = Utils.getColorAttr(context, android.R.attr.textColorPrimary)
-        val currentBatteryStyle = batteryIcon.getBatteryStyle()
-        if (textColor != textColorPrimary || batteryStyle != currentBatteryStyle) {
-            var textColorSecondary = Utils.getColorAttrDefaultColor(context,
+        if (textColor != textColorPrimary) {
+            val textColorSecondary = Utils.getColorAttrDefaultColor(context,
                     android.R.attr.textColorSecondary)
-            batteryStyle = currentBatteryStyle
-            if (batteryStyle == 1 || batteryStyle == 2 || batteryStyle == 3) {
-                textColorSecondary = Utils.getColorAttrDefaultColor(header.context, android.R.attr.textColorHint)
-            }
             textColorPrimary = textColor
             if (iconManager != null) {
                 iconManager.setTint(textColor)

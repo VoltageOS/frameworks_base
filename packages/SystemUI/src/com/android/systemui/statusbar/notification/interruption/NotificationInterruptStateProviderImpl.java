@@ -200,11 +200,6 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
             return false;
         }
 
-        if (!mReTicker && mLessBoringHeadsUp && shouldSkipHeadsUp(entry)) {
-            mLogger.logNoHeadsUpShouldSkipPackage(entry);
-            return false;
-        }
-
         if (!entry.canBubble()) {
             mLogger.logNoBubbleNotAllowed(entry);
             return false;
@@ -442,6 +437,11 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
 
         if (!mUseHeadsUp) {
             if (log) mLogger.logNoHeadsUpFeatureDisabled();
+            return false;
+        }
+
+        if (!mReTicker && mLessBoringHeadsUp && shouldSkipHeadsUp(entry)) {
+            mLogger.logNoHeadsUpShouldSkipPackage(entry);
             return false;
         }
 

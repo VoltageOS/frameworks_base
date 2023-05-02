@@ -6463,4 +6463,6 @@
 
     <!-- Whether unlocking and waking a device are sequenced -->
     <bool name="config_orderUnlockAndWake">false</bool>
+
+    <string name="config_gnssPsdsType"></string>
 </resources>

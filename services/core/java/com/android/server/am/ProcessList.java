@@ -77,6 +77,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.GosPackageState;
 import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManagerInternal;
@@ -135,6 +136,7 @@ import com.android.server.am.ActivityManagerService.ProcessChangeItem;
 import com.android.server.compat.PlatformCompat;
 import com.android.server.pm.dex.DexManager;
 import com.android.server.pm.parsing.pkg.AndroidPackage;
+import com.android.server.pm.pkg.GosPackageStatePm;
 import com.android.server.pm.pkg.PackageStateInternal;
 import com.android.server.wm.ActivityServiceConnectionsHolder;
 import com.android.server.wm.WindowManagerService;
@@ -3207,6 +3209,27 @@ public final class ProcessList {
                 } catch (RemoteException ex) {
                     Slog.w(TAG, "Failed to handle trust storage update for: " +
                             r.info.processName);
+                }
+            }
+        }
+    }
+
+    @GuardedBy(anyOf = {"mService", "mProcLock"})
+    void onGosPackageStateChangedLOSP(int uid, @Nullable GosPackageState state) {
+        for (int i = mLruProcesses.size() - 1; i >= 0; i--) {
+            ProcessRecord r = mLruProcesses.get(i);
+            if (r.uid != uid) {
+                // isolated and "sdk sandbox" processes are skipped intentionally (they run in
+                // separate UIDs)
+                continue;
+            }
+            final IApplicationThread thread = r.getThread();
+            if (thread != null) {
+                try {
+                    thread.onGosPackageStateChanged(state);
+                } catch (RemoteException ex) {
+                    Slog.d(TAG, "onGosPackageStateChanged failed; uid " + uid
+                            + ", processName " + r.info.processName);
                 }
             }
         }

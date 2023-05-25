@@ -63,13 +63,17 @@ public class ExtSettings {
         return getGnssPsdsSetting(ctx) == GNSS_PSDS_STANDARD;
     }
 
-    public static final BoolSetting SCRAMBLE_PIN_LAYOUT = new BoolSetting(
-            Setting.Scope.PER_USER, "lockscreen_scramble_pin_layout", false);
-
     public static final IntSetting REMOTE_PROVISIONING_SERVER = new IntSetting(
             Setting.Scope.GLOBAL, "attest_remote_provisioner_server", // historical setting key
             GRAPHENEOS_PROXY, // default
             STANDARD_SERVER, GRAPHENEOS_PROXY // valid values
+    );
+
+    // also read in packages/modules/DnsResolver (DnsTlsTransport.cpp and doh/network/driver.rs)
+    public static final IntSysProperty CONNECTIVITY_CHECKS = new IntSysProperty(
+            "persist.sys.connectivity_checks",
+            ConnChecksSetting.VAL_DEFAULT,
+            ConnChecksSetting.VAL_GRAPHENEOS, ConnChecksSetting.VAL_STANDARD, ConnChecksSetting.VAL_DISABLED
     );
 
     private ExtSettings() {}

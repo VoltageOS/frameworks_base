@@ -70,6 +70,13 @@ public class ExtSettings {
         return getGnssPsdsSetting(ctx) == GNSS_PSDS_STANDARD;
     }
 
+    // also read in packages/modules/DnsResolver (DnsTlsTransport.cpp and doh/network/driver.rs)
+    public static final IntSysProperty CONNECTIVITY_CHECKS = new IntSysProperty(
+            "persist.sys.connectivity_checks",
+            ConnChecksSetting.VAL_DEFAULT,
+            ConnChecksSetting.VAL_GRAPHENEOS, ConnChecksSetting.VAL_STANDARD, ConnChecksSetting.VAL_DISABLED
+    );
+
     private ExtSettings() {}
 
     // used for making settings defined in this class unreadable by third-party apps

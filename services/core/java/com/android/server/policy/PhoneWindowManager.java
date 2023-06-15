@@ -1723,7 +1723,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHandler.removeMessages(MSG_SCREENSHOT_CHORD);
         if (mClickPartialScreenshot && hadMessage) {
             mHandler.sendMessage(mHandler.obtainMessage(
-                    MSG_SCREENSHOT_CHORD, TAKE_SCREENSHOT_SELECTED_REGION, SCREENSHOT_OTHER));
+                    MSG_SCREENSHOT_CHORD, SCREENSHOT_OTHER, TAKE_SCREENSHOT_SELECTED_REGION));
         }
     }
 

@@ -6575,6 +6575,12 @@ public final class Settings {
         };
 
         /**
+         * Whether to enable smart 5G mode
+         * @hide
+         */
+        public static final String SMART_5G = "smart_5g";
+
+        /**
          * These are all public system settings
          *
          * @hide

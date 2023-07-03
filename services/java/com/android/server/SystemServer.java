@@ -236,9 +236,6 @@ import java.util.TreeSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 
-// LineageHardware
-import com.android.server.voltage.LineageHardwareService;
-
 /**
  * Entry point to {@code system_server}.
  */
@@ -2542,13 +2539,6 @@ public final class SystemServer implements Dumpable {
             t.traceBegin("StartMediaMetricsManager");
             mSystemServiceManager.startService(MediaMetricsManagerService.class);
             t.traceEnd();
-
-            // LineageHardware
-            if (!mOnlyCore){
-                t.traceBegin("StartLineageHardwareService");
-                mSystemServiceManager.startService(LineageHardwareService.class);
-                t.traceEnd();
-            }
 
             // PocketBridge
             if (!context.getResources().getString(

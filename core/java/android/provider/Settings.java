@@ -5626,12 +5626,6 @@ public final class Settings {
          */
         public static final String INCREASING_RING_RAMP_UP_TIME = "increasing_ring_ramp_up_time";
 
-	/**
-         * Whether or not to vibrate when a touchscreen gesture is detected
-         * @hide
-         */
-        public static final String TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK = "touchscreen_gesture_haptic_feedback";
-
         /**
          * Whether to display 4G icon instead LTE
          * @hide
@@ -6506,7 +6500,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(VIBRATE_ON_CONNECT);
             PRIVATE_SETTINGS.add(VIBRATE_ON_CALLWAITING);
             PRIVATE_SETTINGS.add(VIBRATE_ON_DISCONNECT);
-            PRIVATE_SETTINGS.add(TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK);
             PRIVATE_SETTINGS.add(NAV_BAR_COMPACT_LAYOUT);
             PRIVATE_SETTINGS.add(VOLUME_ROCKER_WAKE);
             PRIVATE_SETTINGS.add(HEADS_UP_STOPLIST_VALUES);

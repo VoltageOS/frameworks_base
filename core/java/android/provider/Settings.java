@@ -6353,6 +6353,12 @@ public final class Settings {
          * @hide
          */
         public static final String SMART_PIXELS_ON_POWER_SAVE = "smart_pixels_on_power_save";
+        
+        /**
+         * QS footer data usage
+         * @hide
+         */
+        public static final String SYS_QS_FOOTER_DATA_USAGE = "sys_qs_footer_data_usage";
 
         /**
          * @hide

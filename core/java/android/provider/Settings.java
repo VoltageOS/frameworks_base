@@ -6753,10 +6753,11 @@ public final class Settings {
         public static final String PPU_SPOOF_BUILD_GMS_ARRAY = "ppu_spoof_build_gms_array";
 
         /**
-         * Give haptic feedback on brightness slider changes.
+         * Give haptic feedback on qs brightness slider changes.
          * @hide
          */
-        public static final String BRIGHTNESS_SLIDER_HAPTIC_ENABLED = "brightness_slider_haptic_enabled";
+        @Readable
+        public static final String QS_BRIGHTNESS_SLIDER_HAPTIC_FEEDBACK = "qs_brightness_slider_haptic_feedback";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to

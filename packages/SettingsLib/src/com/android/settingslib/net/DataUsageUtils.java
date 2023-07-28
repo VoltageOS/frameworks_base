@@ -27,7 +27,9 @@ import android.util.Log;
 
 import com.android.internal.util.ArrayUtils;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -66,12 +68,15 @@ public class DataUsageUtils {
         final NetworkTemplate mobileTemplate = getMobileTemplateForSubId(telephonyManager, subId);
         final String[] mergedSubscriberIds = telephonyManager
                 .createForSubscriptionId(subId).getMergedImsisFromGroup();
-        if (ArrayUtils.isEmpty(mergedSubscriberIds)) {
-            Log.i(TAG, "mergedSubscriberIds is null.");
+        if (mergedSubscriberIds == null || mergedSubscriberIds.length == 0) {
+            Log.i(TAG, "mergedSubscriberIds is null or empty.");
             return mobileTemplate;
         }
 
-        return normalizeMobileTemplate(mobileTemplate, Set.of(mergedSubscriberIds));
+        Set<String> mergedSubscriberSet = new HashSet<>();
+        mergedSubscriberSet.addAll(Arrays.asList(mergedSubscriberIds));
+
+        return normalizeMobileTemplate(mobileTemplate, mergedSubscriberSet);
     }
 
     private static NetworkTemplate normalizeMobileTemplate(

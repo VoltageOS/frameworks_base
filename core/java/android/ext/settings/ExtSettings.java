@@ -22,6 +22,8 @@ import static android.ext.settings.GnssConstants.PSDS_SERVER_STANDARD;
 import static android.ext.settings.GnssConstants.SUPL_DISABLED;
 import static android.ext.settings.GnssConstants.SUPL_SERVER_GRAPHENEOS_PROXY;
 import static android.ext.settings.GnssConstants.SUPL_SERVER_STANDARD;
+import static android.ext.settings.RemoteKeyProvisioningSettings.GRAPHENEOS_PROXY;
+import static android.ext.settings.RemoteKeyProvisioningSettings.STANDARD_SERVER;
 
 /** @hide */
 public class ExtSettings {
@@ -69,6 +71,12 @@ public class ExtSettings {
     public static boolean isStandardGnssPsds(Context ctx) {
         return getGnssPsdsSetting(ctx) == GNSS_PSDS_STANDARD;
     }
+
+    public static final IntSetting REMOTE_KEY_PROVISIONING_SERVER = new IntSetting(
+            Setting.Scope.GLOBAL, "attest_remote_provisioner_server",
+            GRAPHENEOS_PROXY, // default
+            STANDARD_SERVER, GRAPHENEOS_PROXY // valid values
+    );
 
     // also read in packages/modules/DnsResolver (DnsTlsTransport.cpp and doh/network/driver.rs)
     public static final IntSysProperty CONNECTIVITY_CHECKS = new IntSysProperty(

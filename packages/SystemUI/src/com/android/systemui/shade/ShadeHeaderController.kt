@@ -562,10 +562,12 @@ constructor(
     }
 
     private fun updateQQSPaddings() {
+        val clockPaddingStart =
+            resources.getDimensionPixelSize(R.dimen.status_bar_left_clock_starting_padding)
         val clockPaddingEnd =
             resources.getDimensionPixelSize(R.dimen.status_bar_left_clock_end_padding)
         clock.setPaddingRelative(
-            clock.paddingStart,
+            clockPaddingStart,
             clock.paddingTop,
             clockPaddingEnd,
             clock.paddingBottom

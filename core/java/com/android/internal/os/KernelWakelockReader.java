@@ -83,7 +83,7 @@ public class KernelWakelockReader {
                 // Get both kernel and native wakelock stats from SystemSuspend
                 updateVersion(staleStats);
                 if (getWakelockStatsFromSystemSuspend(staleStats) == null) {
-                    Slog.w(TAG, "Failed to get wakelock stats from SystemSuspend");
+                    Slog.d(TAG, "Failed to get wakelock stats from SystemSuspend");
                     return null;
                 }
                 return removeOldStats(staleStats);
@@ -105,7 +105,7 @@ public class KernelWakelockReader {
                         is = new FileInputStream(sWakeupSourceFile);
                         wakeup_sources = true;
                     } catch (java.io.FileNotFoundException e2) {
-                        Slog.wtf(TAG, "neither " + sWakelockFile + " nor " +
+                        Slog.d(TAG, "neither " + sWakelockFile + " nor " +
                                 sWakeupSourceFile + " exists");
                         return null;
                     }

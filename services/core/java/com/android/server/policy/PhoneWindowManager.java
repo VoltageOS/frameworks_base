@@ -653,7 +653,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // Maps global key codes to the components that will handle them.
     private GlobalKeyManager mGlobalKeyManager;
 
-    private boolean mGlobalActionsOnLockDisable;
+    private boolean mGlobalActionsOnLockEnable = true;
 
     // Fallback actions by key code.
     private final SparseArray<KeyCharacterMap.FallbackAction> mFallbackActions =
@@ -883,9 +883,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.TORCH_LONG_PRESS_POWER), false, this,
                     UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.System.LOCK_POWER_MENU_DISABLED), false, this,
-                    UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.FORCE_SHOW_NAVBAR), false, this,
                     UserHandle.USER_ALL);
@@ -895,6 +892,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.CLICK_PARTIAL_SCREENSHOT), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_ENABLE_POWER_MENU), true, this,
+                    UserHandle.USER_ALL);
+
             updateSettings();
         }
         @Override public void onChange(boolean selfChange) {
@@ -1757,9 +1758,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     }
 
     void showGlobalActionsInternal() {
-        final boolean keyguardShowing = isKeyguardLocked();
+        final boolean keyguardShowing = isKeyguardShowingAndNotOccluded();
         if (keyguardShowing && isKeyguardSecure(mCurrentUserId) &&
-                mGlobalActionsOnLockDisable) {
+                !mGlobalActionsOnLockEnable) {
             return;
         }
         if (mGlobalActions == null) {
@@ -2790,8 +2791,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mTorchLongPressPowerEnabled = Settings.Secure.getIntForUser(resolver,
                     Settings.Secure.TORCH_LONG_PRESS_POWER, 0,
                     UserHandle.USER_CURRENT) == 1;
-            mGlobalActionsOnLockDisable = Settings.System.getIntForUser(resolver,
-                    Settings.System.LOCK_POWER_MENU_DISABLED, 1,
+            mGlobalActionsOnLockEnable = Settings.System.getIntForUser(resolver,
+                    Settings.System.LOCKSCREEN_ENABLE_POWER_MENU, 1,
                     UserHandle.USER_CURRENT) != 0;
         }
         if (updateRotation) {

@@ -4657,7 +4657,7 @@ public class AppOpsService extends IAppOpsService.Stub {
         } else {
             pkgUid = resolveUid(packageName);
         }
-        if (pkgUid != Process.INVALID_UID) {
+        if (pkgUid != Process.INVALID_UID && attributionTag != null) {
             if (pkgUid != UserHandle.getAppId(uid)) {
                 Slog.e(TAG, "Bad call made by uid " + callingUid + ". "
                         + "Package \"" + packageName + "\" does not belong to uid " + uid + ".");
@@ -4716,7 +4716,7 @@ public class AppOpsService extends IAppOpsService.Stub {
             Binder.restoreCallingIdentity(ident);
         }
 
-        if (pkgUid != uid) {
+        if (pkgUid != uid && attributionTag != null) {
             Slog.e(TAG, "Bad call made by uid " + callingUid + ". "
                     + "Package \"" + packageName + "\" does not belong to uid " + uid + ".");
             String otherUidMessage = DEBUG ? " but it is really " + pkgUid : " but it is not";

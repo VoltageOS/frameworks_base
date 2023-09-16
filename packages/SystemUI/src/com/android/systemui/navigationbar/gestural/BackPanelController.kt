@@ -26,6 +26,7 @@ import android.os.VibrationEffect
 import android.util.Log
 import android.util.MathUtils
 import android.view.Gravity
+import android.view.View
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.ViewConfiguration
@@ -162,6 +163,8 @@ class BackPanelController internal constructor(
 
     private var isExtendedSwipe = false
     private var longSwipeThreshold = 0f
+
+    private var mBackArrowVisibility = true
 
     internal enum class GestureState {
         /* Arrow is off the screen and invisible */
@@ -448,6 +451,12 @@ class BackPanelController internal constructor(
 
         updateArrowStateOnMove(yTranslation, xTranslation)
         mView.setDrawDoubleArrow(almostLongSwipe)
+
+        if (mBackArrowVisibility) {
+           mView.setVisibility(View.VISIBLE)
+        } else {
+           mView.setVisibility(View.INVISIBLE)
+        }
 
         val gestureProgress = when (currentState) {
             GestureState.ACTIVE -> fullScreenProgress(xTranslation)
@@ -917,6 +926,10 @@ class BackPanelController internal constructor(
 //                mainHandler.postDelayed(10L) { vibratorHelper.cancel() }
             }
         }
+    }
+
+    override fun setBackArrowVisibility(backArrowVisibility : Boolean) {
+        mBackArrowVisibility = backArrowVisibility;
     }
 
     private fun convertVelocityToSpringStartingVelocity(

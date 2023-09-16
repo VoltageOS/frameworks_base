@@ -264,12 +264,6 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
         return (int) (getUnscaledInset(userRes) * scale);
     }
 
-    public boolean getBackArrowGesture() {
-        return Settings.Secure.getIntForUser(
-              mContext.getContentResolver(), Settings.Secure.SHOW_BACK_ARROW_GESTURE, 1,
-              UserHandle.USER_CURRENT) == 1;
-    }
-
     public boolean getEdgeHaptic() {
         return (Settings.System.getIntForUser(
                    mContext.getContentResolver(), Settings.System.BACK_GESTURE_HAPTIC, 0,
@@ -277,6 +271,12 @@ public class GestureNavigationSettingsObserver extends ContentObserver {
                Settings.System.getIntForUser(
                    mContext.getContentResolver(), Settings.System.HAPTIC_FEEDBACK_ENABLED, 0,
                    UserHandle.USER_CURRENT) == 1);
+    }
+
+    public boolean getBackArrowGesture() {
+        return Settings.Secure.getIntForUser(
+              mContext.getContentResolver(), Settings.Secure.SHOW_BACK_ARROW_GESTURE, 1,
+              UserHandle.USER_CURRENT) == 1;
     }
 
     public boolean areNavigationButtonForcedVisible() {

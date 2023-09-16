@@ -12045,12 +12045,6 @@ public final class Settings {
         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
 
         /**
-         * Whether to show or hide the arrow for back gesture
-         * @hide
-         */
-        public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
-
-	/**
          * Pulse navbar music visualizer
          * @hide
          */
@@ -12250,6 +12244,12 @@ public final class Settings {
          * @hide
          */
         public static final String SHOW_FPS_OVERLAY = "show_fps_overlay";
+
+        /**
+         * Whether to show or hide the arrow for back gesture
+         * @hide
+         */
+        public static final String SHOW_BACK_ARROW_GESTURE = "show_back_arrow_gesture";
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to

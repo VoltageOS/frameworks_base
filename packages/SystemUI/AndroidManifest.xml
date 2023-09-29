@@ -378,6 +378,10 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
+    <!-- Permission required to bind to the wm shell proxy service. -->
+    <permission android:name="com.android.systemui.permission.BIND_WM_SHELL_PROXY_SERVICE"
+        android:protectionLevel="signature" />
+
     <application
         android:name=".SystemUIApplication"
         android:persistent="true"
@@ -408,6 +412,12 @@
         <service android:name=".wallet.controller.WalletContextualLocationsService"
             android:exported="true"
             />
+
+        <service
+            android:name=".wmshell.WMShellProxyService"
+            android:exported="true"
+            android:permission="com.android.systemui.permission.BIND_WM_SHELL_PROXY_SERVICE"
+            android:singleUser="true" />
 
         <!-- Service for dumping extremely verbose content during a bug report -->
         <service android:name=".dump.SystemUIAuxiliaryDumpService"

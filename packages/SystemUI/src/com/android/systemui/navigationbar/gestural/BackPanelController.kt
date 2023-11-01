@@ -190,6 +190,8 @@ internal constructor(
 
     private var backArrowVisibility = false
 
+    private var edgeHapticEnabled = false
+
     internal enum class GestureState {
         /* Arrow is off the screen and invisible */
         GONE,
@@ -681,6 +683,10 @@ internal constructor(
         backArrowVisibility = enabled
     }
 
+    override fun setEdgeHapticEnabled(enabled: Boolean) {
+        edgeHapticEnabled = enabled
+    }
+
     private fun isFlungAwayFromEdge(endX: Float, startX: Float = touchDeltaStartX): Boolean {
         val flingDistance = if (mView.isLeftPanel) endX - startX else startX - endX
         val flingVelocity =
@@ -934,15 +940,17 @@ internal constructor(
                 previousXTranslationOnActiveOffset = previousXTranslation
                 updateRestingArrowDimens()
                 if (featureFlags.isEnabled(ONE_WAY_HAPTICS_API_MIGRATION)) {
-                    vibratorHelper.performHapticFeedback(
-                        mView,
-                        HapticFeedbackConstants.GESTURE_THRESHOLD_ACTIVATE
-                    )
+                    if (edgeHapticEnabled)
+                        vibratorHelper.performHapticFeedback(
+                            mView,
+                            HapticFeedbackConstants.GESTURE_THRESHOLD_ACTIVATE
+                        )
                 } else {
                     vibratorHelper.cancel()
-                    mainHandler.postDelayed(10L) {
-                        vibratorHelper.vibrate(VIBRATE_ACTIVATED_EFFECT)
-                    }
+                    if (edgeHapticEnabled)
+                        mainHandler.postDelayed(10L) {
+                            vibratorHelper.vibrate(VIBRATE_ACTIVATED_EFFECT)
+                        }
                 }
                 val popVelocity =
                     if (previousState == GestureState.INACTIVE) {
@@ -965,12 +973,17 @@ internal constructor(
                 mView.popOffEdge(POP_ON_INACTIVE_VELOCITY)
 
                 if (featureFlags.isEnabled(ONE_WAY_HAPTICS_API_MIGRATION)) {
-                    vibratorHelper.performHapticFeedback(
-                        mView,
-                        HapticFeedbackConstants.GESTURE_THRESHOLD_DEACTIVATE
-                    )
+                    if (edgeHapticEnabled)
+                        vibratorHelper.performHapticFeedback(
+                            mView,
+                            HapticFeedbackConstants.GESTURE_THRESHOLD_DEACTIVATE
+                        )
                 } else {
-                    vibratorHelper.vibrate(VIBRATE_DEACTIVATED_EFFECT)
+                    vibratorHelper.cancel()
+                    if (edgeHapticEnabled)
+                        mainHandler.postDelayed(0L) {
+                            vibratorHelper.vibrate(VIBRATE_DEACTIVATED_EFFECT)
+                        }
                 }
                 updateRestingArrowDimens()
             }

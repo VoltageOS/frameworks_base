@@ -73,6 +73,7 @@ import com.android.systemui.qrcodescanner.dagger.QRCodeScannerModule;
 import com.android.systemui.qs.FgsManagerController;
 import com.android.systemui.qs.FgsManagerControllerImpl;
 import com.android.systemui.qs.QSFragmentStartableModule;
+import com.android.systemui.qs.dagger.voltage.VoltageModule;
 import com.android.systemui.qs.footer.dagger.FooterActionsModule;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.retail.dagger.RetailModeModule;
@@ -173,6 +174,7 @@ import javax.inject.Named;
             ControlsModule.class,
             DemoModeModule.class,
             DisableFlagsModule.class,
+            VoltageModule.class,
             FalsingModule.class,
             FlagsModule.class,
             SystemPropertiesFlagsModule.class,

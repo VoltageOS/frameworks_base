@@ -6563,6 +6563,12 @@ public final class Settings {
         public static final String DATA_ROAMING = Global.DATA_ROAMING;
 
         /**
+         * Whether to display 4G icon instead LTE
+         * @hide
+         */
+        public static final String SHOW_FOURG_ICON = "show_fourg_icon";
+
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#DEVICE_PROVISIONED} instead
          */
         @Deprecated

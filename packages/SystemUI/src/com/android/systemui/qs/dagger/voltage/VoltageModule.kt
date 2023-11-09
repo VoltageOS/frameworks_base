@@ -20,6 +20,7 @@ import com.android.systemui.qs.tileimpl.QSTileImpl
 import com.android.systemui.qs.tiles.SmartPixelsTile
 import com.android.systemui.qs.tiles.HeadsUpTile
 import com.android.systemui.qs.tiles.SyncTile
+import com.android.systemui.qs.tiles.AmbientDisplayTile
 
 import dagger.Binds
 import dagger.Module
@@ -46,5 +47,11 @@ interface VoltageModule {
     @IntoMap
     @StringKey(SyncTile.TILE_SPEC)
     fun bindSyncTile(syncTile: SyncTile): QSTileImpl<*>
+
+    /** Inject AmbientDisplayTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(AmbientDisplayTile.TILE_SPEC)
+    fun bindAmbientDisplayTile(ambientDisplayTile: AmbientDisplayTile): QSTileImpl<*>
 
 }

@@ -32,8 +32,6 @@ import android.os.UserHandle;
 import android.text.TextUtils;
 import android.util.Slog;
 
-import com.android.server.ext.SystemServerExt;
-
 import java.util.Arrays;
 
 final class PackageManagerNative extends IPackageManagerNative.Stub {
@@ -197,11 +195,7 @@ final class PackageManagerNative extends IPackageManagerNative.Stub {
             throw new SecurityException();
         }
 
-        if (SystemServerExt.get() == null) {
-            return;
-        }
-
         com.android.server.ext.MissingSpecialRuntimePermissionNotification
-                .maybeShow(permissionName, uid, packageName);
+                .maybeShow(mPm.getContext(), permissionName, uid, packageName);
     }
 }

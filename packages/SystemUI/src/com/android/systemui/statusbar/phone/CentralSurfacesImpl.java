@@ -161,6 +161,7 @@ import com.android.systemui.keyguard.WakefulnessLifecycle;
 import com.android.systemui.keyguard.domain.interactor.AlternateBouncerInteractor;
 import com.android.systemui.keyguard.ui.binder.LightRevealScrimViewBinder;
 import com.android.systemui.keyguard.ui.viewmodel.LightRevealScrimViewModel;
+import com.android.systemui.model.SysUiState;
 import com.android.systemui.navigationbar.NavigationBarController;
 import com.android.systemui.navigationbar.NavigationBarView;
 import com.android.systemui.notetask.NoteTaskController;
@@ -243,6 +244,7 @@ import com.android.systemui.statusbar.policy.DeviceProvisionedController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController.DeviceProvisionedListener;
 import com.android.systemui.statusbar.policy.ExtensionController;
 import com.android.systemui.statusbar.policy.FlashlightController;
+import com.android.systemui.statusbar.policy.GameSpaceManager;
 import com.android.systemui.statusbar.policy.KeyguardStateController;
 import com.android.systemui.statusbar.policy.UserInfoControllerImpl;
 import com.android.systemui.statusbar.policy.UserSwitcherController;
@@ -559,6 +561,8 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
     private final Provider<FingerprintManager> mFingerprintManager;
     private final ActivityStarter mActivityStarter;
 
+    private GameSpaceManager mGameSpaceManager;
+
     private CentralSurfacesComponent mCentralSurfacesComponent;
 
     // Flags for disabling the status bar
@@ -732,6 +736,8 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         }
     };
 
+    private final SysUiState mSysUiState;
+
     /**
      * Public constructor for CentralSurfaces.
      *
@@ -838,7 +844,8 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
             AlternateBouncerInteractor alternateBouncerInteractor,
             UserTracker userTracker,
             Provider<FingerprintManager> fingerprintManager,
-            ActivityStarter activityStarter
+            ActivityStarter activityStarter,
+            SysUiState sysUiState
     ) {
         mContext = context;
         mNotificationsController = notificationsController;
@@ -929,6 +936,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         mActivityStarter = activityStarter;
         mPulseController = new PulseControllerImpl(mContext, this,
                 mCommandQueue, mUiBgExecutor, mConfigurationController);
+        mSysUiState = sysUiState;
 
         mLockscreenShadeTransitionController = lockscreenShadeTransitionController;
         mStartingSurfaceOptional = startingSurfaceOptional;
@@ -947,6 +955,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
 
         mActivityIntentHelper = new ActivityIntentHelper(mContext);
         mActivityLaunchAnimator = activityLaunchAnimator;
+        mGameSpaceManager = new GameSpaceManager(mContext, mKeyguardStateController);
 
         // The status bar background may need updating when the ongoing call status changes.
         mOngoingCallController.addCallback((animate) -> maybeUpdateBarMode());
@@ -1602,6 +1611,7 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_CAMERA_GESTURE);
         mBroadcastDispatcher.registerReceiver(mBroadcastReceiver, filter, null, UserHandle.ALL);
+        mGameSpaceManager.observe();
     }
 
     protected QS createDefaultQSFragment() {
@@ -3716,6 +3726,19 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
         }
     }
 
+    @Override
+    public void setBlockedGesturalNavigation(boolean blocked) {
+        NotificationPanelViewController npvc =
+                mCentralSurfacesComponent.getNotificationPanelViewController();
+        if (npvc != null) {
+            npvc.setBlockedGesturalNavigation(blocked);
+            npvc.updateSystemUiStateFlags();
+        }
+        if (getNavigationBarView() != null) {
+            getNavigationBarView().setBlockedGesturalNavigation(blocked, mSysUiState);
+        }
+    }
+
     /**
      * Dismiss the keyguard then execute an action.
      *
@@ -3814,6 +3837,12 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
     @Override
     public boolean isKeyguardSecure() {
         return mStatusBarKeyguardViewManager.isSecure();
+    }
+
+
+    @Override
+    public GameSpaceManager getGameSpaceManager() {
+        return mGameSpaceManager;
     }
 
     // End Extra BaseStatusBarMethods.

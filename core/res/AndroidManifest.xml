@@ -830,6 +830,10 @@
     <protected-broadcast android:name="android.app.admin.action.DEVICE_POLICY_SET_RESULT" />
     <protected-broadcast android:name="android.app.admin.action.DEVICE_POLICY_CHANGED" />
 
+    <!-- GameSpace -->
+    <protected-broadcast android:name="io.chaldeaprjkt.gamespace.action.GAME_START" />
+    <protected-broadcast android:name="io.chaldeaprjkt.gamespace.action.GAME_STOP" />
+
     <!-- ====================================================================== -->
     <!--                          RUNTIME PERMISSIONS                           -->
     <!-- ====================================================================== -->
@@ -7714,6 +7718,21 @@
     <!-- Attribution for Device Policy Manager service. -->
     <attribution android:tag="DevicePolicyManagerService"
         android:label="@string/device_policy_manager_service"/>
+
+    <!-- LineageHardware -->
+    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LINEAGE_HARDWARE" />
+
+    <!-- Live display -->
+    <protected-broadcast android:name="lineageos.platform.intent.action.UPDATE_TWILIGHT_STATE" />
+    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LIVEDISPLAY" />
+
+    <!-- @hide -->
+    <permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS"
+                android:protectionLevel="signature|privileged" />
+
+    <!-- @hide  -->
+    <permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY"
+                android:protectionLevel="signature|privileged" />
 
     <application android:process="system"
                  android:persistent="true"

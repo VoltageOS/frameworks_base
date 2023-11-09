@@ -16,6 +16,7 @@
 
 package com.android.server.pm;
 
+import android.annotation.ElapsedRealtimeLong;
 import android.annotation.IntDef;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
@@ -23,6 +24,7 @@ import android.annotation.SystemApi;
 import android.os.Binder;
 import android.os.UserHandle;
 
+import com.android.server.pm.pkg.AndroidPackage;
 import com.android.server.pm.pkg.PackageState;
 
 import java.io.IOException;
@@ -191,4 +193,16 @@ public interface PackageManagerLocal {
     }
 
     void showDexoptProgressBootMessage(int percentage, int current, int total);
+
+    void onBgDexoptProgressUpdate(@ElapsedRealtimeLong long start, int percentage, int current, int total);
+
+    void onBgDexoptCompleted(
+            // com.android.server.art.model.DexoptResult
+            @Nullable Object dexOptResult,
+            long durationMs);
+
+    @Nullable
+    String maybeOverrideCompilerFilter(@NonNull String origFilter, @NonNull AndroidPackage pkg,
+                                       // com.android.server.art.model.DexoptParams
+                                       @NonNull Object dexoptParams);
 }

@@ -5809,6 +5809,7 @@ public final class Settings {
           * 2 - Volume up/down moves cursor right/left
           * @hide
           */
+        @Readable
         public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
 
         /**
@@ -5816,6 +5817,28 @@ public final class Settings {
          * @hide
          */
         public static final String LOCKSCREEN_MEDIA_METADATA = "lockscreen_media_metadata";
+
+        /**
+         * Whether or not to vibrate when a touchscreen gesture is detected
+         * @hide
+         */
+        public static final String TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK = "touchscreen_gesture_haptic_feedback";
+
+        /**
+         * Whether the HighTouchSensitivity is activated or not.
+         * 0 = off, 1 = on
+         * @hide
+         */
+        public static final String HIGH_TOUCH_SENSITIVITY_ENABLE =
+                "high_touch_sensitivity_enable";
+
+        /**
+         * Whether the HighTouchPollingRate is activated or not.
+         * 0 = off, 1 = on
+         * @hide
+         */
+        public static final String HIGH_TOUCH_POLLING_RATE_ENABLE =
+                "high_touch_polling_rate_enable";
 
         /**
          * IMPORTANT: If you add a new public settings you also have to add it to
@@ -6294,6 +6317,99 @@ public final class Settings {
         public static final String LS_MEDIA_ARTWORK_FADE_PERCENT = "ls_media_artwork_fade_percent";
 
         /**
+         * Color temperature of the display during the day
+         * @hide
+         */
+        public static final String DISPLAY_TEMPERATURE_DAY = "display_temperature_day";
+
+        /**
+         * Color temperature of the display at night
+         * @hide
+         */
+        public static final String DISPLAY_TEMPERATURE_NIGHT = "display_temperature_night";
+
+        /**
+         * Display color temperature adjustment mode, one of DAY (default), NIGHT, or AUTO.
+         * @hide
+         */
+        public static final String DISPLAY_TEMPERATURE_MODE = "display_temperature_mode";
+
+        /**
+         * Automatic outdoor mode
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_AUTO_OUTDOOR_MODE = "display_auto_outdoor_mode";
+
+        /**
+         * Anti flicker
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_ANTI_FLICKER = "display_anti_flicker";
+
+        /**
+         * Reader mode
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_READING_MODE = "display_reading_mode";
+
+        /**
+         * Use display power saving features such as CABC or CABL
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_CABC = "display_low_power";
+
+        /**
+         * Use color enhancement feature of display
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_COLOR_ENHANCE = "display_color_enhance";
+
+        /**
+         * Use auto contrast optimization feature of display
+         * 0 = 0ff, 1 = on
+         * @hide
+         */
+        public static final String DISPLAY_AUTO_CONTRAST = "display_auto_contrast";
+
+        /**
+         * Manual display color adjustments (RGB values as floats, separated by spaces)
+         * @hide
+         */
+        public static final String DISPLAY_COLOR_ADJUSTMENT = "display_color_adjustment";
+
+        /**
+         * The current custom picture adjustment values as a delimited string
+         * @hide
+         */
+        public static final String DISPLAY_PICTURE_ADJUSTMENT =
+                "display_picture_adjustment";
+
+        /**
+         * Did we tell about how they can stop breaking their eyes?
+         * @hide
+         */
+        public static final String LIVE_DISPLAY_HINTED = "live_display_hinted";
+
+	/**
+         * GameSpace: List of added games by user
+         * @hide
+         */
+        @Readable
+        public static final String GAMESPACE_GAME_LIST = "gamespace_game_list";
+
+        /**
+         * GameSpace: Whether fullscreen intent will be suppressed while in game session
+         * @hide
+         */
+        @Readable
+        public static final String GAMESPACE_SUPPRESS_FULLSCREEN_INTENT = "gamespace_suppress_fullscreen_intent";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6434,6 +6550,21 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_ALBUMART_FILTER);
             PRIVATE_SETTINGS.add(LS_MEDIA_FILTER_BLUR_RADIUS);
             PRIVATE_SETTINGS.add(LS_MEDIA_ARTWORK_FADE_PERCENT);
+            PRIVATE_SETTINGS.add(TOUCHSCREEN_GESTURE_HAPTIC_FEEDBACK);
+            PRIVATE_SETTINGS.add(HIGH_TOUCH_SENSITIVITY_ENABLE);
+            PRIVATE_SETTINGS.add(HIGH_TOUCH_POLLING_RATE_ENABLE);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_DAY);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_NIGHT);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_OUTDOOR_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_ANTI_FLICKER);
+            PRIVATE_SETTINGS.add(DISPLAY_READING_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_CABC);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ENHANCE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_CONTRAST);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
         }
 
         /**
@@ -12166,6 +12297,22 @@ public final class Settings {
          */
         public static final String PULSE_SMOOTHING_ENABLED = "pulse_smoothing_enabled";
 
+	/**
+         * Our GameSpace can't write to device_config directly [GTS]
+         * Use this as intermediate to pass device_config property
+         * from our GameSpace to com.android.server.app.GameManagerService
+         * so we can set the device_config property from there.
+         * @hide
+         */
+        public static final String GAME_OVERLAY = "game_overlay";
+
+        /**
+         * Enable udfps detection even when screen is off
+         * Default value is 0
+         * @hide
+         */
+        public static final String SCREEN_OFF_UDFPS_ENABLED = "screen_off_udfps_enabled";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -12220,6 +12367,12 @@ public final class Settings {
         @Readable
         public static final String GAME_DASHBOARD_ALWAYS_ON = "game_dashboard_always_on";
 
+
+        /**
+         * Whether touch hovering is enabled on supported hardware
+         * @hide
+         */
+        public static final String FEATURE_TOUCH_HOVERING = "feature_touch_hovering";
 
         /**
          * For this device state, no specific auto-rotation lock setting should be applied.
@@ -12412,6 +12565,12 @@ public final class Settings {
          * @hide
          */
         public static final String QS_SHOW_DATA_USAGE = "qs_show_data_usage";
+
+        /**
+         * Whether key swap is enabled on supported hardware
+         * @hide
+         */
+        public static final String SWAP_CAPACITIVE_KEYS = "swap_capacitive_keys";
 
         /**
          * These entries are considered common between the personal and the managed profile,

@@ -5,4 +5,7 @@
 -->
 <resources>
 
+    <string-array name="excluded_apps">
+        <item>app.grapheneos.gmscompat</item>
+    </string-array>
 </resources>

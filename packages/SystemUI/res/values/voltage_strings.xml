@@ -112,4 +112,9 @@
     <string name="status_bar_firewall">Firewall</string>
     <string name="status_bar_firewall_slot" translatable="false">firewall</string>
 
+    <!-- Heads up QS tile -->
+    <string name="quick_settings_heads_up_label">Heads up</string>
+    <string name="accessibility_quick_settings_heads_up_off">Heads up off.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Heads up on.</string>
+
 </resources>

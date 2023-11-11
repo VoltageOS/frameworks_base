@@ -25,14 +25,14 @@
     android:background="@android:color/transparent"
     android:theme="@style/volume_dialog_theme">
 
-    <com.android.systemui.animation.view.LaunchableLinearLayout
+    <!-- right-aligned to be physically near volume button -->
+    <LinearLayout
         android:id="@+id/volume_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_gravity="right"
-        android:paddingLeft="@dimen/volume_dialog_panel_transparent_padding_horizontal"
-        android:paddingRight="@dimen/volume_dialog_panel_transparent_padding_horizontal"
+        android:layout_marginRight="@dimen/volume_dialog_panel_transparent_padding_right"
         android:orientation="vertical"
         android:clipToPadding="false"
         android:clipChildren="false">
@@ -96,60 +96,23 @@
                     <!-- volume rows added and removed here! :-) -->
                 </LinearLayout>
                 <FrameLayout
-                    android:id="@+id/app_volume_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/volume_background"
-                    android:paddingLeft="@dimen/volume_dialog_ringer_rows_padding"
-                    android:paddingRight="@dimen/volume_dialog_ringer_rows_padding">
-                    <com.android.keyguard.AlphaOptimizedImageButton
-                        android:id="@+id/app_volume"
-                        android:src="@drawable/ic_app_volume"
-                        android:layout_width="@dimen/volume_dialog_tap_target_size"
-                        android:layout_height="@dimen/volume_dialog_tap_target_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/accessibility_volume_settings"
-                        android:background="@drawable/ripple_drawable_20dp"
-                        android:tint="?androidprv:attr/colorAccent"
-                        android:soundEffectsEnabled="false" />
-                </FrameLayout>
-                <FrameLayout
                     android:id="@+id/settings_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/volume_background"
-                    android:paddingLeft="@dimen/volume_dialog_ringer_rows_padding"
-                    android:paddingRight="@dimen/volume_dialog_ringer_rows_padding">
-                    <com.android.keyguard.AlphaOptimizedImageButton
-                        android:id="@+id/settings"
-                        android:src="@drawable/ic_speaker_group_24dp"
-                        android:layout_width="@dimen/volume_dialog_tap_target_size"
-                        android:layout_height="@dimen/volume_dialog_tap_target_size"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/accessibility_volume_settings"
-                        android:background="@drawable/ripple_drawable_20dp"
-                        android:tint="?androidprv:attr/colorAccent"
-                        android:soundEffectsEnabled="false" />
-                </FrameLayout>
-                <FrameLayout
-                    android:id="@+id/expandable_indicator_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/volume_background_bottom"
                     android:paddingLeft="@dimen/volume_dialog_ringer_rows_padding"
                     android:paddingBottom="@dimen/volume_dialog_ringer_rows_padding"
                     android:paddingRight="@dimen/volume_dialog_ringer_rows_padding">
-                    <com.android.systemui.statusbar.phone.ExpandableIndicator
-                        android:id="@+id/expandable_indicator"
+                    <com.android.keyguard.AlphaOptimizedImageButton
+                        android:id="@+id/settings"
+                        android:src="@drawable/horizontal_ellipsis"
                         android:layout_width="@dimen/volume_dialog_tap_target_size"
                         android:layout_height="@dimen/volume_dialog_tap_target_size"
                         android:layout_gravity="center"
                         android:contentDescription="@string/accessibility_volume_settings"
                         android:background="@drawable/ripple_drawable_20dp"
                         android:tint="?androidprv:attr/colorAccent"
-                        android:soundEffectsEnabled="false"
-                        android:padding="10dp"
-                        android:rotation="90" />
+                        android:soundEffectsEnabled="false" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -175,7 +138,7 @@
                 android:layout_gravity="center"
                 android:soundEffectsEnabled="false" />
         </FrameLayout>
-    </com.android.systemui.animation.view.LaunchableLinearLayout>
+    </LinearLayout>
 
     <ViewStub
         android:id="@+id/odi_captions_tooltip_stub"
@@ -184,7 +147,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom | right"
-        android:layout_marginLeft="@dimen/volume_tool_tip_horizontal_margin"
-        android:layout_marginRight="@dimen/volume_tool_tip_horizontal_margin"/>
+        android:layout_marginRight="@dimen/volume_tool_tip_right_margin"/>
 
 </FrameLayout>

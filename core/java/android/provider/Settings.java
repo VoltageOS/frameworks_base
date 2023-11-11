@@ -5899,12 +5899,6 @@ public final class Settings {
         public static final String RETICKER_COLORED = "reticker_colored";
 
         /**
-         * Whether to show volume dialog at left side in portrait mode
-         * @hide
-         */
-        public static final String LEFT_VOLUME_DIALOG = "left_volume_dialog";
-
-        /**
          * Whether the phone vibrates on call connect
          * @hide
          */
@@ -6692,12 +6686,6 @@ public final class Settings {
             INSTANT_APP_SETTINGS.add(SOUND_EFFECTS_ENABLED);
             INSTANT_APP_SETTINGS.add(ACCELEROMETER_ROTATION);
         }
-
-        /**
-         * Show app volume rows in volume panel
-         * @hide
-         */
-        public static final String SHOW_APP_VOLUME = "show_app_volume";
 
         /**
          * When to use Wi-Fi calling
@@ -20677,12 +20665,6 @@ public final class Settings {
         @SdkConstant(SdkConstant.SdkConstantType.ACTIVITY_INTENT_ACTION)
         public static final String ACTION_VOLUME =
                 "android.settings.panel.action.VOLUME";
-
-        /**
-         * @hide
-         */
-        public static final String ACTION_APP_VOLUME =
-                "android.settings.panel.action.APP_VOLUME";
     }
 
     /**

@@ -22,6 +22,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile
 import com.android.systemui.qs.tiles.SyncTile
 import com.android.systemui.qs.tiles.AODTile
 import com.android.systemui.qs.tiles.CPUInfoTile
+import com.android.systemui.qs.tiles.FPSInfoTile
 import com.android.systemui.qs.tiles.AmbientDisplayTile
 import com.android.systemui.qs.tiles.CaffeineTile
 import com.android.systemui.qs.tiles.CellularTile
@@ -96,6 +97,12 @@ interface VoltageModule {
     @IntoMap
     @StringKey(CellularTile.TILE_SPEC)
     fun bindCellularTile(cellularTile: CellularTile): QSTileImpl<*>
+
+    /** Inject FPSInfoTile into tileMap in QSModule */
+    @Binds
+    @IntoMap
+    @StringKey(FPSInfoTile.TILE_SPEC)
+    fun FPSInfoTile(fpsInfoTile: FPSInfoTile): QSTileImpl<*>
 
     /** Inject WifiTile into tileMap in QSModule */
     @Binds

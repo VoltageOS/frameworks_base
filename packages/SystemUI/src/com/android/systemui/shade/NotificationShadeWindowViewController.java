@@ -138,8 +138,6 @@ public class NotificationShadeWindowViewController {
             };
     private final SystemClock mClock;
 
-    private GestureDetector mQQSGestureHandler;
-    private final QQSGestureListener mQQSGestureListener;
 
     @Inject
     public NotificationShadeWindowViewController(
@@ -176,8 +174,7 @@ public class NotificationShadeWindowViewController {
             SystemClock clock,
             BouncerMessageInteractor bouncerMessageInteractor,
             BouncerLogger bouncerLogger,
-            KeyEventInteractor keyEventInteractor,
-            QQSGestureListener qqsGestureListener) {
+            KeyEventInteractor keyEventInteractor) {
         mLockscreenShadeTransitionController = transitionController;
         mFalsingCollector = falsingCollector;
         mStatusBarStateController = statusBarStateController;
@@ -204,7 +201,6 @@ public class NotificationShadeWindowViewController {
         mIsTrackpadCommonEnabled = featureFlags.isEnabled(TRACKPAD_GESTURE_COMMON);
         mFeatureFlags = featureFlags;
         mKeyEventInteractor = keyEventInteractor;
-        mQQSGestureListener = qqsGestureListener;
 
         // This view is not part of the newly inflated expanded status bar.
         mBrightnessMirror = mView.findViewById(R.id.brightness_mirror_container);
@@ -257,9 +253,6 @@ public class NotificationShadeWindowViewController {
             mDreamingWakeupGestureHandler = new GestureDetector(mView.getContext(),
                     mLockscreenHostedDreamGestureListener);
         }
-
-        mQQSGestureHandler = new GestureDetector(mView.getContext(),
-                mQQSGestureListener);
 
         mView.setLayoutInsetsController(mNotificationInsetsController);
         mView.setInteractionEventHandler(new NotificationShadeWindowView.InteractionEventHandler() {
@@ -320,7 +313,6 @@ public class NotificationShadeWindowViewController {
                 }
 
                 mFalsingCollector.onTouchEvent(ev);
-                mQQSGestureHandler.onTouchEvent(ev);
                 mPulsingWakeupGestureHandler.onTouchEvent(ev);
                 if (mDreamingWakeupGestureHandler != null
                         && mDreamingWakeupGestureHandler.onTouchEvent(ev)) {

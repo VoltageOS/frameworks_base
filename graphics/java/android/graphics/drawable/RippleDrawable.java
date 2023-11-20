@@ -158,7 +158,7 @@ public class RippleDrawable extends LayerDrawable {
     private static final LinearInterpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
     private static final int DEFAULT_EFFECT_COLOR = 0x8dffffff;
     /** Temporary flag for teamfood. **/
-    private static final boolean FORCE_PATTERNED_STYLE = true;
+    private static final boolean FORCE_PATTERNED_STYLE = false;
 
     private final Rect mTempRect = new Rect();
 

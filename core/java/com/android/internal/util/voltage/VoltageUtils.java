@@ -20,6 +20,8 @@ import static android.provider.Settings.Global.ZEN_MODE_OFF;
 import static android.provider.Settings.Global.ZEN_MODE_IMPORTANT_INTERRUPTIONS;
 import static android.view.DisplayCutout.BOUNDS_POSITION_LEFT;
 import static android.view.DisplayCutout.BOUNDS_POSITION_RIGHT;
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.content.Context.VIBRATOR_SERVICE;
 
 import android.Manifest;
 import android.app.ActivityManager;
@@ -31,6 +33,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentResolver;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +45,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.provider.MediaStore;
+import android.os.Vibrator;
 import android.os.PowerManager;
 import android.database.ContentObserver;
 import android.graphics.Point;
@@ -117,6 +122,8 @@ public class VoltageUtils {
 
     public static final String INTENT_SCREENSHOT = "action_handler_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_handler_region_screenshot";
+
+    private static IStatusBarService mStatusBarService = null;
 
     public static void switchScreenOff(Context ctx) {
         PowerManager pm = (PowerManager) ctx.getSystemService(Context.POWER_SERVICE);
@@ -324,6 +331,16 @@ public class VoltageUtils {
         FireActions.toggleCameraFlash();
     }
 
+    public static void clearAllNotifications() {
+        FireActions.clearAllNotifications();
+    }
+    public static void toggleNotifications() {
+        FireActions.toggleNotifications();
+    }
+    public static void toggleQsPanel() {
+        FireActions.toggleQsPanel();
+    }
+
     public static void killForegroundApp() {
         FireActions.killForegroundApp();
     }
@@ -360,6 +377,98 @@ public class VoltageUtils {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    // Launch camera
+    public static void launchCamera(Context context) {
+        Intent intent = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA_SECURE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    // Launch voice search
+    public static void launchVoiceSearch(Context context) {
+        Intent intent = new Intent(Intent.ACTION_SEARCH_LONG_PRESS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
+    // Volume panel
+    public static void toggleVolumePanel(Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        am.adjustVolume(AudioManager.ADJUST_SAME, AudioManager.FLAG_SHOW_UI);
+    }
+
+    // Cycle ringer modes
+    public static void toggleRingerModes (Context context) {
+        AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        Vibrator mVibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+
+        switch (am.getRingerMode()) {
+            case AudioManager.RINGER_MODE_NORMAL:
+                if (mVibrator.hasVibrator()) {
+                    am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+                }
+                break;
+            case AudioManager.RINGER_MODE_VIBRATE:
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                NotificationManager notificationManager =
+                        (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+                notificationManager.setInterruptionFilter(
+                        NotificationManager.INTERRUPTION_FILTER_PRIORITY);
+                break;
+            case AudioManager.RINGER_MODE_SILENT:
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                break;
+        }
+    }
+
+    // Switch to last app
+    public static void switchToLastApp(Context context) {
+        final ActivityManager am =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.RunningTaskInfo lastTask = getLastTask(context, am);
+
+        if (lastTask != null) {
+            am.moveTaskToFront(lastTask.id, ActivityManager.MOVE_TASK_NO_USER_ACTION,
+                    getAnimation(context).toBundle());
+        }
+    }
+
+
+    private static ActivityOptions getAnimation(Context context) {
+        return ActivityOptions.makeCustomAnimation(context,
+                com.android.internal.R.anim.task_open_enter,
+                com.android.internal.R.anim.task_open_exit);
+    }
+
+    private static ActivityManager.RunningTaskInfo getLastTask(Context context,
+            final ActivityManager am) {
+        final List<String> packageNames = getCurrentLauncherPackages(context);
+        final List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(5);
+        for (int i = 1; i < tasks.size(); i++) {
+            String packageName = tasks.get(i).topActivity.getPackageName();
+            if (!packageName.equals(context.getPackageName())
+                    && !packageName.equals(SYSTEMUI_PACKAGE_NAME)
+                    && !packageNames.contains(packageName)) {
+                return tasks.get(i);
+            }
+        }
+        return null;
+    }
+
+    private static List<String> getCurrentLauncherPackages(Context context) {
+        final PackageManager pm = context.getPackageManager();
+        final List<ResolveInfo> homeActivities = new ArrayList<>();
+        pm.getHomeActivities(homeActivities);
+        final List<String> packageNames = new ArrayList<>();
+        for (ResolveInfo info : homeActivities) {
+            final String name = info.activityInfo.packageName;
+            if (!name.equals("com.android.settings")) {
+                packageNames.add(name);
+            }
+        }
+        return packageNames;
     }
 
     /**
@@ -399,7 +508,42 @@ public class VoltageUtils {
                 }
             }
         }
-    }
+        // Clear notifications
+        public static void clearAllNotifications() {
+            IStatusBarService service = getStatusBarService();
+            if (service != null) {
+                try {
+                    service.onClearAllNotifications(ActivityManager.getCurrentUser());
+                } catch (RemoteException e) {
+                    // do nothing.
+                }
+            }
+        }
+
+        // Toggle notifications panel
+        public static void toggleNotifications() {
+            IStatusBarService service = getStatusBarService();
+            if (service != null) {
+                try {
+                    service.togglePanel();
+                } catch (RemoteException e) {
+                    // do nothing.
+                }
+            }
+        }
+
+        // Toggle qs panel
+        public static void toggleQsPanel() {
+            IStatusBarService service = getStatusBarService();
+            if (service != null) {
+                try {
+                    service.toggleSettingsPanel();
+                } catch (RemoteException e) {
+                    // do nothing.
+                }
+            }
+        }
+   }
 
     /* returns whether the device has a centered display cutout or not. */
     public static boolean hasCenteredCutout(Context context) {

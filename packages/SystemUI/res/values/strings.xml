@@ -3233,4 +3233,6 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="error_share">Share</string>
     <string name="report_error_btn">Report</string>
+    
+    <string name="face_unlock_recognizing">Recognizing face...</string>
 </resources>

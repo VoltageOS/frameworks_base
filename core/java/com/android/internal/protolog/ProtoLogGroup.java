@@ -81,7 +81,7 @@ public enum ProtoLogGroup implements IProtoLogGroup {
             Consts.TAG_WM),
     WM_DEBUG_WINDOW_TRANSITIONS(Consts.ENABLE_DEBUG, Consts.ENABLE_LOG_TO_PROTO_DEBUG, false,
             Consts.TAG_WM),
-    WM_DEBUG_WINDOW_TRANSITIONS_MIN(Consts.ENABLE_DEBUG, Consts.ENABLE_LOG_TO_PROTO_DEBUG, true,
+    WM_DEBUG_WINDOW_TRANSITIONS_MIN(Consts.ENABLE_DEBUG, Consts.ENABLE_LOG_TO_PROTO_DEBUG, false,
             Consts.TAG_WM),
     WM_DEBUG_WINDOW_INSETS(Consts.ENABLE_DEBUG, Consts.ENABLE_LOG_TO_PROTO_DEBUG, false,
             Consts.TAG_WM),
@@ -151,7 +151,7 @@ public enum ProtoLogGroup implements IProtoLogGroup {
     private static class Consts {
         private static final String TAG_WM = "WindowManager";
 
-        private static final boolean ENABLE_DEBUG = true;
-        private static final boolean ENABLE_LOG_TO_PROTO_DEBUG = true;
+        private static final boolean ENABLE_DEBUG = false;
+        private static final boolean ENABLE_LOG_TO_PROTO_DEBUG = false;
     }
 }

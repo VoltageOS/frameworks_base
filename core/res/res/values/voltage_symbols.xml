@@ -220,4 +220,7 @@
     <!-- Whether device has Google Tensor SoC -->
     <java-symbol type="bool" name="config_hasTensorSoC" />
 
+    <!-- Spoof GMS as Pixel Tablet -->
+    <java-symbol type="bool" name="config_spoofasTablet" />
+
 </resources>

@@ -7977,6 +7977,7 @@ public class PackageManagerService implements PackageSender, TestUtilityService 
     public void updateSeInfo(String packageName) {
         // use the same procedure that is used for SELinux compat changes
         selinuxChangeListener.onCompatChange(packageName);
+
     }
 
     @NonNull

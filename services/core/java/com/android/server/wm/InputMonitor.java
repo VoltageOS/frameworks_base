@@ -393,6 +393,15 @@ final class InputMonitor {
         mActiveRecentsLayerRef = clear ? null : new WeakReference<>(layer);
     }
 
+    public void updateActiveRecentsLayerRef(Task task, ActivityRecord activity){
+       if (mActiveRecentsActivity != null && mActiveRecentsLayerRef != null) {
+           ActivityRecord layerActivity = getWeak(mActiveRecentsLayerRef).asActivityRecord();
+           if (layerActivity != null && layerActivity.getTask() == task) {
+               mActiveRecentsLayerRef = new WeakReference<>(activity);
+           }
+       }
+    }
+
     private static <T> T getWeak(WeakReference<T> ref) {
         return ref != null ? ref.get() : null;
     }

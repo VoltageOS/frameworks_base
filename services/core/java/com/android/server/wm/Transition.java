@@ -1165,6 +1165,17 @@ class Transition implements BLASTSyncEngine.TransactionReadyListener {
                         && mController.inCollectingTransition(ar)) {
                     visibleAtTransitionEnd = true;
                 }
+
+                if (!task.isFocused() && mRecentsDisplayId == INVALID_DISPLAY
+                            && ar == task.getTopNonFinishingActivity()) {
+                    final DisplayContent dc = mController.mAtm.mRootWindowContainer
+                            .getDisplayContent(DEFAULT_DISPLAY);
+                    if (dc.getInputMonitor().getInputConsumer(
+                                INPUT_CONSUMER_RECENTS_ANIMATION) != null) {
+                        dc.getInputMonitor().updateActiveRecentsLayerRef(task, ar);
+                    }
+                }
+
                 // We need both the expected visibility AND current requested-visibility to be
                 // false. If it is expected-visible but not currently visible, it means that
                 // another animation is queued-up to animate this to invisibility, so we can't

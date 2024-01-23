@@ -4,26 +4,6 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <resources>
-    <!-- Device model (Build.MODEL) to spoof for netflix, if not empty -->
-    <string name="config_netflixSpoofModel" translatable="false"></string>
-
-    <!-- Build fingerprint from the stock ROM -->
-    <string name="config_stockFingerprint" translatable="false"></string>
-
-    <!-- Build properties from a GMS certified device -->
-    <string-array name="config_certifiedBuildProperties" translatable="false">
-      <!--
-        <item>Build.BRAND</item>
-        <item>Build.MANUFACTURER</item>
-        <item>Build.ID</item>
-        <item>Build.DEVICE</item>
-        <item>Build.PRODUCT</item>
-        <item>Build.MODEL</item>
-        <item>Build.FINGERPRINT</item>
-        <item>Build.TYPE</item>
-        <item>Build.TAGS</item>
-      -->
-    </string-array>
 
     <!-- LiveDisplay -->
     <string-array name="live_display_entries" translatable="false">

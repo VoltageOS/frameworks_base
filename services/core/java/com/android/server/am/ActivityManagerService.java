@@ -9253,11 +9253,10 @@ public class ActivityManagerService extends IActivityManager.Stub
             int flags = process.info.flags;
             final IPackageManager pm = AppGlobals.getPackageManager();
             sb.append("Flags: 0x").append(Integer.toHexString(flags)).append("\n");
-            final int callingUserId = UserHandle.getCallingUserId();
             process.getPkgList().forEachPackage(pkg -> {
                 sb.append("Package: ").append(pkg);
                 try {
-                    final PackageInfo pi = pm.getPackageInfo(pkg, 0, callingUserId);
+                    final PackageInfo pi = pm.getPackageInfo(pkg, 0, process.userId);
                     if (pi != null) {
                         sb.append(" v").append(pi.getLongVersionCode());
                         if (pi.versionName != null) {
@@ -9273,6 +9272,7 @@ public class ActivityManagerService extends IActivityManager.Stub
                 sb.append("Instant-App: true\n");
             }
 
+            final int callingUserId = UserHandle.getCallingUserId();
             if (process.isSdkSandbox) {
                 final String clientPackage = process.sdkSandboxClientAppPackage;
                 try {

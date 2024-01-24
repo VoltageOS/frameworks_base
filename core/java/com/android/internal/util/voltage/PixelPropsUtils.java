@@ -61,7 +61,7 @@ public class PixelPropsUtils {
     private static final String SPOOF_PIXEL_RECENT = "persist.sys.pixelprops.recent";
 
     private static final String TAG = PixelPropsUtils.class.getSimpleName();
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static final Boolean sEnablePixelProps =
             Resources.getSystem().getBoolean(R.bool.config_enablePixelProps);

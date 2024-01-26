@@ -3792,9 +3792,11 @@ public final class ActivityRecord extends WindowToken implements WindowManagerSe
         final TaskDisplayArea taskDisplayArea = getDisplayArea();
         // TODO(b/137329632): Exclude current activity when looking for the next one with
         // DisplayContent#topRunningActivity().
-        final ActivityRecord next = taskDisplayArea.topRunningActivity();
+        final ActivityRecord next = taskDisplayArea != null ? taskDisplayArea.topRunningActivity()
+                                                            : null;
         final boolean isLastRootTaskOverEmptyHome =
-                next == null && rootTask.isFocusedRootTaskOnDisplay()
+                next == null && taskDisplayArea != null
+                        && rootTask.isFocusedRootTaskOnDisplay()
                         && taskDisplayArea.getOrCreateRootHomeTask() != null;
         if (isLastRootTaskOverEmptyHome) {
             // Don't destroy activity immediately if this is the last activity on the display and

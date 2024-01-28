@@ -28,7 +28,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.HardwareRenderer;
-import android.graphics.Typeface;
 import android.os.LocaleList;
 import android.os.Trace;
 import android.util.DisplayMetrics;
@@ -180,7 +179,6 @@ class ConfigurationController {
 
             final Application app = mActivityThread.getApplication();
             final Resources appResources = app.getResources();
-            Typeface.updateDefaultFont(appResources);
             mResourcesManager.applyConfigurationToResources(config, compat);
             updateLocaleListFromAppContext(app.getApplicationContext());
 

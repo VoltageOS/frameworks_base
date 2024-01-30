@@ -236,7 +236,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
 
     private boolean mFrameworkDimming;
     private int[][] mBrightnessAlphaArray;
-    private int mFrameworkDimmingDelay;
 
     private boolean mDisableNightMode;
     private boolean mNightModeActive;
@@ -997,10 +996,6 @@ public class UdfpsController implements DozeReceiver, Dumpable {
                 }
             );
         }
-
-        mFrameworkDimming = mContext.getResources().getBoolean(R.bool.config_udfpsFrameworkDimming);
-        mFrameworkDimmingDelay = mContext.getResources().getInteger(R.integer.config_udfpsDimmingDisableDelay);
-        parseBrightnessAlphaArray();
     }
 
     private void disableNightMode() {
@@ -1067,6 +1062,8 @@ public class UdfpsController implements DozeReceiver, Dumpable {
 
     private void showUdfpsOverlay(@NonNull UdfpsControllerOverlay overlay) {
         mExecution.assertIsMainThread();
+        mFrameworkDimming = mContext.getResources().getBoolean(R.bool.config_udfpsFrameworkDimming);
+        parseBrightnessAlphaArray();
 
         mOverlay = overlay;
         final int requestReason = overlay.getRequestReason();
@@ -1221,17 +1218,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             mCancelAodFingerUpAction.run();
             mCancelAodFingerUpAction = null;
         }
-        // Add a delay to ensure that the dim amount is updated after the display
-        // has had chance to switch out of HBM mode.
-        // The delay, in ms is stored in config_udfpsDimmingDisableDelay.
-        // If the delay is 0, the dim amount will be updated immediately.
-        if (mFrameworkDimming && mFrameworkDimmingDelay > 0) {
-            mFgExecutor.executeDelayed(() -> {
-                updateViewDimAmount(false);
-            }, mFrameworkDimmingDelay);
-        } else {
-            updateViewDimAmount(false);
-        }
+        updateViewDimAmount(false);
     }
 
     private static int interpolate(int x, int xa, int xb, int ya, int yb) {
@@ -1239,10 +1226,10 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     }
 
     private void updateViewDimAmount(boolean pressed) {
-        if (mOverlay != null && mFrameworkDimming) {
+        if (mFrameworkDimming) {
             if (pressed) {
-                int curBrightness = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.SCREEN_BRIGHTNESS, Integer.MAX_VALUE, UserHandle.USER_CURRENT);
+                int curBrightness = Settings.System.getInt(mContext.getContentResolver(),
+                        Settings.System.SCREEN_BRIGHTNESS, 100);
                 int i, dimAmount;
                 for (i = 0; i < mBrightnessAlphaArray.length; i++) {
                     if (mBrightnessAlphaArray[i][0] >= curBrightness) break;
@@ -1266,6 +1253,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
     }
 
     private void parseBrightnessAlphaArray() {
+        mFrameworkDimming = mContext.getResources().getBoolean(R.bool.config_udfpsFrameworkDimming);
         if (mFrameworkDimming) {
             String[] array = mContext.getResources().getStringArray(
                     R.array.config_udfpsDimmingBrightnessAlphaArray);
@@ -1336,14 +1324,13 @@ public class UdfpsController implements DozeReceiver, Dumpable {
             return;
         }
 
+        updateViewDimAmount(true);
+
         if (!mOverlay.matchesRequestId(requestId)) {
             Log.w(TAG, "Mismatched fingerDown: " + requestId
                     + " current: " + mOverlay.getRequestId());
             return;
         }
-
-        updateViewDimAmount(true);
-
         if (isOptical()) {
             mLatencyTracker.onActionStart(LatencyTracker.ACTION_UDFPS_ILLUMINATE);
         }
